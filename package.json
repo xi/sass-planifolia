@@ -12,6 +12,7 @@
   },
   "scripts": {
     "test": "mocha",
+    "lint": "sass-lint -vq",
     "docs": "sassdoc sass"
   },
   "keywords": [

@@ -2,6 +2,9 @@
 /// Functions to help with contrast as defined by
 /// [WCAG20](https://www.w3.org/TR/WCAG20/#contrast-ratiodef)
 ///
+/// This module requires a function called `pow()`. You should make sure that
+/// one is available, e.g. by including the math module from this project.
+///
 /// @group contrast
 ////
 

@@ -5,6 +5,10 @@ Sass-Planifolia - Vanilla Sass helper functions
 unmaintained. In addition, the rise of [libSass](http://sass-lang.com/libsass)
 means that ruby extensions are no longer a good way forward.
 
+Planifolia is a collection of high-quality implementations of common framework
+functionality. It does not depend on a specific implementation of the Sass
+compiler.
+
 # Quick start
 
     bower install xi/sass-planifolia
@@ -20,9 +24,6 @@ Import it in your Sass files:
     }
 
 # Features
-
-Planifolia is a collection of vanilla Sass implementations of common framework
-functionality. Features include:
 
 -   Does not depend on a specific Sass implementation
 -   Leightweight

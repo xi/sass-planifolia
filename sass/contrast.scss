@@ -5,7 +5,7 @@
 /// @group contrast
 ////
 
-@function -contrast-srgb($channel) {
+@function _planifolia-srgb($channel) {
   $x: $channel / 255;
   @if $x <= .03928 {
     @return $x / 12.92;
@@ -19,9 +19,9 @@
 /// @param {color} $color
 /// @return {number} normalized to [0, 1]
 @function luma($color) {
-  $r: -contrast-srgb(red($color));
-  $g: -contrast-srgb(green($color));
-  $b: -contrast-srgb(blue($color));
+  $r: _planifolia-srgb(red($color));
+  $g: _planifolia-srgb(green($color));
+  $b: _planifolia-srgb(blue($color));
   @return .2126 * $r + .7152 * $g + .0722 * $b;
 }
 

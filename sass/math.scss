@@ -21,6 +21,9 @@
 ////
 
 /// @type number
+$planifolia-math-steps-default: 32 !default;
+
+/// @type number
 $pi: 3.141592653589793;
 
 @function _planifolia-exp-taylor-0($x, $steps) {
@@ -94,7 +97,7 @@ $pi: 3.141592653589793;
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function ln($x, $steps: 32) {
+@function ln($x, $steps: $planifolia-math-steps-default) {
   $ln10: 2.302585092994046;
   $approx: _planifolia-log-approx($x);
   // $y is in range [1, 10]
@@ -105,7 +108,7 @@ $pi: 3.141592653589793;
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function log($x, $steps: 32) {
+@function log($x, $steps: $planifolia-math-steps-default) {
   $ln10: 2.302585092994046;
   @return ln($x, $steps) / $ln10;
 }
@@ -115,7 +118,7 @@ $pi: 3.141592653589793;
 ///   If $x is 0 or below, $exponent needs to be an integer.
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function pow($x, $exponent, $steps: 32) {
+@function pow($x, $exponent, $steps: $planifolia-math-steps-default) {
   $exp1: round($exponent);
   $exp2: $exponent - $exp1;
   $pow1: _planifolia-pow-int($x, $exp1);
@@ -132,21 +135,21 @@ $pi: 3.141592653589793;
 /// @param {number} $exponent
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function nth-root($x, $exponent, $steps: 32) {
+@function nth-root($x, $exponent, $steps: $planifolia-math-steps-default) {
   @return pow($x, 1 / $exponent, $steps);
 }
 
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function sqrt($x, $steps: 32) {
+@function sqrt($x, $steps: $planifolia-math-steps-default) {
   @return nth-root($x, 2, $steps);
 }
 
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function sin($x, $steps: 32) {
+@function sin($x, $steps: $planifolia-math-steps-default) {
   $y: $x % (2 * $pi);
   @if $y > $pi {
     @return -1 * sin($y - $pi);
@@ -160,13 +163,13 @@ $pi: 3.141592653589793;
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function cos($x, $steps: 32) {
+@function cos($x, $steps: $planifolia-math-steps-default) {
   @return sin($x - $pi / 2, $steps);
 }
 
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function tan($x, $steps: 32) {
+@function tan($x, $steps: $planifolia-math-steps-default) {
   @return sin($x, $steps) / $cos($x, $steps);
 }

@@ -1,16 +1,7 @@
 var path = require('path');
 var assert = require('assert');
 var Sassaby = require('sassaby');
-
-var similar = function(result, actual, threshold) {
-  if (threshold === void 0) {
-    threshold = 0.00001;
-  }
-
-  var value = parseFloat(/^\.test{content:(.*)}$/.exec(result.css)[1]);
-  var message = 'Function: ' + value + ' is not similar to ' + actual + '.';
-  assert(Math.abs(value - actual) < threshold, message);
-};
+var shared = require('./shared');
 
 describe('math', function() {
   var file = path.resolve(__dirname, '../sass/math.scss');
@@ -33,13 +24,13 @@ describe('math', function() {
       sassaby.func('pow').calledWithArgs('-3', '3').equals('-27');
     });
     it('pow(3, -2) ~= 0.1111', function() {
-      similar(sassaby.func('pow').calledWithArgs('3', '-2'), 0.1111);
+      shared.similar(sassaby.func('pow').calledWithArgs('3', '-2'), 0.1111);
     });
     it('pow(64, -1/2) == .125', function() {
       sassaby.func('pow').calledWithArgs('64', '-1/2').equals('.125');
     });
     it('pow(12, 3.4) ~= 4668.91789313', function() {
-      similar(sassaby.func('pow').calledWithArgs('12', '3.4'), 4668.91789313);
+      shared.similar(sassaby.func('pow').calledWithArgs('12', '3.4'), 4668.91789313);
     });
     it('pow(3px, 2.4) throws', function() {
       assert.throws(function () {
@@ -53,10 +44,10 @@ describe('math', function() {
       sassaby.func('ln').calledWithArgs('1').equals('0');
     });
     it('ln(0.1) ~= -2.3025850929940455', function() {
-      similar(sassaby.func('ln').calledWithArgs('0.1'), -2.3025850929940455);
+      shared.similar(sassaby.func('ln').calledWithArgs('0.1'), -2.3025850929940455);
     });
     it('ln(123456789) ~= 18.63140176616802', function() {
-      similar(sassaby.func('ln').calledWithArgs('123456789'), 18.63140176616802);
+      shared.similar(sassaby.func('ln').calledWithArgs('123456789'), 18.63140176616802);
     });
   });
 
@@ -71,7 +62,7 @@ describe('math', function() {
       sassaby.func('sin').calledWithArgs('2 * $pi').equals('0');
     });
     it('sin(123456789 * $pi) ~= 0', function() {
-      similar(sassaby.func('sin').calledWithArgs('123456789 * $pi'), 0);
+      shared.similar(sassaby.func('sin').calledWithArgs('123456789 * $pi'), 0);
     });
     it('sin(-$pi) == 0', function() {
       sassaby.func('sin').calledWithArgs('-$pi').equals('0');
@@ -83,10 +74,10 @@ describe('math', function() {
       sassaby.func('sin').calledWithArgs('3/2 * $pi').equals('-1');
     });
     it('sin(1) ~= 0.8414709848078965', function() {
-      similar(sassaby.func('sin').calledWithArgs('1'), 0.8414709848078965);
+      shared.similar(sassaby.func('sin').calledWithArgs('1'), 0.8414709848078965);
     });
     it('sin(2) ~= 0.9092974268256817', function() {
-      similar(sassaby.func('sin').calledWithArgs('2'), 0.9092974268256817);
+      shared.similar(sassaby.func('sin').calledWithArgs('2'), 0.9092974268256817);
     });
   });
 });

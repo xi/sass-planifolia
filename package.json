@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "mocha": "^2.4.5",
     "node-sass": "^3.4.2",
     "sass-lint": "^1.5.1",
     "sassaby": "^2.1.1",

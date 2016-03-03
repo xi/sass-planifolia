@@ -39,6 +39,24 @@ describe('contrast', function() {
     });
   });
 
+  describe('contrast', function() {
+    it('white-black', function() {
+      sassaby.func('contrast').calledWithArgs('white', 'black').equals('21');
+    });
+    it('white-white', function() {
+      sassaby.func('contrast').calledWithArgs('white', 'white').equals('1');
+    });
+    it('black-black', function() {
+      sassaby.func('contrast').calledWithArgs('black', 'black').equals('1');
+    });
+    it('red-red', function() {
+      sassaby.func('contrast').calledWithArgs('red', 'red').equals('1');
+    });
+    it('red-red', function() {
+      sassaby.func('contrast').calledWithArgs('red', '#676eff').equals('1.00017');
+    });
+  });
+
   describe('contrast-color', function() {
     it('white', function() {
       sassaby.func('contrast-color').calledWithArgs('white').equals('black');

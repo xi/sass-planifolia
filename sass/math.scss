@@ -110,6 +110,14 @@ $PI: 3.141592653589793;
 }
 
 /// @param {number} $x
+/// @param {number} $steps [32] - steps of the taylor expansion
+/// @return {number}
+@function log($x, $steps: 32) {
+    $ln10: 2.302585092994046;
+    @return ln($x, $steps) / $ln10;
+}
+
+/// @param {number} $x
 /// @param {number} $exponent
 ///   If $x is 0 or below, $exponent needs to be an integer.
 /// @param {number} $steps [32] - steps of the taylor expansion
@@ -128,11 +136,18 @@ $PI: 3.141592653589793;
 }
 
 /// @param {number} $x
-/// @param {number} $exponent [2]
+/// @param {number} $exponent
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function sqrt($x, $exponent: 2, $steps: 32) {
+@function nth-root($x, $exponent, $steps: 32) {
     @return pow($x, 1 / $exponent, $steps);
+}
+
+/// @param {number} $x
+/// @param {number} $steps [32] - steps of the taylor expansion
+/// @return {number}
+@function sqrt($x, $steps: 32) {
+    @return nth-root($x, 2, $steps);
 }
 
 /// @param {number} $x

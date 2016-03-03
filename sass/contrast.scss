@@ -1,4 +1,9 @@
-@import "math";
+////
+/// Functions to help with contrast as defined by
+/// [WCAG20](https://www.w3.org/TR/WCAG20/#contrast-ratiodef)
+///
+/// @group contrast
+////
 
 @function -contrast-srgb($channel) {
     $x: $channel / 255;
@@ -9,7 +14,10 @@
     }
 }
 
-/* Luma according to WCAG20 */
+/// Calculate the perceptual brightness of a color.
+///
+/// @param {color} $color
+/// @return {number} normalized to [0, 1]
 @function luma($color) {
     $r: -contrast-srgb(red($color));
     $g: -contrast-srgb(green($color));
@@ -17,15 +25,21 @@
     @return 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
 }
 
+/// Calculate the contrast between two colors.
+///
+/// Note that the foreground/background distinction is only relevant when
+/// dealing with semi-transparent colors. In that case, transparency is
+/// interpreted with the worst case.
+///
+/// @param {color} $bg background color
+/// @param {color} $fg foreground color
+/// @return {number} between 1 and 21
 @function contrast($bg, $fg) {
     $lbg: luma($bg);
     $abg: alpha($bg);
     $lfg: luma($fg);
     $afg: alpha($fg);
 
-    // Transparency is interpreted with its worst case.
-    // This calculation is slightly different for forground and
-    // background colors.
     @if $lbg > $lfg {
         $lbg: max($lbg * $abg, $lfg);
     } @else {
@@ -36,6 +50,14 @@
     @return (max($lbg, $lfg) + 0.05) / (min($lbg, $lfg) + 0.05);
 }
 
+/// Pick the higher contrast option for a given base color.
+///
+/// @param {color} $base the base color to compare to
+/// @param {color} $c1 first option
+/// @param {color} $c2 second option
+/// @param {boolean} $bg [false] if this is true, $base is interpreted as a
+///   foreground color when calculating the contrast.
+/// @return {color} either $c1 or $c2
 @function contrast-color($base, $c1: black, $c2: white, $bg: false) {
     @if $bg {
         @if contrast($c1, $base) >= contrast($c2, $base) {
@@ -49,5 +71,16 @@
         } @else {
             @return $c2;
         }
+    }
+}
+
+/// Warn if the contrast is below a threshold
+///
+/// @param {color} $bg background color
+/// @param {color} $fg foreground color
+/// @param {number} $threshold [4.5]
+@function contrast-check($bg, $fg, $threshold: 4.5) {
+    @if contrast($color1, $color2) < $threshold {
+        @warn "contrast #{$contrast} between #{$color1} and #{$color2} too low!"
     }
 }

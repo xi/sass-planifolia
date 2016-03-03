@@ -29,6 +29,9 @@ describe('math', function() {
     it('pow(-3, 2) == 9', function() {
       sassaby.func('pow').calledWithArgs('-3', '2').equals('9');
     });
+    it('pow(-3, 3) == -27', function() {
+      sassaby.func('pow').calledWithArgs('-3', '3').equals('-27');
+    });
     it('pow(3, -2) ~= 0.1111', function() {
       similar(sassaby.func('pow').calledWithArgs('3', '-2'), 0.1111);
     });

@@ -6,12 +6,12 @@
 ////
 
 @function -contrast-srgb($channel) {
-    $x: $channel / 255;
-    @if $x <= 0.03928 {
-        @return $x / 12.92;
-    } @else {
-        @return pow(($x + 0.055) / 1.055, 2.4);
-    }
+  $x: $channel / 255;
+  @if $x <= .03928 {
+    @return $x / 12.92;
+  } @else {
+    @return pow(($x + .055) / 1.055, 2.4);
+  }
 }
 
 /// Calculate the perceptual brightness of a color.
@@ -19,10 +19,10 @@
 /// @param {color} $color
 /// @return {number} normalized to [0, 1]
 @function luma($color) {
-    $r: -contrast-srgb(red($color));
-    $g: -contrast-srgb(green($color));
-    $b: -contrast-srgb(blue($color));
-    @return 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+  $r: -contrast-srgb(red($color));
+  $g: -contrast-srgb(green($color));
+  $b: -contrast-srgb(blue($color));
+  @return .2126 * $r + .7152 * $g + .0722 * $b;
 }
 
 /// Calculate the contrast between two colors.
@@ -35,19 +35,19 @@
 /// @param {color} $fg foreground color
 /// @return {number} between 1 and 21
 @function contrast($bg, $fg) {
-    $lbg: luma($bg);
-    $abg: alpha($bg);
-    $lfg: luma($fg);
-    $afg: alpha($fg);
+  $lbg: luma($bg);
+  $abg: alpha($bg);
+  $lfg: luma($fg);
+  $afg: alpha($fg);
 
-    @if $lbg > $lfg {
-        $lbg: max($lbg * $abg, $lfg);
-    } @else {
-        $lbg: min($lbg * $abg + (1 - $abg), $lfg);
-    }
-    $lfg: $lfg * $afg + $lbg * (1 - $afg);
+  @if $lbg > $lfg {
+    $lbg: max($lbg * $abg, $lfg);
+  } @else {
+    $lbg: min($lbg * $abg + (1 - $abg), $lfg);
+  }
+  $lfg: $lfg * $afg + $lbg * (1 - $afg);
 
-    @return (max($lbg, $lfg) + 0.05) / (min($lbg, $lfg) + 0.05);
+  @return (max($lbg, $lfg) + .05) / (min($lbg, $lfg) + .05);
 }
 
 /// Pick the higher contrast option for a given base color.
@@ -59,19 +59,19 @@
 ///   foreground color when calculating the contrast.
 /// @return {color} either $c1 or $c2
 @function contrast-color($base, $c1: black, $c2: white, $bg: false) {
-    @if $bg {
-        @if contrast($c1, $base) >= contrast($c2, $base) {
-            @return $c1;
-        } @else {
-            @return $c2;
-        }
+  @if $bg {
+    @if contrast($c1, $base) >= contrast($c2, $base) {
+      @return $c1;
     } @else {
-        @if contrast($base, $c1) > contrast($base, $c2) {
-            @return $c1;
-        } @else {
-            @return $c2;
-        }
+      @return $c2;
     }
+  } @else {
+    @if contrast($base, $c1) > contrast($base, $c2) {
+      @return $c1;
+    } @else {
+      @return $c2;
+    }
+  }
 }
 
 /// Warn if the contrast is below a threshold
@@ -80,7 +80,7 @@
 /// @param {color} $fg foreground color
 /// @param {number} $threshold [4.5]
 @function contrast-check($bg, $fg, $threshold: 4.5) {
-    @if contrast($color1, $color2) < $threshold {
-        @warn "contrast #{$contrast} between #{$color1} and #{$color2} too low!"
-    }
+  @if contrast($color1, $color2) < $threshold {
+    @warn 'contrast #{$contrast} between #{$color1} and #{$color2} too low!';
+  }
 }

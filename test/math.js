@@ -61,23 +61,23 @@ describe('math', function() {
     it('sin(0) == 0', function() {
       sassaby.func('sin').calledWithArgs('0').equals('0');
     });
-    it('sin($PI) == 0', function() {
-      sassaby.func('sin').calledWithArgs('$PI').equals('0');
+    it('sin($pi) == 0', function() {
+      sassaby.func('sin').calledWithArgs('$pi').equals('0');
     });
-    it('sin(2 * $PI) == 0', function() {
-      sassaby.func('sin').calledWithArgs('2 * $PI').equals('0');
+    it('sin(2 * $pi) == 0', function() {
+      sassaby.func('sin').calledWithArgs('2 * $pi').equals('0');
     });
-    it('sin(123456789 * $PI) ~= 0', function() {
-      similar(sassaby.func('sin').calledWithArgs('123456789 * $PI'), 0);
+    it('sin(123456789 * $pi) ~= 0', function() {
+      similar(sassaby.func('sin').calledWithArgs('123456789 * $pi'), 0);
     });
-    it('sin(-$PI) == 0', function() {
-      sassaby.func('sin').calledWithArgs('-$PI').equals('0');
+    it('sin(-$pi) == 0', function() {
+      sassaby.func('sin').calledWithArgs('-$pi').equals('0');
     });
-    it('sin(1/2 * $PI) == 1', function() {
-      sassaby.func('sin').calledWithArgs('1/2 * $PI').equals('1');
+    it('sin(1/2 * $pi) == 1', function() {
+      sassaby.func('sin').calledWithArgs('1/2 * $pi').equals('1');
     });
-    it('sin(3/2 * $PI) == -1', function() {
-      sassaby.func('sin').calledWithArgs('3/2 * $PI').equals('-1');
+    it('sin(3/2 * $pi) == -1', function() {
+      sassaby.func('sin').calledWithArgs('3/2 * $pi').equals('-1');
     });
     it('sin(1) ~= 0.8414709848078965', function() {
       similar(sassaby.func('sin').calledWithArgs('1'), 0.8414709848078965);

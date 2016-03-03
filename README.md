@@ -27,7 +27,7 @@ functionality. Features include:
 -   Does not depend on a specific Sass implementation
 -   Leightweight
 -   Unit tests
--   Fully documented
+-   [Fully documented](https://xi.github.io/sass-planifolia/)
 -   High performance math algorithms
 -   WCAG compatible [color contrast](www.w3.org/TR/WCAG20/#contrast-ratiodef)
     functions

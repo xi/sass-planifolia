@@ -1,13 +1,5 @@
 ////
-/// This provides some common mathemetical functions implemented in pure sass:
-///
-/// - $pi
-/// - ln($x, $steps: 32)
-/// - pow($x, $exponent, $steps: 32)
-/// - sqrt($x, $exponent: 2, $steps: 32)
-/// - sin($x, $steps: 32)
-/// - cos($x, $steps: 32)
-/// - tan($x, $steps: 32)
+/// This provides some common mathemetical functions implemented in pure sass.
 ///
 /// The implementations are based on taylor expansions. The `$steps` argument
 /// defines how many steps of the series will be calculated. So a higher number
@@ -17,12 +9,13 @@
 /// approximation can be calculated in constant time.
 ///
 /// If the input $x is too far off of the center, it is converted to a closer
-/// value $y in a way that allows to calculate f($x) from f($y). This conversion
-/// uses exact arithmetics and can be done in constant or logarithmic time.
+/// value $y in a way that allows to calculate f($x) from f($y). This
+/// conversion uses exact arithmetics and can be done in constant or
+/// logarithmic time.
 ///
 /// This approach is havily inspired by
 /// <http://www.sassmeister.com/gist/ad6e6771df050ff3727f>. However, the
-/// implementations in this gist are much more efficient.
+/// implementations are much more efficient.
 ///
 /// @group math
 ////

@@ -32,9 +32,9 @@ Import it in your Sass files:
 -   High performance math algorithms
 -   WCAG compatible [color contrast](www.w3.org/TR/WCAG20/#contrast-ratiodef)
     functions
--   More functionality may be added when required
+-   More functionality may be added on demand.
 -   Can be installed with bower. Npm (eyeglass) or rubygem support may be added
-    when required.
+    on demand.
 
 # What is not included?
 

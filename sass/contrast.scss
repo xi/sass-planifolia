@@ -112,29 +112,18 @@ $planifolia-contrast-light-default: white !default;
 /// Pick the higher contrast option for a given base color.
 ///
 /// @param {color} $base the base color to compare to
-/// @param {color} $c1 [$planifolia-contrast-dark-default] first option
-/// @param {color} $c2 [$planifolia-contrast-light-default] second option
-/// @param {boolean} $bg [false] if this is true, $base is interpreted as a
-///   foreground color when calculating the contrast.
-/// @return {color} either $c1 or $c2
+/// @param {color} $color1 [$planifolia-contrast-dark-default] first option
+/// @param {color} $color2 [$planifolia-contrast-light-default] second option
+/// @return {color} either `$color1` or `$color2`
 @function contrast-color(
   $base,
-  $c1: $planifolia-contrast-dark-default,
-  $c2: $planifolia-contrast-light-default,
-  $bg: false
+  $color1: $planifolia-contrast-dark-default,
+  $color2: $planifolia-contrast-light-default
 ) {
-  @if $bg {
-    @if contrast($c1, $base) >= contrast($c2, $base) {
-      @return $c1;
-    } @else {
-      @return $c2;
-    }
+  @if contrast($color1, $base) >= contrast($color2, $base) {
+    @return $color1;
   } @else {
-    @if contrast($base, $c1) > contrast($base, $c2) {
-      @return $c1;
-    } @else {
-      @return $c2;
-    }
+    @return $color2;
   }
 }
 

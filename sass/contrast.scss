@@ -22,6 +22,27 @@ $planifolia-contrast-light-default: white !default;
   }
 }
 
+/// @param {color} $fg foreground color
+/// @param {color} $bg [white] background color
+/// @return {color} blended color
+@function alpha-blend($fg, $bg: white) {
+  $a1: alpha($bg);
+  $a2: alpha($fg);
+
+  @if ($a1 == 0) {
+    @if ($a2 == 0) {
+      @return $fg;
+    }
+  }
+
+  $a: $a2 + (1 - $a2) * $a1;
+  $r: ($a2 * red($fg) + (1 - $a2) * $a1 * red($bg)) / $a;
+  $g: ($a2 * green($fg) + (1 - $a2) * $a1 * green($bg)) / $a;
+  $b: ($a2 * blue($fg) + (1 - $a2) * $a1 * blue($bg)) / $a;
+
+  @return rgba($r, $g, $b, $a);
+}
+
 /// Calculate the perceptual brightness of a color.
 ///
 /// @param {color} $color

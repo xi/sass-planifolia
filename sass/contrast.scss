@@ -54,29 +54,59 @@ $planifolia-contrast-light-default: white !default;
   @return .2126 * $r + .7152 * $g + .0722 * $b;
 }
 
+@function _planifolia-contrast($fg, $bg) {
+  $lbg: luma($bg);
+  $lfg: luma(alpha-blend($fg, $bg));
+  @return (max($lbg, $lfg) + .05) / (min($lbg, $lfg) + .05);
+}
+
+/// Calculate the minimum possible contrast between two colors.
+///
+/// Note that the "minimum" part of this is only relevant if `$bg` is
+/// transparent. In that case, a backdrop color is chosen so that the resulting
+/// contrast is minimal.
+///
+/// @param {color} $fg foreground color
+/// @param {color} $bg background color
+/// @return {number} between 1 and 21
+@function contrast-min($fg, $bg) {
+  // optimize for the common case
+  @if alpha($bg) == 1 {
+    @return _planifolia-contrast($fg, $bg);
+  } @else {
+    $bg-black: alpha-blend($bg, black);
+    $bg-white: alpha-blend($bg, white);
+    $lfg: luma($fg);
+
+    @if luma($bg-white) < $lfg {
+      @return _planifolia-contrast($fg, $bg-white);
+    } @else if luma($bg-black) > $lfg {
+      @return _planifolia-contrast($fg, $bg-black);
+    } @else {
+      @return 1;
+    }
+  }
+}
+
 /// Calculate the contrast between two colors.
 ///
-/// Note that the foreground/background distinction is only relevant when
-/// dealing with semi-transparent colors. In that case, transparency is
-/// interpreted with the worst case.
+/// This function is different from `contrast-min` by not caring about the
+/// order of inputs. This is achieved by calculating the average of both
+/// possible results of `contrast-min`.
 ///
-/// @param {color} $bg background color
-/// @param {color} $fg foreground color
+/// @param {color} $color1
+/// @param {color} $color2
 /// @return {number} between 1 and 21
-@function contrast($bg, $fg) {
-  $lbg: luma($bg);
-  $abg: alpha($bg);
-  $lfg: luma($fg);
-  $afg: alpha($fg);
-
-  @if $lbg > $lfg {
-    $lbg: max($lbg * $abg, $lfg);
+/// @see contrast-min
+@function contrast($color1, $color2) {
+  // optimize for the common case
+  @if alpha($color1) + alpha($color2) == 2 {
+    @return _planifolia-contrast($color1, $color2);
   } @else {
-    $lbg: min($lbg * $abg + (1 - $abg), $lfg);
+    $c1: contrast-min($color1, $color2);
+    $c2: contrast-min($color2, $color1);
+    @return ($c1 + $c2) / 2;
   }
-  $lfg: $lfg * $afg + $lbg * (1 - $afg);
-
-  @return (max($lbg, $lfg) + .05) / (min($lbg, $lfg) + .05);
 }
 
 /// Pick the higher contrast option for a given base color.

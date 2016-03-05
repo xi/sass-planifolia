@@ -30,8 +30,8 @@ Import it in your Sass files:
 -   Unit tests
 -   [Fully documented](https://xi.github.io/sass-planifolia/)
 -   High performance math algorithms
--   WCAG compatible [color contrast](www.w3.org/TR/WCAG20/#contrast-ratiodef)
-    functions
+-   WCAG compatible [color
+    contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
 -   More functionality may be added on demand.
 -   Can be installed with bower. Npm (eyeglass) or rubygem support may be added
     on demand.

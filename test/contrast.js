@@ -9,6 +9,38 @@ describe('contrast', function() {
     ]
   });
 
+  describe('alpha-blend', function() {
+    it('fully opaque', function() {
+      sassaby.func('alpha-blend').calledWithArgs('white').equals('white');
+      sassaby.func('alpha-blend').calledWithArgs('black').equals('black');
+      sassaby.func('alpha-blend').calledWithArgs('red').equals('red');
+    });
+    it('fully transparent', function() {
+      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0)', 'blue').equals('blue');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(black, 0)', 'blue').equals('blue');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(red, 0)', 'blue').equals('blue');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(blue, 0)').equals('white');
+    });
+    it('50%', function() {
+      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0.5)', 'blue').equals('#8080ff');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(black, 0.5)', 'blue').equals('navy');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(red, 0.5)', 'blue').equals('purple');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(blue, 0.5)').equals('#8080ff');
+    });
+    it('13%', function() {
+      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0.13)', 'blue').equals('#2121ff');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(black, 0.13)', 'blue').equals('#0000de');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(red, 0.13)', 'blue').equals('#2100de');
+      sassaby.func('alpha-blend').calledWithArgs('rgba(blue, 0.13)').equals('#dedeff');
+    });
+    it('transparent background', function() {
+      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0.5)', 'rgba(blue, 0.5)').equals('rgba(170,170,255,0.75)');
+    });
+    it('both fully transparent', function() {
+      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0)', 'rgba(black, 0)').equals('rgba(255,255,255,0)');
+    });
+  });
+
   describe('luma', function() {
     it('white', function() {
       sassaby.func('luma').calledWithArgs('white').equals('1');

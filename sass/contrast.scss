@@ -133,7 +133,8 @@ $planifolia-contrast-light-default: white !default;
 /// @param {color} $color2 foreground color
 /// @param {number} $threshold [4.5]
 @function contrast-check($color1, $color2, $threshold: 4.5) {
-  @if contrast($color1, $color2) < $threshold {
+  $contrast: contrast($color1, $color2);
+  @if $contrast < $threshold {
     @warn 'contrast #{$contrast} between #{$color1} and #{$color2} too low!';
   }
 }

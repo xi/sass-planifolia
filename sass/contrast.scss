@@ -137,4 +137,5 @@ $planifolia-contrast-light-default: white !default;
   @if $contrast < $threshold {
     @warn 'contrast #{$contrast} between #{$color1} and #{$color2} too low!';
   }
+  @return null;
 }

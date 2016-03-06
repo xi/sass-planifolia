@@ -1,3 +1,10 @@
+0.1.1 (2016-03-06)
+------------------
+
+- Fix an undefined variable in `contrast-check()`
+- `contrast-check()` could not be called because it did not return a value. It
+  now always returns `null`.
+
 0.1.0 (2016-03-05)
 ------------------
 

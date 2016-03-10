@@ -152,13 +152,15 @@ $pi: 3.141592653589793;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function sin($x, $steps: $planifolia-math-steps-default) {
-  $y: $x % (2 * $pi);
-  @if $y > $pi {
-    @return -1 * sin($y - $pi);
-  } @else if $y < 0 {
-    @return -1 * sin(-$y);
+  @if $x > 2 * $pi {
+    $x: $x % (2 * $pi);
+  }
+  @if $x > $pi {
+    @return -1 * sin($x - $pi);
+  } @else if $x < 0 {
+    @return -1 * sin(-$x);
   } @else {
-    @return _planifolia-sin-taylor-0($y, $steps);
+    @return _planifolia-sin-taylor-0($x, $steps);
   }
 }
 

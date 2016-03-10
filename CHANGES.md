@@ -1,3 +1,12 @@
+0.1.2 (2016-03-10)
+------------------
+
+- Improved test coverage for math module.
+- Fix `pow(0, $exp)` if `$exp` is a float.
+- Fix `sin($x)` for negativ `$x`.
+- Fix `cos()`.
+- Fix syntax error in `tan()`.
+
 0.1.1 (2016-03-06)
 ------------------
 

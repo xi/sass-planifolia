@@ -1,6 +1,6 @@
 {
   "name": "sass-planifolia",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Vanilla Sass helper functions",
   "main": "index.js",
   "authors": [

@@ -168,7 +168,7 @@ $pi: 3.141592653589793;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function cos($x, $steps: $planifolia-math-steps-default) {
-  @return sin($x - $pi / 2, $steps);
+  @return sin($x + $pi / 2, $steps);
 }
 
 /// @param {number} $x

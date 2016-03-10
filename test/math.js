@@ -26,14 +26,14 @@ describe('math', function() {
     it('pow(-3, 3) == -27', function() {
       sassaby.func('pow').calledWithArgs('-3', '3').equals('-27');
     });
-    it('pow(3, -2) ~= 0.1111', function() {
-      shared.similar(sassaby.func('pow').calledWithArgs('3', '-2'), 0.1111);
+    it('pow(3, -2)', function() {
+      shared.similar(sassaby.func('pow').calledWithArgs('3', '-2'), Math.pow(3, -2));
     });
     it('pow(64, -1/2) == .125', function() {
       sassaby.func('pow').calledWithArgs('64', '-1/2').equals('.125');
     });
-    it('pow(12, 3.4) ~= 4668.91789313', function() {
-      shared.similar(sassaby.func('pow').calledWithArgs('12', '3.4'), 4668.91789313);
+    it('pow(12, 3.4)', function() {
+      shared.similar(sassaby.func('pow').calledWithArgs('12', '3.4'), Math.pow(12, 3.4));
     });
     it('pow(3px, 2.4) throws', function() {
       assert.throws(function () {
@@ -46,11 +46,11 @@ describe('math', function() {
     it('ln(1) == 0', function() {
       sassaby.func('ln').calledWithArgs('1').equals('0');
     });
-    it('ln(0.1) ~= -2.3025850929940455', function() {
-      shared.similar(sassaby.func('ln').calledWithArgs('0.1'), -2.3025850929940455);
+    it('ln(0.1)', function() {
+      shared.similar(sassaby.func('ln').calledWithArgs('0.1'), Math.log(0.1));
     });
-    it('ln(123456789) ~= 18.63140176616802', function() {
-      shared.similar(sassaby.func('ln').calledWithArgs('123456789'), 18.63140176616802);
+    it('ln(123456789)', function() {
+      shared.similar(sassaby.func('ln').calledWithArgs('123456789'), Math.log(123456789));
     });
   });
 
@@ -76,11 +76,11 @@ describe('math', function() {
     it('sin(3/2 * $pi) == -1', function() {
       sassaby.func('sin').calledWithArgs('3/2 * $pi').equals('-1');
     });
-    it('sin(1) ~= 0.8414709848078965', function() {
-      shared.similar(sassaby.func('sin').calledWithArgs('1'), 0.8414709848078965);
+    it('sin(1)', function() {
+      shared.similar(sassaby.func('sin').calledWithArgs('1'), Math.sin(1));
     });
-    it('sin(2) ~= 0.9092974268256817', function() {
-      shared.similar(sassaby.func('sin').calledWithArgs('2'), 0.9092974268256817);
+    it('sin(2)', function() {
+      shared.similar(sassaby.func('sin').calledWithArgs('2'), Math.sin(2));
     });
   });
 });

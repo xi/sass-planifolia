@@ -52,6 +52,9 @@ describe('math', function() {
     it('ln(123456789)', function() {
       shared.similar(sassaby.func('ln').calledWithArgs('123456789'), Math.log(123456789));
     });
+    it('ln(12345678.9)', function() {
+      shared.similar(sassaby.func('ln').calledWithArgs('12345678.9'), Math.log(12345678.9));
+    });
   });
 
   describe('sin', function() {
@@ -81,6 +84,36 @@ describe('math', function() {
     });
     it('sin(2)', function() {
       shared.similar(sassaby.func('sin').calledWithArgs('2'), Math.sin(2));
+    });
+    it('sin(-1)', function() {
+      shared.similar(sassaby.func('sin').calledWithArgs('-1'), Math.sin(-1));
+    });
+  });
+
+  describe('cos', function() {
+    it('cos(0) == 1', function() {
+      sassaby.func('cos').calledWithArgs('0').equals('1');
+    });
+    it('cos(1)', function() {
+      shared.similar(sassaby.func('cos').calledWithArgs('1'), Math.cos(1));
+    });
+    it('cos(-2)', function() {
+      shared.similar(sassaby.func('cos').calledWithArgs('-2'), Math.cos(-2));
+    });
+  });
+
+  describe('tan', function() {
+    it('tan(0) == 0', function() {
+      sassaby.func('tan').calledWithArgs('0').equals('0');
+    });
+    it('tan(1)', function() {
+      shared.similar(sassaby.func('tan').calledWithArgs('1'), Math.tan(1));
+    });
+    it('tan(-1)', function() {
+      shared.similar(sassaby.func('tan').calledWithArgs('-1'), Math.tan(-1));
+    });
+    it('tan(12345678.9)', function() {
+      shared.similar(sassaby.func('tan').calledWithArgs('12345678.9'), Math.tan(12345678.9));
     });
   });
 });

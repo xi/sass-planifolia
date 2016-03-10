@@ -124,6 +124,8 @@ $pi: 3.141592653589793;
   $pow1: _planifolia-pow-int($x, $exp1);
   @if $exp2 == 0 {
     @return $pow1;
+  } @else if $x == 0 and $exponent > 0 {
+    @return 0;
   } @else {
     $y: ln($x, $steps) * $exp2;
     $pow2: _planifolia-exp-taylor-0($y, $steps);

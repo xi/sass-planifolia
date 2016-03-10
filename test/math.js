@@ -17,6 +17,9 @@ describe('math', function() {
     it('pow(144, 1/2) == 12', function() {
       sassaby.func('pow').calledWithArgs('144', '1/2').equals('12');
     });
+    it('pow(0, 1/2) == 0', function() {
+      sassaby.func('pow').calledWithArgs('0', '1/2').equals('0');
+    });
     it('pow(-3, 2) == 9', function() {
       sassaby.func('pow').calledWithArgs('-3', '2').equals('9');
     });

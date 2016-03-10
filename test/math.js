@@ -116,4 +116,62 @@ describe('math', function() {
       shared.similar(sassaby.func('tan').calledWithArgs('12345678.9'), Math.tan(12345678.9));
     });
   });
+
+  describe('asin', function() {
+    it('asin(0) == 0', function() {
+      sassaby.func('asin').calledWithArgs('0').equals('0');
+    });
+    it('asin(0.1)', function() {
+      shared.similar(sassaby.func('asin').calledWithArgs('0.1'), Math.asin(0.1));
+    });
+    it('asin(0.5)', function() {
+      shared.similar(sassaby.func('asin').calledWithArgs('0.5'), Math.asin(0.5));
+    });
+    it('asin(0.9)', function() {
+      shared.similar(sassaby.func('asin').calledWithArgs('0.9'), Math.asin(0.9));
+    });
+    it('asin(1)', function() {
+      shared.similar(sassaby.func('asin').calledWithArgs('1'), Math.asin(1));
+    });
+    it('asin(-0.5)', function() {
+      shared.similar(sassaby.func('asin').calledWithArgs('-0.5'), Math.asin(-0.5));
+    });
+    it('asin(2) throws', function() {
+      assert.throws(function () {
+        sassaby.func('asin').calledWithArgs('2');
+      });
+    });
+  });
+
+  describe('acos', function() {
+    it('acos(1) == 0', function() {
+      sassaby.func('acos').calledWithArgs('1').equals('0');
+    });
+    it('acos(0.5)', function() {
+      shared.similar(sassaby.func('acos').calledWithArgs('0.5'), Math.acos(0.5));
+    });
+    it('acos(-0.5)', function() {
+      shared.similar(sassaby.func('acos').calledWithArgs('-0.5'), Math.acos(-0.5));
+    });
+    it('acos(2) throws', function() {
+      assert.throws(function () {
+        sassaby.func('asin').calledWithArgs('2');
+      });
+    });
+  });
+
+  describe('atan', function() {
+    it('atan(0) == 0', function() {
+      sassaby.func('atan').calledWithArgs('0').equals('0');
+    });
+    it('atan(0.5)', function() {
+      shared.similar(sassaby.func('atan').calledWithArgs('0.5'), Math.atan(0.5));
+    });
+    it('atan(-0.5)', function() {
+      shared.similar(sassaby.func('atan').calledWithArgs('-0.5'), Math.atan(-0.5));
+    });
+    it('atan(12345678.9)', function() {
+      shared.similar(sassaby.func('atan').calledWithArgs('12345678.9'), Math.atan(12345678.9));
+    });
+  });
 });

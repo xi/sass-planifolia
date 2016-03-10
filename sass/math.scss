@@ -64,6 +64,18 @@ $pi: 3.141592653589793;
   @return $result;
 }
 
+@function _planifolia-asin-taylor-0($x, $steps) {
+  $item: $x;
+  $result: $x;
+
+  @for $i from 1 to $steps {
+    $item: $item * $x * $x * (2 * $i - 1) / (2 * $i);
+    $result: $result + $item / (2 * $i + 1);
+  }
+
+  @return $result;
+}
+
 @function _planifolia-pow-int($base, $exponent) {
   @if $exponent < 0 {
     @return 1 / _planifolia-pow-int($base, -$exponent);
@@ -176,4 +188,37 @@ $pi: 3.141592653589793;
 /// @return {number}
 @function tan($x, $steps: $planifolia-math-steps-default) {
   @return sin($x, $steps) / cos($x, $steps);
+}
+
+/// @param {number} $x
+/// @param {number} $steps [32] - steps of the taylor expansion
+/// @return {number}
+@function asin($x, $steps: $planifolia-math-steps-default) {
+  @if $x < 0 {
+    @return -1 * asin(-$x, $steps);
+  } @else if $x * $x > .5 {
+    @return acos(sqrt(1 - $x * $x, $steps), $steps);
+  } @else {
+    @return _planifolia-asin-taylor-0($x, $steps);
+  }
+}
+
+/// @param {number} $x
+/// @param {number} $steps [32] - steps of the taylor expansion
+/// @return {number}
+@function acos($x, $steps: $planifolia-math-steps-default) {
+  @return $pi / 2 - asin($x, $steps);
+}
+
+/// @param {number} $x
+/// @param {number} $steps [32] - steps of the taylor expansion
+/// @return {number}
+@function atan($x, $steps: $planifolia-math-steps-default) {
+  @if $x == 0 {
+    @return 0;
+  } @else if $x < 0 {
+    @return -1 * atan(-$x, $steps);
+  } @else {
+    @return asin(1 / sqrt(1 + 1 / ($x * $x), $steps), $steps);
+  }
 }

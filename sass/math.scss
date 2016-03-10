@@ -23,8 +23,10 @@
 /// @type number
 $planifolia-math-steps-default: 32 !default;
 
-/// @type number
-$pi: 3.141592653589793;
+/// @return {number}
+@function pi() {
+  @return 3.141592653589793;
+}
 
 @function _planifolia-exp-taylor-0($x, $steps) {
   $item: 1;
@@ -164,11 +166,11 @@ $pi: 3.141592653589793;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function sin($x, $steps: $planifolia-math-steps-default) {
-  @if $x > 2 * $pi {
-    $x: $x % (2 * $pi);
+  @if $x > 2 * pi() {
+    $x: $x % (2 * pi());
   }
-  @if $x > $pi {
-    @return -1 * sin($x - $pi);
+  @if $x > pi() {
+    @return -1 * sin($x - pi());
   } @else if $x < 0 {
     @return -1 * sin(-$x);
   } @else {
@@ -180,7 +182,7 @@ $pi: 3.141592653589793;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function cos($x, $steps: $planifolia-math-steps-default) {
-  @return sin($x + $pi / 2, $steps);
+  @return sin($x + pi() / 2, $steps);
 }
 
 /// @param {number} $x
@@ -207,7 +209,7 @@ $pi: 3.141592653589793;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function acos($x, $steps: $planifolia-math-steps-default) {
-  @return $pi / 2 - asin($x, $steps);
+  @return pi() / 2 - asin($x, $steps);
 }
 
 /// @param {number} $x

@@ -175,5 +175,5 @@ $pi: 3.141592653589793;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function tan($x, $steps: $planifolia-math-steps-default) {
-  @return sin($x, $steps) / $cos($x, $steps);
+  @return sin($x, $steps) / cos($x, $steps);
 }

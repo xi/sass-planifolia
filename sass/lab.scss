@@ -263,19 +263,39 @@
   @return sqrt($x1 * $x1 + $x2 * $x2 + $x3 * $x3);
 }
 
+@function _lch-mix($lch1, $lch2, $weight) {
+  $l: nth($lch1, 1) * $weight + nth($lch2, 1) * (1 - $weight);
+  $c: nth($lch1, 2) * $weight + nth($lch2, 2) * (1 - $weight);
+
+  $w1: $weight * nth($lch1, 2);
+  $w2: (1 - $weight) * nth($lch2, 2);
+
+  @if ($w1 == 0 and $w2 == 0) {
+    $w1: .5;
+    $w2: .5;
+  }
+
+  $h1: nth($lch1, 3);
+  $h2: nth($lch2, 3);
+
+  @while abs($h2 - $h1) > pi() {
+    $h1: $h1 + if($h1 < $h2, 2, -2) * pi();
+  }
+
+  $h: ($h1 * $w1 + $h2 * $w2) / ($w1 + $w2);
+
+  @return ($l, $c, $h);
+}
+
 /// @param {color} $color1
 /// @param {color} $color2
 /// @param {number} $weight [50%]
 /// @return {color}
 @function lab-mix($color1, $color2, $weight: 50%) {
-  $w: $weight / 100%;
-
   $lch1: _to-lch($color1);
   $lch2: _to-lch($color2);
 
-  $l: nth($lch1, 1) * $w + nth($lch2, 1) * (1 - $w);
-  $c: nth($lch1, 2) * $w + nth($lch2, 2) * (1 - $w);
-  $h: nth($lch1, 3) * $w + nth($lch2, 3) * (1 - $w);
+  $lch: _lch-mix($lch1, $lch2, $weight / 100%);
 
-  @return lch($l, $c, $h);
+  @return lch(nth($lch, 1), nth($lch, 2), nth($lch, 3));
 }

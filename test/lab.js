@@ -126,16 +126,22 @@ describe('lab', function() {
       sassaby.func('lab-mix').calledWithArgs('black', 'white', '20%').equals('#c6c6c6');
     });
     it('blue, red', function() {
-      sassaby.func('lab-mix').calledWithArgs('blue', 'red').equals('#fa0080');
+      sassaby.func('lab-mix').calledWithArgs('blue', 'red').equals('#f40093');
     });
     it('blue, red, 20%', function() {
-      sassaby.func('lab-mix').calledWithArgs('blue', 'red', '20%').equals('#ff003a');
+      sassaby.func('lab-mix').calledWithArgs('blue', 'red', '20%').equals('#ff0045');
     });
     it('green, red', function() {
-      sassaby.func('lab-mix').calledWithArgs('green', 'red').equals('#957200');
+      sassaby.func('lab-mix').calledWithArgs('green', 'red').equals('#a76900');
     });
     it('yellow, blue', function() {
-      sassaby.func('lab-mix').calledWithArgs('yellow', 'blue').equals('#ff0050');
+      sassaby.func('lab-mix').calledWithArgs('yellow', 'blue').equals('#ff0079');
+    });
+    it('green, blue', function() {
+      sassaby.func('lab-mix').calledWithArgs('green', 'blue').equals('#0077fb');
+    });
+    it('white, blue', function() {
+      sassaby.func('lab-mix').calledWithArgs('white', 'blue').equals('#b38bff');
     });
   });
 });

@@ -111,3 +111,30 @@
 @function lch($lightness, $chroma, $hue) {
   @return _from-xyz(_lab-to-xyz(_lch-to-lab(($lightness, $chroma, $hue))));
 }
+
+/// @param {number} $lightness
+/// @param {number} $chroma
+/// @param {number} $hue (in unitless radian)
+/// @param {number} $alpha
+/// @return {color}
+@function lcha($lightness, $chroma, $hue, $alpha) {
+  @return rgba(lch($lightness, $chroma, $hue), $alpha);
+}
+
+/// @param {color} $color
+/// @return {number}
+@function lab-lightness($color) {
+  @return nth(_to-lch($color), 1);
+}
+
+/// @param {color} $color
+/// @return {number}
+@function lab-chroma($color) {
+  @return nth(_to-lch($color), 2);
+}
+
+/// @param {color} $color
+/// @return {number}
+@function lab-hue($color) {
+  @return nth(_to-lch($color), 3);
+}

@@ -138,3 +138,57 @@
 @function lab-hue($color) {
   @return nth(_to-lch($color), 3);
 }
+
+/// @param {color} $color
+/// @return {color}
+@function lab-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0) {
+  $lch: _to-lch($color);
+
+  $l: nth($lch, 1) + $lightness;
+  $c: nth($lch, 2) + $chroma;
+  $h: nth($lch, 3) + $hue;
+
+  @return lch($l, $c, $h);
+}
+
+/// @param {color} $color
+/// @param {number} $degrees
+/// @return {color}
+@function lab-adjust-hue($color, $degrees) {
+  @return lab-adjust-color($color, $hue: $degrees);
+}
+
+/// @param {color} $color
+/// @param {number} $amount
+/// @return {color}
+@function lab-lighten($color, $amount) {
+  @return lab-adjust-color($color, $lightness: $amount);
+}
+
+/// @param {color} $color
+/// @param {number} $amount
+/// @return {color}
+@function lab-darken($color, $amount) {
+  @return lab-adjust-color($color, $lightness: -$amount);
+}
+
+/// @param {color} $color
+/// @param {number} $amount
+/// @return {color}
+@function lab-saturate($color, $amount) {
+  @return lab-adjust-color($color, $chroma: $amount);
+}
+
+/// @param {color} $color
+/// @param {number} $amount
+/// @return {color}
+@function lab-desaturate($color, $amount) {
+  @return lab-adjust-color($color, $chroma: -$amount);
+}
+
+/// @param {color} $color
+/// @return {color}
+@function lab-complement($color) {
+  @return lab-adjust-hue($color, pi());
+}
+

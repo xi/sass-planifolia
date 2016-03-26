@@ -1,0 +1,113 @@
+@function _srgb-to-rgb($c) {
+  $c: $c / 255;
+  @if $c <= .04045 {
+    $c: $c / 12.92;
+  } @else {
+    $c: pow(($c + .055) / 1.055, 2.4);
+  }
+  @return $c * 100;
+}
+
+@function _rgb-to-srgb($c) {
+  $c: $c / 100;
+  @if $c <= .0031308 {
+    $c: $c * 12.92;
+  } @else {
+    $c: 1.055 * pow($c, 1 / 2.4) - .055;
+  }
+  @return $c * 255;
+}
+
+@function _to-xyz($color) {
+  $r: _srgb-to-rgb(red($color));
+  $g: _srgb-to-rgb(green($color));
+  $b: _srgb-to-rgb(blue($color));
+
+  $x: .4124 * $r + .3576 * $g + .1805 * $b;
+  $y: .2126 * $r + .7152 * $g + .0722 * $b;
+  $z: .0193 * $r + .1192 * $g + .9505 * $b;
+
+  @return ($x, $y, $z);
+}
+
+@function _from-xyz($xyz) {
+  $r: 3.2406 * nth($xyz, 1) - 1.5372 * nth($xyz, 2) - .4986 * nth($xyz, 3);
+  $g: -.9689 * nth($xyz, 1) + 1.8758 * nth($xyz, 2) + .0415 * nth($xyz, 3);
+  $b: .0557 * nth($xyz, 1) - .204 * nth($xyz, 2) + 1.057 * nth($xyz, 3);
+
+  $r: _rgb-to-srgb($r);
+  $g: _rgb-to-srgb($g);
+  $b: _rgb-to-srgb($b);
+
+  @return rgb($r, $g, $b);
+}
+
+@function _xyz-to-lab-f($t) {
+  @if $t > 216 / 24389 {
+    @return pow($t, 1/3);
+  } @else {
+    @return 841 / 108 * $t + 4 / 29;
+  }
+}
+
+@function _xyz-to-lab($xyz) {
+  $white: (95.05, 100, 108.9);
+
+  $x: _xyz-to-lab-f(nth($xyz, 1) / nth($white, 1));
+  $y: _xyz-to-lab-f(nth($xyz, 2) / nth($white, 2));
+  $z: _xyz-to-lab-f(nth($xyz, 3) / nth($white, 3));
+
+  $l: 116 * $y - 16;
+  $a: 500 * ($x - $y);
+  $b: 200 * ($y - $z);
+
+  @return ($l, $a, $b);
+}
+
+@function _lab-to-xyz-f($t) {
+  @if $t > 6 / 29 {
+    @return pow($t, 3);
+  } @else {
+    @return 108 / 841 * ($t - 4 / 29);
+  }
+}
+
+@function _lab-to-xyz($lab) {
+  $white: (95.05, 100, 108.9);
+
+  $l: (nth($lab, 1) + 16) / 116;
+
+  $x: nth($white, 1) * _lab-to-xyz-f($l + nth($lab, 2) / 500);
+  $y: nth($white, 2) * _lab-to-xyz-f($l);
+  $z: nth($white, 3) * _lab-to-xyz-f($l - nth($lab, 3) / 200);
+
+  @return ($x, $y, $z);
+}
+
+@function _lab-to-lch($lab) {
+  $l: nth($lab, 1);
+  $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
+  $h: atan2(nth($lab, 3), nth($lab, 2));
+
+  @return ($l, $c, $h);
+}
+
+@function _lch-to-lab($lch) {
+  $l: nth($lch, 1);
+  $a: cos(nth($lch, 3)) * nth($lch, 2);
+  $b: sin(nth($lch, 3)) * nth($lch, 2);
+
+  @return ($l, $a, $b);
+}
+
+@function _to-lch($color) {
+  @return _lab-to-lch(_xyz-to-lab(_to-xyz($color)));
+}
+
+/// @param {number} $lightness
+/// @param {number} $chroma
+/// @param {number} $hue (in unitless radian)
+/// @return {color}
+@function lch($lightness, $chroma, $hue) {
+  @return _from-xyz(_lab-to-xyz(_lch-to-lab(($lightness, $chroma, $hue))));
+}

@@ -15,6 +15,14 @@
 /// @group Lab
 ////
 
+@function _mix-angles($angle1, $angle2, $weight) {
+  @while abs($angle2 - $angle1) > pi() {
+    $angle1: $angle1 + if($angle1 < $angle2, 2, -2) * pi();
+  }
+
+  @return $angle1 * $weight + $angle2 * (1 - $weight);
+}
+
 @function _srgb-to-rgb($c) {
   $c: $c / 255;
   @if $c <= .04045 {
@@ -273,7 +281,7 @@
 
   $l: nth($lch1, 1) * $weight + nth($lch2, 1) * (1 - $weight);
   $c: nth($lch1, 2) * $weight + nth($lch2, 2) * (1 - $weight);
-  $h: nth($lch1, 3) * $weight + nth($lch2, 3) * (1 - $weight);
+  $h: _mix-angles(nth($lch1, 3), nth($lch2, 3), $weight);
 
   @return lch($l, $c, $h);
 }

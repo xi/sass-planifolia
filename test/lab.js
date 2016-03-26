@@ -137,5 +137,8 @@ describe('lab', function() {
     it('yellow, blue', function() {
       sassaby.func('lch-mix').calledWithArgs('yellow', 'blue').equals('#ff0050');
     });
+    it('green, blue', function() {
+      sassaby.func('lch-mix').calledWithArgs('green', 'blue').equals('#007bcc');
+    });
   });
 });

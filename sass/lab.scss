@@ -1,3 +1,20 @@
+////
+/// This implements some color functions based on the L*a*b* colorspace.
+///
+/// Many functions in this module use the LCh colorspace which is to L*a*b*
+/// what HSL is to RGB. However, LCh has two advantages over HSL: It is closer
+/// to human perception (though not as close as CIECAM02) and it is
+/// perceptually uniform.
+///
+/// The provided functions can be used as drop-in replacements for some of the
+/// HSL based functions included in Sass.
+///
+/// This implementation uses sRGB for input colors (including the whitepoint
+/// D65) and converts them to CIELCh.
+///
+/// @group Lab
+////
+
 @function _srgb-to-rgb($c) {
   $c: $c / 255;
   @if $c <= .04045 {
@@ -104,42 +121,55 @@
   @return _lab-to-lch(_xyz-to-lab(_to-xyz($color)));
 }
 
-/// @param {number} $lightness
-/// @param {number} $chroma
-/// @param {number} $hue (in unitless radian)
+/// Create a color from lightness, chroma, and hue values.
+///
+/// Note that the result may be clipped if it lies outside of the sRGB
+/// colorspace.
+///
+/// @param {number} $lightness 0 .. 100
+/// @param {number} $chroma 0 .. ca. 140
+/// @param {number} $hue in unitless radian
 /// @return {color}
 @function lch($lightness, $chroma, $hue) {
   @return _from-xyz(_lab-to-xyz(_lch-to-lab(($lightness, $chroma, $hue))));
 }
 
+/// Create a color from lightness, chroma, hue, and alpha values.
 /// @param {number} $lightness
 /// @param {number} $chroma
-/// @param {number} $hue (in unitless radian)
+/// @param {number} $hue
 /// @param {number} $alpha
 /// @return {color}
 @function lcha($lightness, $chroma, $hue, $alpha) {
   @return rgba(lch($lightness, $chroma, $hue), $alpha);
 }
 
+/// Get the lightness component of a color.
 /// @param {color} $color
 /// @return {number}
 @function lab-lightness($color) {
   @return nth(_to-lch($color), 1);
 }
 
+/// Get the chroma component of a color.
 /// @param {color} $color
 /// @return {number}
 @function lab-chroma($color) {
   @return nth(_to-lch($color), 2);
 }
 
+/// Get the hue component of a color.
 /// @param {color} $color
 /// @return {number}
 @function lab-hue($color) {
   @return nth(_to-lch($color), 3);
 }
 
+/// Increase or decrease one or more components of a color.
 /// @param {color} $color
+/// @param {number} $lightness [0]
+/// @param {number} $chroma [0]
+/// @param {number} $hue [0]
 /// @return {color}
 @function lab-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0) {
   $lch: _to-lch($color);
@@ -192,6 +222,7 @@
   @return lab-adjust-hue($color, pi());
 }
 
+/// Get the euclidean distance between two colors.
 /// @param {color} $color1
 /// @param {color} $color2
 /// @return {number}
@@ -208,7 +239,7 @@
 
 /// @param {color} $color1
 /// @param {color} $color2
-/// @param {number} $weight
+/// @param {number} $weight [0.5]
 /// @return {color}
 @function lch-mix($color1, $color2, $weight: .5) {
   $lch1: _to-lch($color1);

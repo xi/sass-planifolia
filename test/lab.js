@@ -87,4 +87,55 @@ describe('lab', function() {
       sassaby.func('lab-complement').calledWithArgs('yellow').equals('#76f4ff');
     });
   });
+
+  describe('lab-distance', function() {
+    it('d(white, white) = 0', function() {
+      sassaby.func('lab-distance').calledWithArgs('white', 'white').equals(0);
+    });
+    it('d(red, red) = 0', function() {
+      sassaby.func('lab-distance').calledWithArgs('red', 'red').equals(0);
+    });
+    it('d(white, black) ~= 100', function() {
+      shared.similar(sassaby.func('lab-distance').calledWithArgs('white', 'black'), 100);
+    });
+    it('d(white, red)', function() {
+      shared.similar(sassaby.func('lab-distance').calledWithArgs('white', 'red'), 114.55535);
+    });
+    it('d(red, blue)', function() {
+      shared.similar(sassaby.func('lab-distance').calledWithArgs('red', 'blue'), 176.32554);
+    });
+    it('d(blue, red)', function() {
+      shared.similar(sassaby.func('lab-distance').calledWithArgs('blue', 'red'), 176.32554);
+    });
+  });
+
+  describe('lch-mix', function() {
+    it('white, white', function() {
+      sassaby.func('lch-mix').calledWithArgs('white', 'white').equals('white');
+    });
+    it('black, white', function() {
+      sassaby.func('lch-mix').calledWithArgs('black', 'white').equals('#777');
+    });
+    it('black, white, 0', function() {
+      sassaby.func('lch-mix').calledWithArgs('black', 'white', '0').equals('white');
+    });
+    it('black, white, 1', function() {
+      sassaby.func('lch-mix').calledWithArgs('black', 'white', '1').equals('black');
+    });
+    it('black, white, 0.2', function() {
+      sassaby.func('lch-mix').calledWithArgs('black', 'white', '0.2').equals('#c6c6c6');
+    });
+    it('blue, red', function() {
+      sassaby.func('lch-mix').calledWithArgs('blue', 'red').equals('#fa0080');
+    });
+    it('blue, red, 0.2', function() {
+      sassaby.func('lch-mix').calledWithArgs('blue', 'red', '0.2').equals('#ff003a');
+    });
+    it('green, red', function() {
+      sassaby.func('lch-mix').calledWithArgs('green', 'red').equals('#957200');
+    });
+    it('yellow, blue', function() {
+      sassaby.func('lch-mix').calledWithArgs('yellow', 'blue').equals('#ff0050');
+    });
+  });
 });

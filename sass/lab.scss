@@ -192,3 +192,31 @@
   @return lab-adjust-hue($color, pi());
 }
 
+/// @param {color} $color1
+/// @param {color} $color2
+/// @return {number}
+@function lab-distance($color1, $color2) {
+  $lab1: _xyz-to-lab(_to-xyz($color1));
+  $lab2: _xyz-to-lab(_to-xyz($color2));
+
+  $x1: nth($lab1, 1) - nth($lab2, 1);
+  $x2: nth($lab1, 2) - nth($lab2, 2);
+  $x3: nth($lab1, 3) - nth($lab2, 3);
+
+  @return sqrt($x1 * $x1 + $x2 * $x2 + $x3 * $x3);
+}
+
+/// @param {color} $color1
+/// @param {color} $color2
+/// @param {number} $weight
+/// @return {color}
+@function lch-mix($color1, $color2, $weight: .5) {
+  $lch1: _to-lch($color1);
+  $lch2: _to-lch($color2);
+
+  $l: nth($lch1, 1) * $weight + nth($lch2, 1) * (1 - $weight);
+  $c: nth($lch1, 2) * $weight + nth($lch2, 2) * (1 - $weight);
+  $h: nth($lch1, 3) * $weight + nth($lch2, 3) * (1 - $weight);
+
+  @return lch($l, $c, $h);
+}

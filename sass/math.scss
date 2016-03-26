@@ -224,3 +224,28 @@ $planifolia-math-steps-default: 32 !default;
     @return asin(1 / sqrt(1 + 1 / ($x * $x), $steps), $steps);
   }
 }
+
+/// Computes the angle of the vector (x,y) with the x axis.
+/// @param {number} $y
+/// @param {number} $x
+/// @param {number} $steps [32] - steps of the taylor expansion
+/// @return {number}
+@function atan2($y, $x, $steps: $planifolia-math-steps-default) {
+  @if $x > 0 {
+    @return atan($y / $x, $steps);
+  } @else if $x < 0 {
+    @if $y >= 0 {
+      @return atan($y / $x, $steps) + pi();
+    } @else {
+      @return atan($y / $x, $steps) - pi();
+    }
+  } @else {
+    @if $y > 0 {
+      @return pi() / 2;
+    } @else if $y < 0 {
+      @return pi() / -2;
+    } @else {
+      @return 0;
+    }
+  }
+}

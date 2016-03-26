@@ -174,4 +174,25 @@ describe('math', function() {
       shared.similar(sassaby.func('atan').calledWithArgs('12345678.9'), Math.atan(12345678.9));
     });
   });
+
+  describe('atan2', function() {
+    it('atan2(0, 1) == 0', function() {
+      sassaby.func('atan2').calledWithArgs('0', '1').equals('0');
+    });
+    it('atan2(1, 0)', function() {
+      shared.similar(sassaby.func('atan2').calledWithArgs('1', '0'), Math.atan2(1, 0));
+    });
+    it('atan2(0, -1)', function() {
+      shared.similar(sassaby.func('atan2').calledWithArgs('0', '-1'), Math.atan2(0, -1));
+    });
+    it('atan2(-1, 0)', function() {
+      shared.similar(sassaby.func('atan2').calledWithArgs('-1', '0'), Math.atan2(-1, 0));
+    });
+    it('atan2(2, 0)', function() {
+      shared.similar(sassaby.func('atan2').calledWithArgs('2', '0'), Math.atan2(2, 0));
+    });
+    it('atan2(-1, -1)', function() {
+      shared.similar(sassaby.func('atan2').calledWithArgs('-1', '-1'), Math.atan2(-1, -1));
+    });
+  });
 });

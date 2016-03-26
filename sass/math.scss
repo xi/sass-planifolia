@@ -249,3 +249,26 @@ $planifolia-math-steps-default: 32 !default;
     }
   }
 }
+
+@function _interpolate($a, $b, $f) {
+  $result: ();
+  @for $i from 1 through length($a) {
+    $value: nth($a, $i) * (1 - $f) + nth($b, $i) * $f;
+    $result: append($result, $value);
+  }
+  @return $result;
+}
+
+@function bezier($points, $f) {
+  @if length($points) > 1 {
+    $tmp: ();
+    @for $i from 1 to length($points) {
+      $point1: nth($points, $i);
+      $point2: nth($points, $i + 1);
+      $tmp: append($tmp, _interpolate($point1, $point2, $f));
+    }
+    @return bezier($tmp, $f);
+  } @else {
+    @return nth($points, 1);
+  }
+}

@@ -75,4 +75,16 @@ describe('lab', function() {
       shared.similar(sassaby.func('lab-hue').calledWithArgs('blue'), Math.PI * -0.5, 1);
     });
   });
+
+  describe('lab-complement', function() {
+    it('white', function() {
+      sassaby.func('lab-complement').calledWithArgs('white').equals('white');
+    });
+    it('red', function() {
+      sassaby.func('lab-complement').calledWithArgs('red').equals('#00a1f3');
+    });
+    it('yellow', function() {
+      sassaby.func('lab-complement').calledWithArgs('yellow').equals('#76f4ff');
+    });
+  });
 });

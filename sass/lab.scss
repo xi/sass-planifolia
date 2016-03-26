@@ -104,7 +104,10 @@
 @function _lab-to-lch($lab) {
   $l: nth($lab, 1);
   $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
-  $h: atan2(nth($lab, 3), nth($lab, 2));
+  $h: 0;
+  @if abs(nth($lab, 2)) > .0001 or abs(nth($lab, 3)) > .0001 {
+    $h: atan2(nth($lab, 3), nth($lab, 2));
+  }
 
   @return ($l, $c, $h);
 }

@@ -283,5 +283,11 @@
   $c: nth($lch1, 2) * $weight + nth($lch2, 2) * (1 - $weight);
   $h: _mix-angles(nth($lch1, 3), nth($lch2, 3), $weight);
 
+  @if nth($lch1, 2) < 0.01 {
+    $h: nth($lch2, 3);
+  } @else if nth($lch2, 2) < 0.01 {
+    $h: nth($lch1, 3);
+  }
+
   @return lch($l, $c, $h);
 }

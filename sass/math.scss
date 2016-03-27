@@ -250,7 +250,7 @@ $planifolia-math-steps-default: 32 !default;
   }
 }
 
-@function _interpolate($a, $b, $f) {
+@function _planifolia-interpolate($a, $b, $f) {
   $result: ();
   @for $i from 1 through length($a) {
     $value: nth($a, $i) * (1 - $f) + nth($b, $i) * $f;
@@ -259,8 +259,15 @@ $planifolia-math-steps-default: 32 !default;
   @return $result;
 }
 
-@function bezier($points, $f) {
-@function bezier($points, $f, $interpolate: _interpolate) {
+/// Generic bezier interpolation.
+/// @param {P[]} $points
+/// @param {number} $f
+/// @param {function(P, P, number) => P} $interpolate [_planifolia-interpolate]
+///   The default is a linear interpolation between lists of numbers.
+///   You can specify a custom interpolation function, e.g. to interpolate
+///   between colors.
+/// @return {P} A single point.
+@function bezier($points, $f, $interpolate: _planifolia-interpolate) {
   @if length($points) > 1 {
     $tmp: ();
     @for $i from 1 to length($points) {

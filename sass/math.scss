@@ -260,14 +260,15 @@ $planifolia-math-steps-default: 32 !default;
 }
 
 @function bezier($points, $f) {
+@function bezier($points, $f, $interpolate: _interpolate) {
   @if length($points) > 1 {
     $tmp: ();
     @for $i from 1 to length($points) {
       $point1: nth($points, $i);
       $point2: nth($points, $i + 1);
-      $tmp: append($tmp, _interpolate($point1, $point2, $f));
+      $tmp: append($tmp, call($interpolate, $point1, $point2, $f));
     }
-    @return bezier($tmp, $f);
+    @return bezier($tmp, $f, $interpolate);
   } @else {
     @return nth($points, 1);
   }

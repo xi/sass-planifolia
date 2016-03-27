@@ -181,6 +181,22 @@
   @return lch($l, $c, $h);
 }
 
+/// Change one or more properties of a color.
+/// @param {color} $color
+/// @param {number} $lightness [null]
+/// @param {number} $chroma [null]
+/// @param {number} $hue [null]
+/// @return {color}
+@function lab-change-color($color, $lightness: null, $chroma: null, $hue: null) {
+  $lch: _to-lch($color);
+
+  $l: if($lightness == null, nth($lch, 1), $lightness);
+  $c: if($chroma == null, nth($lch, 2), $chroma);
+  $h: if($hue == null, nth($lch, 3), $hue);
+
+  @return lch($l, $c, $h);
+}
+
 /// @param {color} $color
 /// @param {number} $degrees
 /// @return {color}
@@ -220,6 +236,13 @@
 /// @return {color}
 @function lab-complement($color) {
   @return lab-adjust-hue($color, pi());
+}
+
+/// @param {color} $color
+/// @return {color}
+/// @require pi
+@function lab-grayscale($color) {
+  @return lab-change-color($color, $chroma: 0);
 }
 
 /// Get the euclidean distance between two colors.

@@ -222,6 +222,20 @@
 }
 
 /// @param {color} $color
+/// @param {number} $weight
+/// @return {color}
+@function lab-tint($color, $weight) {
+  @return lab-mix(white, $color, $weight);
+}
+
+/// @param {color} $color
+/// @param {number} $weight
+/// @return {color}
+@function lab-shade($color, $weight) {
+  @return lab-mix(black, $color, $weight);
+}
+
+/// @param {color} $color
 /// @param {number} $amount
 /// @return {color}
 @function lab-saturate($color, $amount) {

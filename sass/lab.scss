@@ -128,6 +128,9 @@
   @return ($l, $a, $b);
 }
 
+/// @require pow
+/// @require sqrt
+/// @require atan2
 @function _to-lch($color) {
   @return _lab-to-lch(_xyz-to-lab(_to-xyz($color)));
 }
@@ -141,6 +144,10 @@
 /// @param {number} $chroma 0 .. ca. 140
 /// @param {number} $hue in unitless radian
 /// @return {color}
+///
+/// @require pow
+/// @require sin
+/// @require cos
 @function lch($lightness, $chroma, $hue) {
   @return _from-xyz(_lab-to-xyz(_lch-to-lab(($lightness, $chroma, $hue))));
 }
@@ -259,6 +266,7 @@
 
 /// @param {color} $color
 /// @return {color}
+/// @require pi
 @function lab-complement($color) {
   @return lab-adjust-hue($color, pi());
 }
@@ -274,6 +282,7 @@
 /// @param {color} $color1
 /// @param {color} $color2
 /// @return {number}
+/// @require _to-lch
 @function lab-distance($color1, $color2) {
   $lab1: _xyz-to-lab(_to-xyz($color1));
   $lab2: _xyz-to-lab(_to-xyz($color2));

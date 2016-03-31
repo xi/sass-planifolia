@@ -109,39 +109,39 @@ describe('lab', function() {
     });
   });
 
-  describe('lch-mix', function() {
+  describe('lab-mix', function() {
     it('white, white', function() {
-      sassaby.func('lch-mix').calledWithArgs('white', 'white').equals('white');
+      sassaby.func('lab-mix').calledWithArgs('white', 'white').equals('white');
     });
     it('black, white', function() {
-      sassaby.func('lch-mix').calledWithArgs('black', 'white').equals('#777');
+      sassaby.func('lab-mix').calledWithArgs('black', 'white').equals('#777');
     });
     it('black, white, 0', function() {
-      sassaby.func('lch-mix').calledWithArgs('black', 'white', '0').equals('white');
+      sassaby.func('lab-mix').calledWithArgs('black', 'white', '0').equals('white');
     });
     it('black, white, 1', function() {
-      sassaby.func('lch-mix').calledWithArgs('black', 'white', '1').equals('black');
+      sassaby.func('lab-mix').calledWithArgs('black', 'white', '1').equals('black');
     });
     it('black, white, 0.2', function() {
-      sassaby.func('lch-mix').calledWithArgs('black', 'white', '0.2').equals('#c6c6c6');
+      sassaby.func('lab-mix').calledWithArgs('black', 'white', '0.2').equals('#c6c6c6');
     });
     it('blue, red', function() {
-      sassaby.func('lch-mix').calledWithArgs('blue', 'red').equals('#fa0080');
+      sassaby.func('lab-mix').calledWithArgs('blue', 'red').equals('#fa0080');
     });
     it('blue, red, 0.2', function() {
-      sassaby.func('lch-mix').calledWithArgs('blue', 'red', '0.2').equals('#ff003a');
+      sassaby.func('lab-mix').calledWithArgs('blue', 'red', '0.2').equals('#ff003a');
     });
     it('green, red', function() {
-      sassaby.func('lch-mix').calledWithArgs('green', 'red').equals('#957200');
+      sassaby.func('lab-mix').calledWithArgs('green', 'red').equals('#957200');
     });
     it('yellow, blue', function() {
-      sassaby.func('lch-mix').calledWithArgs('yellow', 'blue').equals('#ff0050');
+      sassaby.func('lab-mix').calledWithArgs('yellow', 'blue').equals('#ff0050');
     });
     it('green, blue', function() {
-      sassaby.func('lch-mix').calledWithArgs('green', 'blue').equals('#007bcc');
+      sassaby.func('lab-mix').calledWithArgs('green', 'blue').equals('#007bcc');
     });
     it('white, blue', function() {
-      sassaby.func('lch-mix').calledWithArgs('white', 'blue').equals('#b38bff');
+      sassaby.func('lab-mix').calledWithArgs('white', 'blue').equals('#b38bff');
     });
   });
 });

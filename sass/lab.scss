@@ -275,19 +275,13 @@
 /// @param {color} $color2
 /// @param {number} $weight [0.5]
 /// @return {color}
-@function lch-mix($color1, $color2, $weight: .5) {
-  $lch1: _to-lch($color1);
-  $lch2: _to-lch($color2);
+@function lab-mix($color1, $color2, $weight: .5) {
+  $lab1: _xyz-to-lab(_to-xyz($color1));
+  $lab2: _xyz-to-lab(_to-xyz($color2));
 
-  $l: nth($lch1, 1) * $weight + nth($lch2, 1) * (1 - $weight);
-  $c: nth($lch1, 2) * $weight + nth($lch2, 2) * (1 - $weight);
-  $h: _mix-angles(nth($lch1, 3), nth($lch2, 3), $weight);
+  $l: nth($lab1, 1) * $weight + nth($lab2, 1) * (1 - $weight);
+  $a: nth($lab1, 2) * $weight + nth($lab2, 2) * (1 - $weight);
+  $b: nth($lab1, 3) * $weight + nth($lab2, 3) * (1 - $weight);
 
-  @if nth($lch1, 2) < 0.01 {
-    $h: nth($lch2, 3);
-  } @else if nth($lch2, 2) < 0.01 {
-    $h: nth($lch1, 3);
-  }
-
-  @return lch($l, $c, $h);
+  @return _from-xyz(_lab-to-xyz(($l, $a, $b)));
 }

@@ -126,19 +126,19 @@ describe('lab', function() {
       sassaby.func('lab-mix').calledWithArgs('black', 'white', '0.2').equals('#c6c6c6');
     });
     it('blue, red', function() {
-      sassaby.func('lab-mix').calledWithArgs('blue', 'red').equals('#fa0080');
+      sassaby.func('lab-mix').calledWithArgs('blue', 'red').equals('#ca0088');
     });
     it('blue, red, 0.2', function() {
-      sassaby.func('lab-mix').calledWithArgs('blue', 'red', '0.2').equals('#ff003a');
+      sassaby.func('lab-mix').calledWithArgs('blue', 'red', '0.2').equals('#ed0044');
     });
     it('green, red', function() {
-      sassaby.func('lab-mix').calledWithArgs('green', 'red').equals('#957200');
+      sassaby.func('lab-mix').calledWithArgs('green', 'red').equals('#a16b00');
     });
     it('yellow, blue', function() {
-      sassaby.func('lab-mix').calledWithArgs('yellow', 'blue').equals('#ff0050');
+      sassaby.func('lab-mix').calledWithArgs('yellow', 'blue').equals('#ca8aaa');
     });
     it('green, blue', function() {
-      sassaby.func('lab-mix').calledWithArgs('green', 'blue').equals('#007bcc');
+      sassaby.func('lab-mix').calledWithArgs('green', 'blue').equals('#58578c');
     });
     it('white, blue', function() {
       sassaby.func('lab-mix').calledWithArgs('white', 'blue').equals('#b38bff');

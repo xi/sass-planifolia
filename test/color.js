@@ -26,126 +26,126 @@ describe('color', function() {
       });
     });
 
-    describe('lab-lightness', function() {
+    describe('pf-lightness', function() {
       it('white', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('white'), 100);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('white'), 100);
       });
       it('black', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('black'), 0);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('black'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('red'), 53.23288);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('red'), 53.23288);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('blue'), 32.30259);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('blue'), 32.30259);
       });
     });
 
-    describe('lab-chroma', function() {
+    describe('pf-chroma', function() {
       it('white', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('white'), 0, 0.0001);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('white'), 0, 0.0001);
       });
       it('black', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('black'), 0);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('black'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('red'), 104.57421);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('red'), 104.57421);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('blue'), 133.80605);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('blue'), 133.80605);
       });
     });
 
-    describe('lab-hue', function() {
+    describe('pf-hue', function() {
       it('white', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('white'), 0);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('white'), 0);
       });
       it('black', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('black'), 0);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('black'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('red'), 0, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('red'), 0, 1);
       });
       it('yellow', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('yellow'), Math.PI * 0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow'), Math.PI * 0.5, 1);
       });
       it('green', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('green'), Math.PI, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('green'), Math.PI, 1);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('blue'), Math.PI * -0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue'), Math.PI * -0.5, 1);
       });
     });
 
-    describe('lab-complement', function() {
+    describe('pf-complement', function() {
       it('white', function() {
-        sassaby.func('lab-complement').calledWithArgs('white').equals('white');
+        sassaby.func('pf-complement').calledWithArgs('white').equals('white');
       });
       it('red', function() {
-        sassaby.func('lab-complement').calledWithArgs('red').equals('#00a1f3');
+        sassaby.func('pf-complement').calledWithArgs('red').equals('#00a1f3');
       });
       it('yellow', function() {
-        sassaby.func('lab-complement').calledWithArgs('yellow').equals('#76f4ff');
+        sassaby.func('pf-complement').calledWithArgs('yellow').equals('#76f4ff');
       });
     });
 
-    describe('lab-distance', function() {
+    describe('pf-color-distance', function() {
       it('d(white, white) = 0', function() {
-        sassaby.func('lab-distance').calledWithArgs('white', 'white').equals(0);
+        sassaby.func('pf-color-distance').calledWithArgs('white', 'white').equals(0);
       });
       it('d(red, red) = 0', function() {
-        sassaby.func('lab-distance').calledWithArgs('red', 'red').equals(0);
+        sassaby.func('pf-color-distance').calledWithArgs('red', 'red').equals(0);
       });
       it('d(white, black) ~= 100', function() {
-        shared.similar(sassaby.func('lab-distance').calledWithArgs('white', 'black'), 100);
+        shared.similar(sassaby.func('pf-color-distance').calledWithArgs('white', 'black'), 100);
       });
       it('d(white, red)', function() {
-        shared.similar(sassaby.func('lab-distance').calledWithArgs('white', 'red'), 114.55535);
+        shared.similar(sassaby.func('pf-color-distance').calledWithArgs('white', 'red'), 114.55535);
       });
       it('d(red, blue)', function() {
-        shared.similar(sassaby.func('lab-distance').calledWithArgs('red', 'blue'), 176.32554);
+        shared.similar(sassaby.func('pf-color-distance').calledWithArgs('red', 'blue'), 176.32554);
       });
       it('d(blue, red)', function() {
-        shared.similar(sassaby.func('lab-distance').calledWithArgs('blue', 'red'), 176.32554);
+        shared.similar(sassaby.func('pf-color-distance').calledWithArgs('blue', 'red'), 176.32554);
       });
     });
 
-    describe('lab-mix', function() {
+    describe('pf-mix', function() {
       it('white, white', function() {
-        sassaby.func('lab-mix').calledWithArgs('white', 'white').equals('white');
+        sassaby.func('pf-mix').calledWithArgs('white', 'white').equals('white');
       });
       it('black, white', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white').equals('#777');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white').equals('#777');
       });
       it('black, white, 0%', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '0%').equals('white');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '0%').equals('white');
       });
       it('black, white, 100%', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '100%').equals('black');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '100%').equals('black');
       });
       it('black, white, 20%', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '20%').equals('#c6c6c6');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '20%').equals('#c6c6c6');
       });
       it('black, white, .2', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '.2').equals('#c6c6c6');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '.2').equals('#c6c6c6');
       });
       it('blue, red', function() {
-        sassaby.func('lab-mix').calledWithArgs('blue', 'red').equals('#f40093');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red').equals('#f40093');
       });
       it('blue, red, 20%', function() {
-        sassaby.func('lab-mix').calledWithArgs('blue', 'red', '20%').equals('#ff0045');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '20%').equals('#ff0045');
       });
       it('green, red', function() {
-        sassaby.func('lab-mix').calledWithArgs('green', 'red').equals('#a76900');
+        sassaby.func('pf-mix').calledWithArgs('green', 'red').equals('#a76900');
       });
       it('yellow, blue', function() {
-        sassaby.func('lab-mix').calledWithArgs('yellow', 'blue').equals('#ff0079');
+        sassaby.func('pf-mix').calledWithArgs('yellow', 'blue').equals('#ff0079');
       });
       it('green, blue', function() {
-        sassaby.func('lab-mix').calledWithArgs('green', 'blue').equals('#0077fb');
+        sassaby.func('pf-mix').calledWithArgs('green', 'blue').equals('#0077fb');
       });
       it('white, blue', function() {
-        sassaby.func('lab-mix').calledWithArgs('white', 'blue').equals('#b38bff');
+        sassaby.func('pf-mix').calledWithArgs('white', 'blue').equals('#b38bff');
       });
     });
   });
@@ -166,105 +166,105 @@ describe('color', function() {
       });
     });
 
-    describe('lab-lightness', function() {
+    describe('pf-lightness', function() {
       it('white', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('white', 'luv'), 100);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('white', 'luv'), 100);
       });
       it('black', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('black', 'luv'), 0);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('black', 'luv'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('red', 'luv'), 53.23288);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('red', 'luv'), 53.23288);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('lab-lightness').calledWithArgs('blue', 'luv'), 32.30259);
+        shared.similar(sassaby.func('pf-lightness').calledWithArgs('blue', 'luv'), 32.30259);
       });
     });
 
-    describe('lab-chroma', function() {
+    describe('pf-chroma', function() {
       it('white', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('white', 'luv'), 0, 0.0001);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('white', 'luv'), 0, 0.0001);
       });
       it('black', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('black', 'luv'), 0);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('black', 'luv'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('red', 'luv'), 179.07872);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('red', 'luv'), 179.07872);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('lab-chroma').calledWithArgs('blue', 'luv'), 130.69138);
+        shared.similar(sassaby.func('pf-chroma').calledWithArgs('blue', 'luv'), 130.69138);
       });
     });
 
-    describe('lab-hue', function() {
+    describe('pf-hue', function() {
       it('white', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('white', 'luv'), 0);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('white', 'luv'), 0);
       });
       it('black', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('black', 'luv'), 0);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('black', 'luv'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('red', 'luv'), 0, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('red', 'luv'), 0, 1);
       });
       it('yellow', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('yellow', 'luv'), Math.PI * 0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow', 'luv'), Math.PI * 0.5, 1);
       });
       it('green', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('green', 'luv'), Math.PI, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('green', 'luv'), Math.PI, 1);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('lab-hue').calledWithArgs('blue', 'luv'), Math.PI * -0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue', 'luv'), Math.PI * -0.5, 1);
       });
     });
 
-    describe('lab-complement', function() {
+    describe('pf-complement', function() {
       it('white', function() {
-        sassaby.func('lab-complement').calledWithArgs('white', 'luv').equals('white');
+        sassaby.func('pf-complement').calledWithArgs('white', 'luv').equals('white');
       });
       it('red', function() {
-        sassaby.func('lab-complement').calledWithArgs('red', 'luv').equals('#00b8b8');
+        sassaby.func('pf-complement').calledWithArgs('red', 'luv').equals('#00b8b8');
       });
       it('yellow', function() {
-        sassaby.func('lab-complement').calledWithArgs('yellow', 'luv').equals('#eaeaff');
+        sassaby.func('pf-complement').calledWithArgs('yellow', 'luv').equals('#eaeaff');
       });
     });
 
-    describe('lab-mix', function() {
+    describe('pf-mix', function() {
       it('white, white', function() {
-        sassaby.func('lab-mix').calledWithArgs('white', 'white', '50%', 'luv').equals('white');
+        sassaby.func('pf-mix').calledWithArgs('white', 'white', '50%', 'luv').equals('white');
       });
       it('black, white', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '50%', 'luv').equals('#777');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '50%', 'luv').equals('#777');
       });
       it('black, white, 0%', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '0%', 'luv').equals('white');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '0%', 'luv').equals('white');
       });
       it('black, white, 100%', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '100%', 'luv').equals('black');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '100%', 'luv').equals('black');
       });
       it('black, white, 20%', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '20%', 'luv').equals('#c6c6c6');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '20%', 'luv').equals('#c6c6c6');
       });
       it('black, white, .2', function() {
-        sassaby.func('lab-mix').calledWithArgs('black', 'white', '.2', 'luv').equals('#c6c6c6');
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '.2', 'luv').equals('#c6c6c6');
       });
       it('blue, red', function() {
-        sassaby.func('lab-mix').calledWithArgs('blue', 'red', '50%', 'luv').equals('#f000b6');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '50%', 'luv').equals('#f000b6');
       });
       it('blue, red, 20%', function() {
-        sassaby.func('lab-mix').calledWithArgs('blue', 'red', '20%', 'luv').equals('#fc006e');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '20%', 'luv').equals('#fc006e');
       });
       it('green, red', function() {
-        sassaby.func('lab-mix').calledWithArgs('green', 'red', '50%', 'luv').equals('#bb6100');
+        sassaby.func('pf-mix').calledWithArgs('green', 'red', '50%', 'luv').equals('#bb6100');
       });
       it('yellow, blue', function() {
-        sassaby.func('lab-mix').calledWithArgs('yellow', 'blue', '50%', 'luv').equals('#ff53af');
+        sassaby.func('pf-mix').calledWithArgs('yellow', 'blue', '50%', 'luv').equals('#ff53af');
       });
       it('green, blue', function() {
-        sassaby.func('lab-mix').calledWithArgs('green', 'blue', '50%', 'luv').equals('#0079a6');
+        sassaby.func('pf-mix').calledWithArgs('green', 'blue', '50%', 'luv').equals('#0079a6');
       });
       it('white, blue', function() {
-        sassaby.func('lab-mix').calledWithArgs('white', 'blue', '50%', 'luv').equals('#9999e8');
+        sassaby.func('pf-mix').calledWithArgs('white', 'blue', '50%', 'luv').equals('#9999e8');
       });
     });
   });

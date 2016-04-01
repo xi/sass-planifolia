@@ -1,18 +1,15 @@
 ////
-/// This implements some color functions based on the L*a*b* colorspace.
+/// This module provides functions that can be used as drop-in replacements for
+/// some of the HSL based functions included in Sass.
 ///
-/// Many functions in this module use the LCh colorspace which is to L*a*b*
-/// what HSL is to RGB. However, LCh has two advantages over HSL: It is closer
-/// to human perception (though not as close as CIECAM02) and it is
-/// perceptually uniform.
+/// The implementations use sRGB for input colors (including the whitepoint
+/// D65) and converts them to CIELAB by default, but CIELUV or HSL are also
+/// possible.
 ///
-/// The provided functions can be used as drop-in replacements for some of the
-/// HSL based functions included in Sass.
+/// CIELAB and CIELUV both try to be close to  human perception, so they may
+/// give nicer results in many cases than simple RGB/HSL.
 ///
-/// This implementation uses sRGB for input colors (including the whitepoint
-/// D65) and converts them to CIELCh.
-///
-/// @group Lab
+/// @group color
 ////
 
 @function _planifolia-perc($x) {

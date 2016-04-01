@@ -198,4 +198,25 @@ describe('math', function() {
       shared.similar(sassaby.func('atan2').calledWithArgs('-1', '-1'), Math.atan2(-1, -1));
     });
   });
+
+  describe('bezier', function() {
+    it('bezier((0 0, 1 1), 0.5) == .5 .5', function() {
+      sassaby.func('bezier').calledWithArgs('(0 0, 1 1)', '0.5').equals('.5 .5');
+    });
+    it('bezier((0 0, .2 .2, 1 1), 0.5) == .35 .35', function() {
+      sassaby.func('bezier').calledWithArgs('(0 0, .2 .2, 1 1)', '0.5').equals('.35 .35');
+    });
+    it('bezier((0 0, .5 .2, 1 1), 0.5) == .5 .35', function() {
+      sassaby.func('bezier').calledWithArgs('(0 0, .5 .2, 1 1)', '0.5').equals('.5 .35');
+    });
+    it('bezier((0, 1), 0.5) == .5', function() {
+      sassaby.func('bezier').calledWithArgs('(0, 1)', '0.5').equals('.5');
+    });
+    it('bezier((0, 2), 0.5) == 1', function() {
+      sassaby.func('bezier').calledWithArgs('(0, 2)', '0.5').equals('1');
+    });
+    it('bezier((0 0 0, 1 1 1), 0.5) == .5 .5 .5', function() {
+      sassaby.func('bezier').calledWithArgs('(0 0 0, 1 1 1)', '0.5').equals('.5 .5 .5');
+    });
+  });
 });

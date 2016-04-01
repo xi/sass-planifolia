@@ -15,11 +15,11 @@
 /// @group Lab
 ////
 
-@function _perc($x) {
+@function _planifolia-perc($x) {
   @return if(unit($x) == '%', $x / 100%, $x);
 }
 
-@function _srgb-to-rgb($c) {
+@function _planifolia-srgb-to-rgb($c) {
   $c: $c / 255;
   @if $c <= .04045 {
     $c: $c / 12.92;
@@ -29,7 +29,7 @@
   @return $c * 100;
 }
 
-@function _rgb-to-srgb($c) {
+@function _planifolia-rgb-to-srgb($c) {
   $c: $c / 100;
   @if $c <= .0031308 {
     $c: $c * 12.92;
@@ -39,10 +39,10 @@
   @return $c * 255;
 }
 
-@function _to-xyz($color) {
-  $r: _srgb-to-rgb(red($color));
-  $g: _srgb-to-rgb(green($color));
-  $b: _srgb-to-rgb(blue($color));
+@function _planifolia-to-xyz($color) {
+  $r: _planifolia-srgb-to-rgb(red($color));
+  $g: _planifolia-srgb-to-rgb(green($color));
+  $b: _planifolia-srgb-to-rgb(blue($color));
 
   $x: .4124 * $r + .3576 * $g + .1805 * $b;
   $y: .2126 * $r + .7152 * $g + .0722 * $b;
@@ -51,19 +51,19 @@
   @return ($x, $y, $z);
 }
 
-@function _from-xyz($xyz) {
+@function _planifolia-from-xyz($xyz) {
   $r: 3.2406 * nth($xyz, 1) - 1.5372 * nth($xyz, 2) - .4986 * nth($xyz, 3);
   $g: -.9689 * nth($xyz, 1) + 1.8758 * nth($xyz, 2) + .0415 * nth($xyz, 3);
   $b: .0557 * nth($xyz, 1) - .204 * nth($xyz, 2) + 1.057 * nth($xyz, 3);
 
-  $r: _rgb-to-srgb($r);
-  $g: _rgb-to-srgb($g);
-  $b: _rgb-to-srgb($b);
+  $r: _planifolia-rgb-to-srgb($r);
+  $g: _planifolia-rgb-to-srgb($g);
+  $b: _planifolia-rgb-to-srgb($b);
 
   @return rgb($r, $g, $b);
 }
 
-@function _xyz-to-lab-f($t) {
+@function _planifolia-xyz-to-lab-f($t) {
   @if $t > 216 / 24389 {
     @return pow($t, 1/3);
   } @else {
@@ -71,12 +71,12 @@
   }
 }
 
-@function _xyz-to-lab($xyz) {
+@function _planifolia-xyz-to-lab($xyz) {
   $white: (95.05, 100, 108.9);
 
-  $x: _xyz-to-lab-f(nth($xyz, 1) / nth($white, 1));
-  $y: _xyz-to-lab-f(nth($xyz, 2) / nth($white, 2));
-  $z: _xyz-to-lab-f(nth($xyz, 3) / nth($white, 3));
+  $x: _planifolia-xyz-to-lab-f(nth($xyz, 1) / nth($white, 1));
+  $y: _planifolia-xyz-to-lab-f(nth($xyz, 2) / nth($white, 2));
+  $z: _planifolia-xyz-to-lab-f(nth($xyz, 3) / nth($white, 3));
 
   $l: 116 * $y - 16;
   $a: 500 * ($x - $y);
@@ -85,7 +85,7 @@
   @return ($l, $a, $b);
 }
 
-@function _lab-to-xyz-f($t) {
+@function _planifolia-lab-to-xyz-f($t) {
   @if $t > 6 / 29 {
     @return pow($t, 3);
   } @else {
@@ -93,19 +93,19 @@
   }
 }
 
-@function _lab-to-xyz($lab) {
+@function _planifolia-lab-to-xyz($lab) {
   $white: (95.05, 100, 108.9);
 
   $l: (nth($lab, 1) + 16) / 116;
 
-  $x: nth($white, 1) * _lab-to-xyz-f($l + nth($lab, 2) / 500);
-  $y: nth($white, 2) * _lab-to-xyz-f($l);
-  $z: nth($white, 3) * _lab-to-xyz-f($l - nth($lab, 3) / 200);
+  $x: nth($white, 1) * _planifolia-lab-to-xyz-f($l + nth($lab, 2) / 500);
+  $y: nth($white, 2) * _planifolia-lab-to-xyz-f($l);
+  $z: nth($white, 3) * _planifolia-lab-to-xyz-f($l - nth($lab, 3) / 200);
 
   @return ($x, $y, $z);
 }
 
-@function _lab-to-lch($lab) {
+@function _planifolia-lab-to-lch($lab) {
   $l: nth($lab, 1);
   $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
   $h: 0;
@@ -116,7 +116,7 @@
   @return ($l, $c, $h);
 }
 
-@function _lch-to-lab($lch) {
+@function _planifolia-lch-to-lab($lch) {
   $l: nth($lch, 1);
   $a: cos(nth($lch, 3)) * nth($lch, 2);
   $b: sin(nth($lch, 3)) * nth($lch, 2);
@@ -127,8 +127,10 @@
 /// @require pow
 /// @require sqrt
 /// @require atan2
-@function _to-lch($color) {
-  @return _lab-to-lch(_xyz-to-lab(_to-xyz($color)));
+@function _planifolia-to-lch($color) {
+  $xyz: _planifolia-to-xyz($color);
+  $lab: _planifolia-xyz-to-lab($xyz);
+  @return _planifolia-lab-to-lch($lab);
 }
 
 /// Create a color from lightness, chroma, and hue values.
@@ -145,7 +147,9 @@
 /// @require sin
 /// @require cos
 @function lch($lightness, $chroma, $hue) {
-  @return _from-xyz(_lab-to-xyz(_lch-to-lab(($lightness, $chroma, $hue))));
+  $lab: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
+  $xyz: _planifolia-lab-to-xyz($lab);
+  @return _planifolia-from-xyz($xyz);
 }
 
 /// Create a color from lightness, chroma, hue, and alpha values.
@@ -162,21 +166,21 @@
 /// @param {color} $color
 /// @return {number}
 @function lab-lightness($color) {
-  @return nth(_to-lch($color), 1);
+  @return nth(_planifolia-to-lch($color), 1);
 }
 
 /// Get the chroma component of a color.
 /// @param {color} $color
 /// @return {number}
 @function lab-chroma($color) {
-  @return nth(_to-lch($color), 2);
+  @return nth(_planifolia-to-lch($color), 2);
 }
 
 /// Get the hue component of a color.
 /// @param {color} $color
 /// @return {angle}
 @function lab-hue($color) {
-  @return nth(_to-lch($color), 3);
+  @return nth(_planifolia-to-lch($color), 3);
 }
 
 /// Increase or decrease one or more components of a color.
@@ -186,7 +190,7 @@
 /// @param {angle} $hue [0]
 /// @return {color}
 @function lab-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0) {
-  $lch: _to-lch($color);
+  $lch: _planifolia-to-lch($color);
 
   $l: nth($lch, 1) + $lightness;
   $c: nth($lch, 2) + $chroma;
@@ -202,7 +206,7 @@
 /// @param {angle} $hue [null]
 /// @return {color}
 @function lab-change-color($color, $lightness: null, $chroma: null, $hue: null) {
-  $lch: _to-lch($color);
+  $lch: _planifolia-to-lch($color);
 
   $l: if($lightness == null, nth($lch, 1), $lightness);
   $c: if($chroma == null, nth($lch, 2), $chroma);
@@ -278,10 +282,10 @@
 /// @param {color} $color1
 /// @param {color} $color2
 /// @return {number}
-/// @require _to-lch
+/// @require _planifolia-to-lch
 @function lab-distance($color1, $color2) {
-  $lab1: _xyz-to-lab(_to-xyz($color1));
-  $lab2: _xyz-to-lab(_to-xyz($color2));
+  $lab1: _planifolia-xyz-to-lab(_planifolia-to-xyz($color1));
+  $lab2: _planifolia-xyz-to-lab(_planifolia-to-xyz($color2));
 
   $x1: nth($lab1, 1) - nth($lab2, 1);
   $x2: nth($lab1, 2) - nth($lab2, 2);
@@ -290,8 +294,8 @@
   @return sqrt($x1 * $x1 + $x2 * $x2 + $x3 * $x3);
 }
 
-@function _lch-mix($lch1, $lch2, $weight) {
-  $w: _perc($weight);
+@function _planifolia-lch-mix($lch1, $lch2, $weight) {
+  $w: _planifolia-perc($weight);
 
   $l: nth($lch1, 1) * $w + nth($lch2, 1) * (1 - $w);
   $c: nth($lch1, 2) * $w + nth($lch2, 2) * (1 - $w);
@@ -321,10 +325,10 @@
 /// @param {number} $weight [50%]
 /// @return {color}
 @function lab-mix($color1, $color2, $weight: 50%) {
-  $lch1: _to-lch($color1);
-  $lch2: _to-lch($color2);
+  $lch1: _planifolia-to-lch($color1);
+  $lch2: _planifolia-to-lch($color2);
 
-  $lch: _lch-mix($lch1, $lch2, $weight);
+  $lch: _planifolia-lch-mix($lch1, $lch2, $weight);
 
   @return lch(nth($lch, 1), nth($lch, 2), nth($lch, 3));
 }

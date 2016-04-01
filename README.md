@@ -32,7 +32,7 @@ Import it in your Sass files:
 -   High performance math algorithms
 -   WCAG compatible [color
     contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
--   LCh based color functions
+-   CIELAB/CIELUV based color functions
 -   More functionality may be added on demand.
 -   Can be installed with bower. Npm (eyeglass) or rubygem support may be added
     on demand.

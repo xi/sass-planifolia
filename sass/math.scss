@@ -28,6 +28,20 @@ $planifolia-math-steps-default: 32 !default;
   @return 3.141592653589793;
 }
 
+@function _planifolia-angle-to-rad($x) {
+  @if unit($x) == 'deg' {
+    @return $x / 180deg * pi();
+  } @else if unit($x) == 'grad' {
+    @return $x / 200grad * pi();
+  } @else if unit($x) == 'rad' {
+    @return $x / 1rad;
+  } @else if unit($x) == 'turn' {
+    @return $x / .5turn * pi();
+  } @else {
+    @return $x;
+  }
+}
+
 @function _planifolia-exp-taylor-0($x, $steps) {
   $item: 1;
   $result: 1;
@@ -166,6 +180,8 @@ $planifolia-math-steps-default: 32 !default;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function sin($x, $steps: $planifolia-math-steps-default) {
+  $x: _planifolia-angle-to-rad($x);
+
   @if $x > 2 * pi() {
     $x: $x % (2 * pi());
   }

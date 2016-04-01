@@ -88,6 +88,9 @@ describe('math', function() {
     it('sin(-1)', function() {
       shared.similar(sassaby.func('sin').calledWithArgs('-1'), Math.sin(-1));
     });
+    it('sin(270deg) == -1', function() {
+      sassaby.func('sin').calledWithArgs('270deg').equals('-1');
+    });
   });
 
   describe('cos', function() {

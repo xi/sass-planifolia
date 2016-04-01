@@ -227,30 +227,34 @@
 /// @param {number} $chroma
 /// @param {angle} $hue
 /// @param {number} $alpha
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lcha($lightness, $chroma, $hue, $alpha) {
-  @return rgba(lch($lightness, $chroma, $hue), $alpha);
+@function lcha($lightness, $chroma, $hue, $alpha, $colorspace: 'lab') {
+  @return rgba(lch($lightness, $chroma, $hue, $colorspace), $alpha);
 }
 
 /// Get the lightness component of a color.
 /// @param {color} $color
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {number}
-@function lab-lightness($color) {
-  @return nth(_planifolia-to-lch($color), 1);
+@function lab-lightness($color, $colorspace: 'lab') {
+  @return nth(_planifolia-to-lch($color, $colorspace), 1);
 }
 
 /// Get the chroma component of a color.
 /// @param {color} $color
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {number}
-@function lab-chroma($color) {
-  @return nth(_planifolia-to-lch($color), 2);
+@function lab-chroma($color, $colorspace: 'lab') {
+  @return nth(_planifolia-to-lch($color, $colorspace), 2);
 }
 
 /// Get the hue component of a color.
 /// @param {color} $color
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {angle}
-@function lab-hue($color) {
-  @return nth(_planifolia-to-lch($color), 3);
+@function lab-hue($color, $colorspace: 'lab') {
+  @return nth(_planifolia-to-lch($color, $colorspace), 3);
 }
 
 /// Increase or decrease one or more components of a color.
@@ -258,15 +262,16 @@
 /// @param {number} $lightness [0]
 /// @param {number} $chroma [0]
 /// @param {angle} $hue [0]
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0) {
-  $lch: _planifolia-to-lch($color);
+@function lab-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0, $colorspace: 'lab') {
+  $lch: _planifolia-to-lch($color, $colorspace);
 
   $l: nth($lch, 1) + $lightness;
   $c: nth($lch, 2) + $chroma;
   $h: nth($lch, 3) + $hue;
 
-  @return lch($l, $c, $h);
+  @return lch($l, $c, $h, $colorspace);
 }
 
 /// Change one or more properties of a color.
@@ -274,78 +279,88 @@
 /// @param {number} $lightness [null]
 /// @param {number} $chroma [null]
 /// @param {angle} $hue [null]
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-change-color($color, $lightness: null, $chroma: null, $hue: null) {
-  $lch: _planifolia-to-lch($color);
+@function lab-change-color($color, $lightness: null, $chroma: null, $hue: null, $colorspace: 'lab') {
+  $lch: _planifolia-to-lch($color, $colorspace);
 
   $l: if($lightness == null, nth($lch, 1), $lightness);
   $c: if($chroma == null, nth($lch, 2), $chroma);
   $h: if($hue == null, nth($lch, 3), $hue);
 
-  @return lch($l, $c, $h);
+  @return lch($l, $c, $h, $colorspace);
 }
 
 /// @param {color} $color
 /// @param {number} $angle
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-adjust-hue($color, $angle) {
-  @return lab-adjust-color($color, $hue: $angle);
+@function lab-adjust-hue($color, $angle, $colorspace: 'lab') {
+  @return lab-adjust-color($color, $hue: $angle, $colorspace: $colorspace);
 }
 
 /// @param {color} $color
 /// @param {number} $amount
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-lighten($color, $amount) {
-  @return lab-adjust-color($color, $lightness: $amount);
+@function lab-lighten($color, $amount, $colorspace: 'lab') {
+  @return lab-adjust-color($color, $lightness: $amount, $colorspace: $colorspace);
 }
 
 /// @param {color} $color
 /// @param {number} $amount
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-darken($color, $amount) {
-  @return lab-adjust-color($color, $lightness: -$amount);
+@function lab-darken($color, $amount, $colorspace: 'lab') {
+  @return lab-adjust-color($color, $lightness: -$amount, $colorspace: $colorspace);
 }
 
 /// @param {color} $color
 /// @param {number} $weight
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-tint($color, $weight) {
-  @return lab-mix(white, $color, $weight);
+@function lab-tint($color, $weight, $colorspace: 'lab') {
+  @return lab-mix(white, $color, $weight, $colorspace);
 }
 
 /// @param {color} $color
 /// @param {number} $weight
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-shade($color, $weight) {
-  @return lab-mix(black, $color, $weight);
+@function lab-shade($color, $weight, $colorspace: 'lab') {
+  @return lab-mix(black, $color, $weight, $colorspace);
 }
 
 /// @param {color} $color
 /// @param {number} $amount
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-saturate($color, $amount) {
-  @return lab-adjust-color($color, $chroma: $amount);
+@function lab-saturate($color, $amount, $colorspace: 'lab') {
+  @return lab-adjust-color($color, $chroma: $amount, $colorspace: $colorspace);
 }
 
 /// @param {color} $color
 /// @param {number} $amount
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-desaturate($color, $amount) {
-  @return lab-adjust-color($color, $chroma: -$amount);
+@function lab-desaturate($color, $amount, $colorspace: 'lab') {
+  @return lab-adjust-color($color, $chroma: -$amount, $colorspace: $colorspace);
 }
 
 /// @param {color} $color
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
 /// @require pi
-@function lab-complement($color) {
-  @return lab-adjust-hue($color, pi() * 1rad);
+@function lab-complement($color, $colorspace: 'lab') {
+  @return lab-adjust-hue($color, pi() * 1rad, $colorspace);
 }
 
 /// @param {color} $color
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
 /// @require pi
-@function lab-grayscale($color) {
-  @return lab-change-color($color, $chroma: 0);
+@function lab-grayscale($color, $colorspace: 'lab') {
+  @return lab-change-color($color, $chroma: 0, $colorspace: $colorspace);
 }
 
 /// Get the euclidean distance between two colors.
@@ -393,12 +408,13 @@
 /// @param {color} $color1
 /// @param {color} $color2
 /// @param {number} $weight [50%]
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lab-mix($color1, $color2, $weight: 50%) {
-  $lch1: _planifolia-to-lch($color1);
-  $lch2: _planifolia-to-lch($color2);
+@function lab-mix($color1, $color2, $weight: 50%, $colorspace: 'lab') {
+  $lch1: _planifolia-to-lch($color1, $colorspace);
+  $lch2: _planifolia-to-lch($color2, $colorspace);
 
   $lch: _planifolia-lch-mix($lch1, $lch2, $weight);
 
-  @return lch(nth($lch, 1), nth($lch, 2), nth($lch, 3));
+  @return lch(nth($lch, 1), nth($lch, 2), nth($lch, 3), $colorspace);
 }

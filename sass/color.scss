@@ -268,7 +268,7 @@
   $c: nth($lch, 2) + $chroma;
   $h: nth($lch, 3) + $hue;
 
-  @return lch($l, $c, $h, $colorspace);
+  @return lcha($l, $c, $h, alpha($color), $colorspace);
 }
 
 /// Change one or more properties of a color.
@@ -285,7 +285,7 @@
   $c: if($chroma == null, nth($lch, 2), $chroma);
   $h: if($hue == null, nth($lch, 3), $hue);
 
-  @return lch($l, $c, $h, $colorspace);
+  @return lcha($l, $c, $h, alpha($color), $colorspace);
 }
 
 /// @param {color} $color

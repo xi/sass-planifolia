@@ -110,7 +110,7 @@
   $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
   $h: 0;
   @if abs(nth($lab, 2)) > .0001 or abs(nth($lab, 3)) > .0001 {
-    $h: atan2(nth($lab, 3), nth($lab, 2));
+    $h: atan2(nth($lab, 3), nth($lab, 2)) * 1rad;
   }
 
   @return ($l, $c, $h);
@@ -138,7 +138,7 @@
 ///
 /// @param {number} $lightness 0 .. 100
 /// @param {number} $chroma 0 .. ca. 140
-/// @param {number} $hue in unitless radian
+/// @param {angle} $hue
 /// @return {color}
 ///
 /// @require pow
@@ -151,7 +151,7 @@
 /// Create a color from lightness, chroma, hue, and alpha values.
 /// @param {number} $lightness
 /// @param {number} $chroma
-/// @param {number} $hue
+/// @param {angle} $hue
 /// @param {number} $alpha
 /// @return {color}
 @function lcha($lightness, $chroma, $hue, $alpha) {
@@ -174,7 +174,7 @@
 
 /// Get the hue component of a color.
 /// @param {color} $color
-/// @return {number}
+/// @return {angle}
 @function lab-hue($color) {
   @return nth(_to-lch($color), 3);
 }
@@ -183,7 +183,7 @@
 /// @param {color} $color
 /// @param {number} $lightness [0]
 /// @param {number} $chroma [0]
-/// @param {number} $hue [0]
+/// @param {angle} $hue [0]
 /// @return {color}
 @function lab-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0) {
   $lch: _to-lch($color);
@@ -199,7 +199,7 @@
 /// @param {color} $color
 /// @param {number} $lightness [null]
 /// @param {number} $chroma [null]
-/// @param {number} $hue [null]
+/// @param {angle} $hue [null]
 /// @return {color}
 @function lab-change-color($color, $lightness: null, $chroma: null, $hue: null) {
   $lch: _to-lch($color);
@@ -212,10 +212,10 @@
 }
 
 /// @param {color} $color
-/// @param {number} $degrees
+/// @param {number} $angle
 /// @return {color}
-@function lab-adjust-hue($color, $degrees) {
-  @return lab-adjust-color($color, $hue: $degrees);
+@function lab-adjust-hue($color, $angle) {
+  @return lab-adjust-color($color, $hue: $angle);
 }
 
 /// @param {color} $color
@@ -264,7 +264,7 @@
 /// @return {color}
 /// @require pi
 @function lab-complement($color) {
-  @return lab-adjust-hue($color, pi());
+  @return lab-adjust-hue($color, pi() * 1rad);
 }
 
 /// @param {color} $color
@@ -307,8 +307,8 @@
   $h1: nth($lch1, 3);
   $h2: nth($lch2, 3);
 
-  @while abs($h2 - $h1) > pi() {
-    $h1: $h1 + if($h1 < $h2, 2, -2) * pi();
+  @while abs($h2 - $h1) > pi() * 1rad {
+    $h1: $h1 + if($h1 < $h2, 2, -2) * pi() * 1rad;
   }
 
   $h: ($h1 * $w1 + $h2 * $w2) / ($w1 + $w2);

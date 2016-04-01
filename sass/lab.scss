@@ -105,6 +105,53 @@
   @return ($x, $y, $z);
 }
 
+@function _planifolia-xyz-to-yuuvv($xyz) {
+  $a: nth($xyz, 1) + 15 * nth($xyz, 2) + 3 * nth($xyz, 3);
+  $uu: if($a == 0, 0, 4 * nth($xyz, 1) / $a);
+  $vv: if($a == 0, 0, 9 * nth($xyz, 2) / $a);
+  @return (nth($xyz, 2), $uu, $vv);
+}
+
+@function _planifolia-yuuvv-to-xyz($yuuvv) {
+  $y: nth($yuuvv, 1);
+  $uu: nth($yuuvv, 2);
+  $vv: nth($yuuvv, 3);
+
+  $x: if($vv == 0, 0, $y * (9 * $uu) / (4 * $vv));
+  $z: if($vv == 0, 0, $y * (12 - 3 * $uu - 20 * $vv) / (4 * $vv));
+
+  @return ($x, $y, $z);
+}
+
+@function _planifolia-xyz-to-luv($xyz) {
+  $white: _planifolia-xyz-to-yuuvv((95.05, 100, 108.9));
+  $yuuvv: _planifolia-xyz-to-yuuvv($xyz);
+
+  $y: nth($yuuvv, 1) / nth($white, 1);
+  $l: if($y > 216 / 24389, 116 * pow($y, 1 / 3) - 16, 24389 / 27 * $y);
+
+  $u: 13 * $l * (nth($yuuvv, 2) - nth($white, 2));
+  $v: 13 * $l * (nth($yuuvv, 3) - nth($white, 3));
+
+  @return ($l, $u, $v);
+}
+
+@function _planifolia-luv-to-xyz($luv) {
+  $white: _planifolia-xyz-to-yuuvv((95.05, 100, 108.9));
+
+  $uu: if(nth($luv, 1) == 0, 0, nth($luv, 2) / (13 * nth($luv, 1)) + nth($white, 2));
+  $vv: if(nth($luv, 1) == 0, 0, nth($luv, 3) / (13 * nth($luv, 1)) + nth($white, 3));
+
+  $y: nth($white, 1);
+  @if nth($luv, 1) > 8 {
+    $y: $y * pow((nth($luv, 1) + 16) / 116, 3);
+  } @else {
+    $y: $y * nth($luv, 1) * 27 / 24389;
+  }
+
+  @return _planifolia-yuuvv-to-xyz(($y, $uu, $vv));
+}
+
 @function _planifolia-lab-to-lch($lab) {
   $l: nth($lab, 1);
   $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));

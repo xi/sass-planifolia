@@ -174,10 +174,21 @@
 /// @require pow
 /// @require sqrt
 /// @require atan2
-@function _planifolia-to-lch($color) {
-  $xyz: _planifolia-to-xyz($color);
-  $lab: _planifolia-xyz-to-lab($xyz);
-  @return _planifolia-lab-to-lch($lab);
+@function _planifolia-to-lch($color, $colorspace: 'lab') {
+  @if $colorspace == 'lab' {
+    $xyz: _planifolia-to-xyz($color);
+    $lab: _planifolia-xyz-to-lab($xyz);
+    @return _planifolia-lab-to-lch($lab);
+  } @else if $colorspace == 'luv' {
+    $xyz: _planifolia-to-xyz($color);
+    $luv: _planifolia-xyz-to-luv($xyz);
+    @return _planifolia-lab-to-lch($luv);
+  } @else if $colorspace == 'hsl' {
+    $chroma: saturation($color) * lightness($color) / 100%;
+    @return (lightness($color) / 1%, $chroma / 1%, hue($color));
+  } @else {
+    @error 'unknown colorspace: #{$colorspace}';
+  }
 }
 
 /// Create a color from lightness, chroma, and hue values.
@@ -188,15 +199,27 @@
 /// @param {number} $lightness 0 .. 100
 /// @param {number} $chroma 0 .. ca. 140
 /// @param {angle} $hue
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
 ///
 /// @require pow
 /// @require sin
 /// @require cos
-@function lch($lightness, $chroma, $hue) {
-  $lab: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
-  $xyz: _planifolia-lab-to-xyz($lab);
-  @return _planifolia-from-xyz($xyz);
+@function lch($lightness, $chroma, $hue, $colorspace: 'lab') {
+  @if $colorspace == 'lab' {
+    $lab: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
+    $xyz: _planifolia-lab-to-xyz($lab);
+    @return _planifolia-from-xyz($xyz);
+  } @else if $colorspace == 'luv' {
+    $luv: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
+    $xyz: _planifolia-luv-to-xyz($luv);
+    @return _planifolia-from-xyz($xyz);
+  } @else if $colorspace == 'hsl' {
+    $saturation: if($lightness == 0, 0, $chroma / $lightness * 100);
+    @return hsl($hue, $saturation * 1%, $lightness * 1%);
+  } @else {
+    @error 'unknown colorspace: #{$colorspace}';
+  }
 }
 
 /// Create a color from lightness, chroma, hue, and alpha values.

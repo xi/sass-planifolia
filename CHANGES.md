@@ -1,3 +1,13 @@
+0.2.0 (2016-04-01)
+------------------
+
+- `$pi` has been converted to a function `pi()` for better compass
+  compatibility.
+- Add inverse trigonometric functions, including `atan2()`.
+- Allow angles as input to trig functions.
+- Add a generic bezier interpolation.
+- Add CIELAB/CIELUV based color functions.
+
 0.1.2 (2016-03-10)
 ------------------
 

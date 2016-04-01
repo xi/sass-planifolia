@@ -2,8 +2,8 @@ var path = require('path');
 var Sassaby = require('sassaby');
 var shared = require('./shared');
 
-describe('lab', function() {
-  var file = path.resolve(__dirname, '../sass/lab.scss');
+describe('color', function() {
+  var file = path.resolve(__dirname, '../sass/color.scss');
   var sassaby = new Sassaby(file, {
     dependencies: [
       path.resolve(__dirname, '../sass/math.scss')

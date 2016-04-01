@@ -12,6 +12,9 @@
 /// @group color
 ////
 
+/// @type string
+$planifolia-colorspace: 'lab' !default;
+
 @function _planifolia-perc($x) {
   @return if(unit($x) == '%', $x / 100%, $x);
 }
@@ -171,7 +174,7 @@
 /// @require pow
 /// @require sqrt
 /// @require atan2
-@function _planifolia-to-lch($color, $colorspace: 'lab') {
+@function _planifolia-to-lch($color, $colorspace: $planifolia-colorspace) {
   @if $colorspace == 'lab' {
     $xyz: _planifolia-to-xyz($color);
     $lab: _planifolia-xyz-to-lab($xyz);
@@ -202,7 +205,7 @@
 /// @require pow
 /// @require sin
 /// @require cos
-@function lch($lightness, $chroma, $hue, $colorspace: 'lab') {
+@function lch($lightness, $chroma, $hue, $colorspace: $planifolia-colorspace) {
   @if $colorspace == 'lab' {
     $lab: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
     $xyz: _planifolia-lab-to-xyz($lab);
@@ -226,7 +229,7 @@
 /// @param {number} $alpha
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function lcha($lightness, $chroma, $hue, $alpha, $colorspace: 'lab') {
+@function lcha($lightness, $chroma, $hue, $alpha, $colorspace: $planifolia-colorspace) {
   @return rgba(lch($lightness, $chroma, $hue, $colorspace), $alpha);
 }
 
@@ -234,7 +237,7 @@
 /// @param {color} $color
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {number}
-@function pf-lightness($color, $colorspace: 'lab') {
+@function pf-lightness($color, $colorspace: $planifolia-colorspace) {
   @return nth(_planifolia-to-lch($color, $colorspace), 1);
 }
 
@@ -242,7 +245,7 @@
 /// @param {color} $color
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {number}
-@function pf-chroma($color, $colorspace: 'lab') {
+@function pf-chroma($color, $colorspace: $planifolia-colorspace) {
   @return nth(_planifolia-to-lch($color, $colorspace), 2);
 }
 
@@ -250,7 +253,7 @@
 /// @param {color} $color
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {angle}
-@function pf-hue($color, $colorspace: 'lab') {
+@function pf-hue($color, $colorspace: $planifolia-colorspace) {
   @return nth(_planifolia-to-lch($color, $colorspace), 3);
 }
 
@@ -261,7 +264,7 @@
 /// @param {angle} $hue [0]
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0, $colorspace: 'lab') {
+@function pf-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0, $colorspace: $planifolia-colorspace) {
   $lch: _planifolia-to-lch($color, $colorspace);
 
   $l: nth($lch, 1) + $lightness;
@@ -278,7 +281,7 @@
 /// @param {angle} $hue [null]
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-change-color($color, $lightness: null, $chroma: null, $hue: null, $colorspace: 'lab') {
+@function pf-change-color($color, $lightness: null, $chroma: null, $hue: null, $colorspace: $planifolia-colorspace) {
   $lch: _planifolia-to-lch($color, $colorspace);
 
   $l: if($lightness == null, nth($lch, 1), $lightness);
@@ -292,7 +295,7 @@
 /// @param {number} $angle
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-adjust-hue($color, $angle, $colorspace: 'lab') {
+@function pf-adjust-hue($color, $angle, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $hue: $angle, $colorspace: $colorspace);
 }
 
@@ -300,7 +303,7 @@
 /// @param {number} $amount
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-lighten($color, $amount, $colorspace: 'lab') {
+@function pf-lighten($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $lightness: $amount, $colorspace: $colorspace);
 }
 
@@ -308,7 +311,7 @@
 /// @param {number} $amount
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-darken($color, $amount, $colorspace: 'lab') {
+@function pf-darken($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $lightness: -$amount, $colorspace: $colorspace);
 }
 
@@ -316,7 +319,7 @@
 /// @param {number} $weight
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-tint($color, $weight, $colorspace: 'lab') {
+@function pf-tint($color, $weight, $colorspace: $planifolia-colorspace) {
   @return pf-mix(white, $color, $weight, $colorspace);
 }
 
@@ -324,7 +327,7 @@
 /// @param {number} $weight
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-shade($color, $weight, $colorspace: 'lab') {
+@function pf-shade($color, $weight, $colorspace: $planifolia-colorspace) {
   @return pf-mix(black, $color, $weight, $colorspace);
 }
 
@@ -332,7 +335,7 @@
 /// @param {number} $amount
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-saturate($color, $amount, $colorspace: 'lab') {
+@function pf-saturate($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $chroma: $amount, $colorspace: $colorspace);
 }
 
@@ -340,7 +343,7 @@
 /// @param {number} $amount
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-desaturate($color, $amount, $colorspace: 'lab') {
+@function pf-desaturate($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $chroma: -$amount, $colorspace: $colorspace);
 }
 
@@ -348,7 +351,7 @@
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
 /// @require pi
-@function pf-complement($color, $colorspace: 'lab') {
+@function pf-complement($color, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-hue($color, pi() * 1rad, $colorspace);
 }
 
@@ -356,7 +359,7 @@
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
 /// @require pi
-@function pf-grayscale($color, $colorspace: 'lab') {
+@function pf-grayscale($color, $colorspace: $planifolia-colorspace) {
   @return pf-change-color($color, $chroma: 0, $colorspace: $colorspace);
 }
 
@@ -407,7 +410,7 @@
 /// @param {number} $weight [50%]
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
 /// @return {color}
-@function pf-mix($color1, $color2, $weight: 50%, $colorspace: 'lab') {
+@function pf-mix($color1, $color2, $weight: 50%, $colorspace: $planifolia-colorspace) {
   $lch1: _planifolia-to-lch($color1, $colorspace);
   $lch2: _planifolia-to-lch($color2, $colorspace);
 

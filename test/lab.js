@@ -125,6 +125,9 @@ describe('lab', function() {
     it('black, white, 20%', function() {
       sassaby.func('lab-mix').calledWithArgs('black', 'white', '20%').equals('#c6c6c6');
     });
+    it('black, white, .2', function() {
+      sassaby.func('lab-mix').calledWithArgs('black', 'white', '.2').equals('#c6c6c6');
+    });
     it('blue, red', function() {
       sassaby.func('lab-mix').calledWithArgs('blue', 'red').equals('#f40093');
     });

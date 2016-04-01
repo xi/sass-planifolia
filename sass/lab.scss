@@ -15,6 +15,10 @@
 /// @group Lab
 ////
 
+@function _perc($x) {
+  @return if(unit($x) == '%', $x / 100%, $x);
+}
+
 @function _srgb-to-rgb($c) {
   $c: $c / 255;
   @if $c <= .04045 {
@@ -287,11 +291,13 @@
 }
 
 @function _lch-mix($lch1, $lch2, $weight) {
-  $l: nth($lch1, 1) * $weight + nth($lch2, 1) * (1 - $weight);
-  $c: nth($lch1, 2) * $weight + nth($lch2, 2) * (1 - $weight);
+  $w: _perc($weight);
 
-  $w1: $weight * nth($lch1, 2);
-  $w2: (1 - $weight) * nth($lch2, 2);
+  $l: nth($lch1, 1) * $w + nth($lch2, 1) * (1 - $w);
+  $c: nth($lch1, 2) * $w + nth($lch2, 2) * (1 - $w);
+
+  $w1: $w * nth($lch1, 2);
+  $w2: (1 - $w) * nth($lch2, 2);
 
   @if ($w1 == 0 and $w2 == 0) {
     $w1: .5;
@@ -318,7 +324,7 @@
   $lch1: _to-lch($color1);
   $lch2: _to-lch($color2);
 
-  $lch: _lch-mix($lch1, $lch2, $weight / 100%);
+  $lch: _lch-mix($lch1, $lch2, $weight);
 
   @return lch(nth($lch, 1), nth($lch, 2), nth($lch, 3));
 }

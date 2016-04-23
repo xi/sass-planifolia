@@ -103,6 +103,9 @@ describe('math', function() {
     it('cos(-2)', function() {
       shared.similar(sassaby.func('cos').calledWithArgs('-2'), Math.cos(-2));
     });
+    it('cos(270deg) == 0', function() {
+      sassaby.func('cos').calledWithArgs('270deg').equals('0');
+    });
   });
 
   describe('tan', function() {
@@ -117,6 +120,9 @@ describe('math', function() {
     });
     it('tan(12345678.9)', function() {
       shared.similar(sassaby.func('tan').calledWithArgs('12345678.9'), Math.tan(12345678.9));
+    });
+    it('tan(45deg) == tan(pi() / 4)', function() {
+      shared.similar(sassaby.func('tan').calledWithArgs('45deg'), Math.tan(Math.PI / 4));
     });
   });
 

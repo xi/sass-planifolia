@@ -198,6 +198,7 @@ $planifolia-math-steps-default: 32 !default;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function cos($x, $steps: $planifolia-math-steps-default) {
+  $x: _planifolia-angle-to-rad($x);
   @return sin($x + pi() / 2, $steps);
 }
 

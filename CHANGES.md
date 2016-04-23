@@ -1,3 +1,10 @@
+0.2.1 (2016-04-23)
+------------------
+
+- math: Fix angles as input to `cos()` and `tan()`
+- color: make default colorspace configurable
+- color: add YUV colorspace
+
 0.2.0 (2016-04-01)
 ------------------
 

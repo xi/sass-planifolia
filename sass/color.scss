@@ -3,8 +3,8 @@
 /// some of the HSL based functions included in Sass.
 ///
 /// The implementations use sRGB for input colors (including the whitepoint
-/// D65) and converts them to CIELAB by default, but CIELUV or HSL are also
-/// possible.
+/// D65) and converts them to CIELAB by default, but CIELUV, HSL or YUV are
+/// also possible.
 ///
 /// CIELAB and CIELUV both try to be close to  human perception, so they may
 /// give nicer results in many cases than simple RGB/HSL.
@@ -59,6 +59,30 @@ $planifolia-colorspace: 'lab' !default;
   $r: _planifolia-rgb-to-srgb($r);
   $g: _planifolia-rgb-to-srgb($g);
   $b: _planifolia-rgb-to-srgb($b);
+
+  @return rgb($r, $g, $b);
+}
+
+@function _planifolia-to-yuv($color) {
+  $r: _planifolia-srgb-to-rgb(red($color));
+  $g: _planifolia-srgb-to-rgb(green($color));
+  $b: _planifolia-srgb-to-rgb(blue($color));
+
+  $y: 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+  $u: -0.09991 * $r + -0.33609 * $g + 0.436 * $b;
+  $v: 0.615 * $r + -0.55861 * $g + -0.05639 * $b;
+
+  @return ($y, $v, -$u);
+}
+
+@function _planifolia-from-yuv($yuv) {
+  $y: nth($yuv, 1);
+  $v: nth($yuv, 2);
+  $u: -1 * nth($yuv, 3);
+
+  $r: _planifolia-rgb-to-srgb($y + 1.28033 * $v);
+  $g: _planifolia-rgb-to-srgb($y + -0.21482 * $u + -0.38059 * $v);
+  $b: _planifolia-rgb-to-srgb($y + 2.12798 * $u);
 
   @return rgb($r, $g, $b);
 }
@@ -186,6 +210,9 @@ $planifolia-colorspace: 'lab' !default;
   } @else if $colorspace == 'hsl' {
     $chroma: saturation($color) * lightness($color) / 100%;
     @return (lightness($color) / 1%, $chroma / 1%, hue($color));
+  } @else if $colorspace == 'yuv' {
+    $yuv: _planifolia-to-yuv($color);
+    @return _planifolia-lab-to-lch($yuv);
   } @else {
     @error 'unknown colorspace: #{$colorspace}';
   }
@@ -199,7 +226,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {number} $lightness 0 .. 100
 /// @param {number} $chroma 0 .. ca. 140
 /// @param {angle} $hue
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 ///
 /// @require pow
@@ -217,6 +244,9 @@ $planifolia-colorspace: 'lab' !default;
   } @else if $colorspace == 'hsl' {
     $saturation: if($lightness == 0, 0, $chroma / $lightness * 100);
     @return hsl($hue, $saturation * 1%, $lightness * 1%);
+  } @else if $colorspace == 'yuv' {
+    $yuv: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
+    @return _planifolia-from-yuv($yuv);
   } @else {
     @error 'unknown colorspace: #{$colorspace}';
   }
@@ -227,7 +257,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {number} $chroma
 /// @param {angle} $hue
 /// @param {number} $alpha
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function lcha($lightness, $chroma, $hue, $alpha, $colorspace: $planifolia-colorspace) {
   @return rgba(lch($lightness, $chroma, $hue, $colorspace), $alpha);
@@ -235,7 +265,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// Get the lightness component of a color.
 /// @param {color} $color
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {number}
 @function pf-lightness($color, $colorspace: $planifolia-colorspace) {
   @return nth(_planifolia-to-lch($color, $colorspace), 1);
@@ -243,7 +273,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// Get the chroma component of a color.
 /// @param {color} $color
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {number}
 @function pf-chroma($color, $colorspace: $planifolia-colorspace) {
   @return nth(_planifolia-to-lch($color, $colorspace), 2);
@@ -251,7 +281,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// Get the hue component of a color.
 /// @param {color} $color
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {angle}
 @function pf-hue($color, $colorspace: $planifolia-colorspace) {
   @return nth(_planifolia-to-lch($color, $colorspace), 3);
@@ -262,7 +292,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {number} $lightness [0]
 /// @param {number} $chroma [0]
 /// @param {angle} $hue [0]
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0, $colorspace: $planifolia-colorspace) {
   $lch: _planifolia-to-lch($color, $colorspace);
@@ -279,7 +309,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {number} $lightness [null]
 /// @param {number} $chroma [null]
 /// @param {angle} $hue [null]
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-change-color($color, $lightness: null, $chroma: null, $hue: null, $colorspace: $planifolia-colorspace) {
   $lch: _planifolia-to-lch($color, $colorspace);
@@ -293,7 +323,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// @param {color} $color
 /// @param {number} $angle
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-adjust-hue($color, $angle, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $hue: $angle, $colorspace: $colorspace);
@@ -301,7 +331,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// @param {color} $color
 /// @param {number} $amount
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-lighten($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $lightness: $amount, $colorspace: $colorspace);
@@ -309,7 +339,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// @param {color} $color
 /// @param {number} $amount
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-darken($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $lightness: -$amount, $colorspace: $colorspace);
@@ -317,7 +347,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// @param {color} $color
 /// @param {number} $weight
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-tint($color, $weight, $colorspace: $planifolia-colorspace) {
   @return pf-mix(white, $color, $weight, $colorspace);
@@ -325,7 +355,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// @param {color} $color
 /// @param {number} $weight
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-shade($color, $weight, $colorspace: $planifolia-colorspace) {
   @return pf-mix(black, $color, $weight, $colorspace);
@@ -333,7 +363,7 @@ $planifolia-colorspace: 'lab' !default;
 
 /// @param {color} $color
 /// @param {number} $amount
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-saturate($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $chroma: $amount, $colorspace: $colorspace);
@@ -341,14 +371,14 @@ $planifolia-colorspace: 'lab' !default;
 
 /// @param {color} $color
 /// @param {number} $amount
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-desaturate($color, $amount, $colorspace: $planifolia-colorspace) {
   @return pf-adjust-color($color, $chroma: -$amount, $colorspace: $colorspace);
 }
 
 /// @param {color} $color
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 /// @require pi
 @function pf-complement($color, $colorspace: $planifolia-colorspace) {
@@ -356,7 +386,7 @@ $planifolia-colorspace: 'lab' !default;
 }
 
 /// @param {color} $color
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 /// @require pi
 @function pf-grayscale($color, $colorspace: $planifolia-colorspace) {
@@ -408,7 +438,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {color} $color1
 /// @param {color} $color2
 /// @param {number} $weight [50%]
-/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl'
+/// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-mix($color1, $color2, $weight: 50%, $colorspace: $planifolia-colorspace) {
   $lch1: _planifolia-to-lch($color1, $colorspace);

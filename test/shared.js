@@ -10,6 +10,30 @@ var similar = function(result, actual, threshold) {
   assert(Math.abs(value - actual) < threshold, message);
 };
 
+var declares = function(result, key, value) {
+  var rules = result.css.split(/[{};]/);
+  var found = false;
+  var values = [];
+
+  for (var i = 0; i < rules.length; i++) {
+    var rule = rules[i].split(':');
+
+    if (rule.length == 2 && rule[0] == key) {
+      values.push(rule[1]);
+
+      if (rule[1] == value) {
+        found = true;
+        break;
+      }
+    }
+  }
+
+  var message = 'Rule "' + key + ': ' + value + '" could not be found.'
+  message += ' Other values for this key: ' + values.join(', ');
+  assert(found, message);
+};
+
 module.exports = {
-  similar: similar
+  similar: similar,
+  declares: declares,
 };

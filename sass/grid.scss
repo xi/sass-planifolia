@@ -97,7 +97,7 @@ $grid: (
   }
 }
 
-@function _grid-width-calc($w, $gutter, $settings) {
+@function _grid-width-mixed($w, $gutter, $settings) {
   $gutter-position: _grid-get('gutter-position', $settings);
 
   @if $gutter-position == 'inside' {
@@ -119,7 +119,7 @@ $grid: (
   }
 }
 
-@function _grid-position-calc($p, $gutter, $settings) {
+@function _grid-position-mixed($p, $gutter, $settings) {
   $gutter-position: _grid-get('gutter-position', $settings);
 
   @if $gutter-position == 'inside' {
@@ -144,7 +144,7 @@ $grid: (
     width: _grid-width($w, $gutter, $settings);
   } @else {
     width: _grid-width($w, $gutter-fallback, $settings);
-    width: _grid-width-calc($w, $gutter, $settings);
+    width: _grid-width-mixed($w, $gutter, $settings);
   }
 }
 
@@ -163,7 +163,7 @@ $grid: (
     margin-left: _grid-position($p, $gutter, $settings);
   } @else {
     margin-left: _grid-position($p, $gutter-fallback, $settings);
-    margin-left: _grid-position-calc($p, $gutter, $settings);
+    margin-left: _grid-position-mixed($p, $gutter, $settings);
   }
 }
 

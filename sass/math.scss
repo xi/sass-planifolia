@@ -114,7 +114,7 @@ $planifolia-math-steps-default: 32 !default;
   @if $x <= 0 {
     @error 'cannot calculate log of #{$x}';
   } @else if $x >= 1 {
-    // choose the smaller option (-1) because it yield better
+    // choose the smaller option (-1) because it yields better
     // results in ln().
     @return str-length(inspect(round($x))) - 1;
   } @else {

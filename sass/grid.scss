@@ -93,7 +93,7 @@ $grid: (
   } @else if $gutter-position == 'outside' {
     @return (100% - $gutter) * $w - $gutter;
   } @else {
-    @error 'invalid grid-gutter-position "#{$gutter-position}"! Choose one of "inside", "outside".'
+    @error 'invalid grid-gutter-position "#{$gutter-position}"! Choose one of "inside", "outside".';
   }
 }
 

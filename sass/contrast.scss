@@ -22,9 +22,7 @@ $planifolia-contrast-light-default: white !default;
   }
 }
 
-/// @param {color} $fg foreground color
-/// @param {color} $bg [white] background color
-/// @return {color} blended color
+// FIXME: namespace name
 @function alpha-blend($fg, $bg: white) {
   $a1: alpha($bg);
   $a2: alpha($fg);
@@ -43,10 +41,7 @@ $planifolia-contrast-light-default: white !default;
   @return rgba($r, $g, $b, $a);
 }
 
-/// Calculate the perceptual brightness of a color.
-///
-/// @param {color} $color
-/// @return {number} normalized to [0, 1]
+// FIXME: namespace name
 @function luma($color) {
   $r: _planifolia-srgb(red($color));
   $g: _planifolia-srgb(green($color));

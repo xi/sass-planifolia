@@ -1,0 +1,17 @@
+////
+/// @group clearfix
+////
+
+/// Default clearfix ([source](http://www.quirksmode.org/blog/archives/2005/03/clearing_floats.html))
+@mixin cearfix {
+  overflow: hidden;
+}
+
+/// Alternative clearfix that does not use `overflow: hidden` ([source](http://nicolasgallagher.com/micro-clearfix-hack/))
+@mixin pie-clearfix {
+  &:after {
+    content: " ";
+    display: block;
+    clear: both;
+  }
+}

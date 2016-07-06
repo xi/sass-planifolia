@@ -28,7 +28,7 @@ $planifolia-math-steps-default: 32 !default;
   @return 3.141592653589793;
 }
 
-@function _planifolia-angle-to-rad($x) {
+@function _pf-angle-to-rad($x) {
   @if unit($x) == 'deg' {
     @return $x / 180deg * pi();
   } @else if unit($x) == 'grad' {
@@ -42,7 +42,7 @@ $planifolia-math-steps-default: 32 !default;
   }
 }
 
-@function _planifolia-exp-taylor-0($x, $steps) {
+@function _pf-exp-taylor-0($x, $steps) {
   $item: 1;
   $result: 1;
 
@@ -54,7 +54,7 @@ $planifolia-math-steps-default: 32 !default;
   @return $result;
 }
 
-@function _planifolia-ln-taylor-1($x, $steps) {
+@function _pf-ln-taylor-1($x, $steps) {
   $z: ($x - 1) / ($x + 1);
 
   $power: $z;
@@ -68,7 +68,7 @@ $planifolia-math-steps-default: 32 !default;
   @return 2 * $result;
 }
 
-@function _planifolia-sin-taylor-0($x, $steps) {
+@function _pf-sin-taylor-0($x, $steps) {
   $item: $x;
   $result: $x;
 
@@ -80,7 +80,7 @@ $planifolia-math-steps-default: 32 !default;
   @return $result;
 }
 
-@function _planifolia-asin-taylor-0($x, $steps) {
+@function _pf-asin-taylor-0($x, $steps) {
   $item: $x;
   $result: $x;
 
@@ -92,16 +92,16 @@ $planifolia-math-steps-default: 32 !default;
   @return $result;
 }
 
-@function _planifolia-pow-int($base, $exponent) {
+@function _pf-pow-int($base, $exponent) {
   @if $exponent < 0 {
-    @return 1 / _planifolia-pow-int($base, -$exponent);
+    @return 1 / _pf-pow-int($base, -$exponent);
   } @else if $exponent == 0 {
     @return 1;
   } @else if $exponent == 1 {
     @return $base;
   } @else {
     $exp: floor($exponent / 2);
-    $pow: _planifolia-pow-int($base, $exp);
+    $pow: _pf-pow-int($base, $exp);
     @if $exp * 2 == $exponent {
       @return $pow * $pow;
     } @else {
@@ -110,7 +110,7 @@ $planifolia-math-steps-default: 32 !default;
   }
 }
 
-@function _planifolia-log-approx($x) {
+@function _pf-log-approx($x) {
   @if $x <= 0 {
     @error 'cannot calculate log of #{$x}';
   } @else if $x >= 1 {
@@ -127,10 +127,10 @@ $planifolia-math-steps-default: 32 !default;
 /// @return {number}
 @function ln($x, $steps: $planifolia-math-steps-default) {
   $ln10: 2.302585092994046;
-  $approx: _planifolia-log-approx($x);
+  $approx: _pf-log-approx($x);
   // $y is in range [1, 10]
-  $y: $x / _planifolia-pow-int(10, $approx);
-  @return $approx * $ln10 + _planifolia-ln-taylor-1($y, $steps);
+  $y: $x / _pf-pow-int(10, $approx);
+  @return $approx * $ln10 + _pf-ln-taylor-1($y, $steps);
 }
 
 /// @param {number} $x
@@ -149,14 +149,14 @@ $planifolia-math-steps-default: 32 !default;
 @function pow($x, $exponent, $steps: $planifolia-math-steps-default) {
   $exp1: round($exponent);
   $exp2: $exponent - $exp1;
-  $pow1: _planifolia-pow-int($x, $exp1);
+  $pow1: _pf-pow-int($x, $exp1);
   @if $exp2 == 0 {
     @return $pow1;
   } @else if $x == 0 and $exponent > 0 {
     @return 0;
   } @else {
     $y: ln($x, $steps) * $exp2;
-    $pow2: _planifolia-exp-taylor-0($y, $steps);
+    $pow2: _pf-exp-taylor-0($y, $steps);
     @return $pow1 * $pow2;
   }
 }
@@ -180,7 +180,7 @@ $planifolia-math-steps-default: 32 !default;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function sin($x, $steps: $planifolia-math-steps-default) {
-  $x: _planifolia-angle-to-rad($x);
+  $x: _pf-angle-to-rad($x);
 
   @if $x > 2 * pi() {
     $x: $x % (2 * pi());
@@ -190,7 +190,7 @@ $planifolia-math-steps-default: 32 !default;
   } @else if $x < 0 {
     @return -1 * sin(-$x);
   } @else {
-    @return _planifolia-sin-taylor-0($x, $steps);
+    @return _pf-sin-taylor-0($x, $steps);
   }
 }
 
@@ -198,7 +198,7 @@ $planifolia-math-steps-default: 32 !default;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function cos($x, $steps: $planifolia-math-steps-default) {
-  $x: _planifolia-angle-to-rad($x);
+  $x: _pf-angle-to-rad($x);
   @return sin($x + pi() / 2, $steps);
 }
 
@@ -218,7 +218,7 @@ $planifolia-math-steps-default: 32 !default;
   } @else if $x * $x > .5 {
     @return acos(sqrt(1 - $x * $x, $steps), $steps);
   } @else {
-    @return _planifolia-asin-taylor-0($x, $steps);
+    @return _pf-asin-taylor-0($x, $steps);
   }
 }
 
@@ -267,7 +267,7 @@ $planifolia-math-steps-default: 32 !default;
   }
 }
 
-@function _planifolia-interpolate($a, $b, $f) {
+@function _pf-interpolate($a, $b, $f) {
   $result: ();
   @for $i from 1 through length($a) {
     $value: nth($a, $i) * (1 - $f) + nth($b, $i) * $f;
@@ -279,12 +279,12 @@ $planifolia-math-steps-default: 32 !default;
 /// Generic bezier interpolation.
 /// @param {P[]} $points
 /// @param {number} $f
-/// @param {function(P, P, number) => P} $interpolate [_planifolia-interpolate]
+/// @param {function(P, P, number) => P} $interpolate [_pf-interpolate]
 ///   The default is a linear interpolation between lists of numbers.
 ///   You can specify a custom interpolation function, e.g. to interpolate
 ///   between colors.
 /// @return {P} A single point.
-@function bezier($points, $f, $interpolate: _planifolia-interpolate) {
+@function bezier($points, $f, $interpolate: _pf-interpolate) {
   @if length($points) > 1 {
     $tmp: ();
     @for $i from 1 to length($points) {

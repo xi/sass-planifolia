@@ -15,11 +15,11 @@
 /// @type string
 $planifolia-colorspace: 'lab' !default;
 
-@function _planifolia-perc($x) {
+@function _pf-perc($x) {
   @return if(unit($x) == '%', $x / 100%, $x);
 }
 
-@function _planifolia-srgb-to-rgb($c) {
+@function _pf-srgb-to-rgb($c) {
   $c: $c / 255;
   @if $c <= .04045 {
     $c: $c / 12.92;
@@ -29,7 +29,7 @@ $planifolia-colorspace: 'lab' !default;
   @return $c * 100;
 }
 
-@function _planifolia-rgb-to-srgb($c) {
+@function _pf-rgb-to-srgb($c) {
   $c: $c / 100;
   @if $c <= .0031308 {
     $c: $c * 12.92;
@@ -39,10 +39,10 @@ $planifolia-colorspace: 'lab' !default;
   @return $c * 255;
 }
 
-@function _planifolia-to-xyz($color) {
-  $r: _planifolia-srgb-to-rgb(red($color));
-  $g: _planifolia-srgb-to-rgb(green($color));
-  $b: _planifolia-srgb-to-rgb(blue($color));
+@function _pf-to-xyz($color) {
+  $r: _pf-srgb-to-rgb(red($color));
+  $g: _pf-srgb-to-rgb(green($color));
+  $b: _pf-srgb-to-rgb(blue($color));
 
   $x: .4124 * $r + .3576 * $g + .1805 * $b;
   $y: .2126 * $r + .7152 * $g + .0722 * $b;
@@ -51,22 +51,22 @@ $planifolia-colorspace: 'lab' !default;
   @return ($x, $y, $z);
 }
 
-@function _planifolia-from-xyz($xyz) {
+@function _pf-from-xyz($xyz) {
   $r: 3.2406 * nth($xyz, 1) - 1.5372 * nth($xyz, 2) - .4986 * nth($xyz, 3);
   $g: -.9689 * nth($xyz, 1) + 1.8758 * nth($xyz, 2) + .0415 * nth($xyz, 3);
   $b: .0557 * nth($xyz, 1) - .204 * nth($xyz, 2) + 1.057 * nth($xyz, 3);
 
-  $r: _planifolia-rgb-to-srgb($r);
-  $g: _planifolia-rgb-to-srgb($g);
-  $b: _planifolia-rgb-to-srgb($b);
+  $r: _pf-rgb-to-srgb($r);
+  $g: _pf-rgb-to-srgb($g);
+  $b: _pf-rgb-to-srgb($b);
 
   @return rgb($r, $g, $b);
 }
 
-@function _planifolia-to-yuv($color) {
-  $r: _planifolia-srgb-to-rgb(red($color));
-  $g: _planifolia-srgb-to-rgb(green($color));
-  $b: _planifolia-srgb-to-rgb(blue($color));
+@function _pf-to-yuv($color) {
+  $r: _pf-srgb-to-rgb(red($color));
+  $g: _pf-srgb-to-rgb(green($color));
+  $b: _pf-srgb-to-rgb(blue($color));
 
   $y: 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
   $u: -0.09991 * $r + -0.33609 * $g + 0.436 * $b;
@@ -75,19 +75,19 @@ $planifolia-colorspace: 'lab' !default;
   @return ($y, $v, -$u);
 }
 
-@function _planifolia-from-yuv($yuv) {
+@function _pf-from-yuv($yuv) {
   $y: nth($yuv, 1);
   $v: nth($yuv, 2);
   $u: -1 * nth($yuv, 3);
 
-  $r: _planifolia-rgb-to-srgb($y + 1.28033 * $v);
-  $g: _planifolia-rgb-to-srgb($y + -0.21482 * $u + -0.38059 * $v);
-  $b: _planifolia-rgb-to-srgb($y + 2.12798 * $u);
+  $r: _pf-rgb-to-srgb($y + 1.28033 * $v);
+  $g: _pf-rgb-to-srgb($y + -0.21482 * $u + -0.38059 * $v);
+  $b: _pf-rgb-to-srgb($y + 2.12798 * $u);
 
   @return rgb($r, $g, $b);
 }
 
-@function _planifolia-xyz-to-lab-f($t) {
+@function _pf-xyz-to-lab-f($t) {
   @if $t > 216 / 24389 {
     @return pow($t, 1/3);
   } @else {
@@ -95,12 +95,12 @@ $planifolia-colorspace: 'lab' !default;
   }
 }
 
-@function _planifolia-xyz-to-lab($xyz) {
+@function _pf-xyz-to-lab($xyz) {
   $white: (95.05, 100, 108.9);
 
-  $x: _planifolia-xyz-to-lab-f(nth($xyz, 1) / nth($white, 1));
-  $y: _planifolia-xyz-to-lab-f(nth($xyz, 2) / nth($white, 2));
-  $z: _planifolia-xyz-to-lab-f(nth($xyz, 3) / nth($white, 3));
+  $x: _pf-xyz-to-lab-f(nth($xyz, 1) / nth($white, 1));
+  $y: _pf-xyz-to-lab-f(nth($xyz, 2) / nth($white, 2));
+  $z: _pf-xyz-to-lab-f(nth($xyz, 3) / nth($white, 3));
 
   $l: 116 * $y - 16;
   $a: 500 * ($x - $y);
@@ -109,7 +109,7 @@ $planifolia-colorspace: 'lab' !default;
   @return ($l, $a, $b);
 }
 
-@function _planifolia-lab-to-xyz-f($t) {
+@function _pf-lab-to-xyz-f($t) {
   @if $t > 6 / 29 {
     @return pow($t, 3);
   } @else {
@@ -117,26 +117,26 @@ $planifolia-colorspace: 'lab' !default;
   }
 }
 
-@function _planifolia-lab-to-xyz($lab) {
+@function _pf-lab-to-xyz($lab) {
   $white: (95.05, 100, 108.9);
 
   $l: (nth($lab, 1) + 16) / 116;
 
-  $x: nth($white, 1) * _planifolia-lab-to-xyz-f($l + nth($lab, 2) / 500);
-  $y: nth($white, 2) * _planifolia-lab-to-xyz-f($l);
-  $z: nth($white, 3) * _planifolia-lab-to-xyz-f($l - nth($lab, 3) / 200);
+  $x: nth($white, 1) * _pf-lab-to-xyz-f($l + nth($lab, 2) / 500);
+  $y: nth($white, 2) * _pf-lab-to-xyz-f($l);
+  $z: nth($white, 3) * _pf-lab-to-xyz-f($l - nth($lab, 3) / 200);
 
   @return ($x, $y, $z);
 }
 
-@function _planifolia-xyz-to-yuuvv($xyz) {
+@function _pf-xyz-to-yuuvv($xyz) {
   $a: nth($xyz, 1) + 15 * nth($xyz, 2) + 3 * nth($xyz, 3);
   $uu: if($a == 0, 0, 4 * nth($xyz, 1) / $a);
   $vv: if($a == 0, 0, 9 * nth($xyz, 2) / $a);
   @return (nth($xyz, 2), $uu, $vv);
 }
 
-@function _planifolia-yuuvv-to-xyz($yuuvv) {
+@function _pf-yuuvv-to-xyz($yuuvv) {
   $y: nth($yuuvv, 1);
   $uu: nth($yuuvv, 2);
   $vv: nth($yuuvv, 3);
@@ -147,9 +147,9 @@ $planifolia-colorspace: 'lab' !default;
   @return ($x, $y, $z);
 }
 
-@function _planifolia-xyz-to-luv($xyz) {
-  $white: _planifolia-xyz-to-yuuvv((95.05, 100, 108.9));
-  $yuuvv: _planifolia-xyz-to-yuuvv($xyz);
+@function _pf-xyz-to-luv($xyz) {
+  $white: _pf-xyz-to-yuuvv((95.05, 100, 108.9));
+  $yuuvv: _pf-xyz-to-yuuvv($xyz);
 
   $y: nth($yuuvv, 1) / nth($white, 1);
   $l: if($y > 216 / 24389, 116 * pow($y, 1 / 3) - 16, 24389 / 27 * $y);
@@ -160,8 +160,8 @@ $planifolia-colorspace: 'lab' !default;
   @return ($l, $u, $v);
 }
 
-@function _planifolia-luv-to-xyz($luv) {
-  $white: _planifolia-xyz-to-yuuvv((95.05, 100, 108.9));
+@function _pf-luv-to-xyz($luv) {
+  $white: _pf-xyz-to-yuuvv((95.05, 100, 108.9));
 
   $uu: if(nth($luv, 1) == 0, 0, nth($luv, 2) / (13 * nth($luv, 1)) + nth($white, 2));
   $vv: if(nth($luv, 1) == 0, 0, nth($luv, 3) / (13 * nth($luv, 1)) + nth($white, 3));
@@ -173,10 +173,10 @@ $planifolia-colorspace: 'lab' !default;
     $y: $y * nth($luv, 1) * 27 / 24389;
   }
 
-  @return _planifolia-yuuvv-to-xyz(($y, $uu, $vv));
+  @return _pf-yuuvv-to-xyz(($y, $uu, $vv));
 }
 
-@function _planifolia-lab-to-lch($lab) {
+@function _pf-lab-to-lch($lab) {
   $l: nth($lab, 1);
   $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
   $h: 0;
@@ -187,7 +187,7 @@ $planifolia-colorspace: 'lab' !default;
   @return ($l, $c, $h);
 }
 
-@function _planifolia-lch-to-lab($lch) {
+@function _pf-lch-to-lab($lch) {
   $l: nth($lch, 1);
   $a: cos(nth($lch, 3)) * nth($lch, 2);
   $b: sin(nth($lch, 3)) * nth($lch, 2);
@@ -198,21 +198,21 @@ $planifolia-colorspace: 'lab' !default;
 /// @require pow
 /// @require sqrt
 /// @require atan2
-@function _planifolia-to-lch($color, $colorspace: $planifolia-colorspace) {
+@function _pf-to-lch($color, $colorspace: $planifolia-colorspace) {
   @if $colorspace == 'lab' {
-    $xyz: _planifolia-to-xyz($color);
-    $lab: _planifolia-xyz-to-lab($xyz);
-    @return _planifolia-lab-to-lch($lab);
+    $xyz: _pf-to-xyz($color);
+    $lab: _pf-xyz-to-lab($xyz);
+    @return _pf-lab-to-lch($lab);
   } @else if $colorspace == 'luv' {
-    $xyz: _planifolia-to-xyz($color);
-    $luv: _planifolia-xyz-to-luv($xyz);
-    @return _planifolia-lab-to-lch($luv);
+    $xyz: _pf-to-xyz($color);
+    $luv: _pf-xyz-to-luv($xyz);
+    @return _pf-lab-to-lch($luv);
   } @else if $colorspace == 'hsl' {
     $chroma: saturation($color) * lightness($color) / 100%;
     @return (lightness($color) / 1%, $chroma / 1%, hue($color));
   } @else if $colorspace == 'yuv' {
-    $yuv: _planifolia-to-yuv($color);
-    @return _planifolia-lab-to-lch($yuv);
+    $yuv: _pf-to-yuv($color);
+    @return _pf-lab-to-lch($yuv);
   } @else {
     @error 'unknown colorspace: #{$colorspace}';
   }
@@ -234,19 +234,19 @@ $planifolia-colorspace: 'lab' !default;
 /// @require cos
 @function lch($lightness, $chroma, $hue, $colorspace: $planifolia-colorspace) {
   @if $colorspace == 'lab' {
-    $lab: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
-    $xyz: _planifolia-lab-to-xyz($lab);
-    @return _planifolia-from-xyz($xyz);
+    $lab: _pf-lch-to-lab(($lightness, $chroma, $hue));
+    $xyz: _pf-lab-to-xyz($lab);
+    @return _pf-from-xyz($xyz);
   } @else if $colorspace == 'luv' {
-    $luv: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
-    $xyz: _planifolia-luv-to-xyz($luv);
-    @return _planifolia-from-xyz($xyz);
+    $luv: _pf-lch-to-lab(($lightness, $chroma, $hue));
+    $xyz: _pf-luv-to-xyz($luv);
+    @return _pf-from-xyz($xyz);
   } @else if $colorspace == 'hsl' {
     $saturation: if($lightness == 0, 0, $chroma / $lightness * 100);
     @return hsl($hue, $saturation * 1%, $lightness * 1%);
   } @else if $colorspace == 'yuv' {
-    $yuv: _planifolia-lch-to-lab(($lightness, $chroma, $hue));
-    @return _planifolia-from-yuv($yuv);
+    $yuv: _pf-lch-to-lab(($lightness, $chroma, $hue));
+    @return _pf-from-yuv($yuv);
   } @else {
     @error 'unknown colorspace: #{$colorspace}';
   }
@@ -268,7 +268,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {number}
 @function pf-lightness($color, $colorspace: $planifolia-colorspace) {
-  @return nth(_planifolia-to-lch($color, $colorspace), 1);
+  @return nth(_pf-to-lch($color, $colorspace), 1);
 }
 
 /// Get the chroma component of a color.
@@ -276,7 +276,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {number}
 @function pf-chroma($color, $colorspace: $planifolia-colorspace) {
-  @return nth(_planifolia-to-lch($color, $colorspace), 2);
+  @return nth(_pf-to-lch($color, $colorspace), 2);
 }
 
 /// Get the hue component of a color.
@@ -284,7 +284,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {angle}
 @function pf-hue($color, $colorspace: $planifolia-colorspace) {
-  @return nth(_planifolia-to-lch($color, $colorspace), 3);
+  @return nth(_pf-to-lch($color, $colorspace), 3);
 }
 
 /// Increase or decrease one or more components of a color.
@@ -295,7 +295,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-adjust-color($color, $lightness: 0, $chroma: 0, $hue: 0, $colorspace: $planifolia-colorspace) {
-  $lch: _planifolia-to-lch($color, $colorspace);
+  $lch: _pf-to-lch($color, $colorspace);
 
   $l: nth($lch, 1) + $lightness;
   $c: nth($lch, 2) + $chroma;
@@ -312,7 +312,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-change-color($color, $lightness: null, $chroma: null, $hue: null, $colorspace: $planifolia-colorspace) {
-  $lch: _planifolia-to-lch($color, $colorspace);
+  $lch: _pf-to-lch($color, $colorspace);
 
   $l: if($lightness == null, nth($lch, 1), $lightness);
   $c: if($chroma == null, nth($lch, 2), $chroma);
@@ -397,10 +397,10 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {color} $color1
 /// @param {color} $color2
 /// @return {number}
-/// @require _planifolia-to-lch
+/// @require _pf-to-lch
 @function pf-color-distance($color1, $color2) {
-  $lab1: _planifolia-xyz-to-lab(_planifolia-to-xyz($color1));
-  $lab2: _planifolia-xyz-to-lab(_planifolia-to-xyz($color2));
+  $lab1: _pf-xyz-to-lab(_pf-to-xyz($color1));
+  $lab2: _pf-xyz-to-lab(_pf-to-xyz($color2));
 
   $x1: nth($lab1, 1) - nth($lab2, 1);
   $x2: nth($lab1, 2) - nth($lab2, 2);
@@ -409,8 +409,8 @@ $planifolia-colorspace: 'lab' !default;
   @return sqrt($x1 * $x1 + $x2 * $x2 + $x3 * $x3);
 }
 
-@function _planifolia-lch-mix($lch1, $lch2, $weight) {
-  $w: _planifolia-perc($weight);
+@function _pf-lch-mix($lch1, $lch2, $weight) {
+  $w: _pf-perc($weight);
 
   $l: nth($lch1, 1) * $w + nth($lch2, 1) * (1 - $w);
   $c: nth($lch1, 2) * $w + nth($lch2, 2) * (1 - $w);
@@ -441,10 +441,10 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv'
 /// @return {color}
 @function pf-mix($color1, $color2, $weight: 50%, $colorspace: $planifolia-colorspace) {
-  $lch1: _planifolia-to-lch($color1, $colorspace);
-  $lch2: _planifolia-to-lch($color2, $colorspace);
+  $lch1: _pf-to-lch($color1, $colorspace);
+  $lch2: _pf-to-lch($color2, $colorspace);
 
-  $lch: _planifolia-lch-mix($lch1, $lch2, $weight);
+  $lch: _pf-lch-mix($lch1, $lch2, $weight);
 
   @return lch(nth($lch, 1), nth($lch, 2), nth($lch, 3), $colorspace);
 }

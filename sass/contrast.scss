@@ -13,7 +13,7 @@ $planifolia-contrast-dark-default: black !default;
 /// @type color
 $planifolia-contrast-light-default: white !default;
 
-@function _planifolia-srgb($channel) {
+@function _pf-srgb($channel) {
   $x: $channel / 255;
   @if $x <= .03928 {
     @return $x / 12.92;
@@ -43,13 +43,13 @@ $planifolia-contrast-light-default: white !default;
 
 // FIXME: namespace name
 @function luma($color) {
-  $r: _planifolia-srgb(red($color));
-  $g: _planifolia-srgb(green($color));
-  $b: _planifolia-srgb(blue($color));
+  $r: _pf-srgb(red($color));
+  $g: _pf-srgb(green($color));
+  $b: _pf-srgb(blue($color));
   @return .2126 * $r + .7152 * $g + .0722 * $b;
 }
 
-@function _planifolia-contrast($fg, $bg) {
+@function _pf-contrast($fg, $bg) {
   $lbg: luma($bg);
   $lfg: luma(alpha-blend($fg, $bg));
   @return (max($lbg, $lfg) + .05) / (min($lbg, $lfg) + .05);
@@ -67,16 +67,16 @@ $planifolia-contrast-light-default: white !default;
 @function contrast-min($fg, $bg) {
   // optimize for the common case
   @if alpha($bg) == 1 {
-    @return _planifolia-contrast($fg, $bg);
+    @return _pf-contrast($fg, $bg);
   } @else {
     $bg-black: alpha-blend($bg, black);
     $bg-white: alpha-blend($bg, white);
     $lfg: luma($fg);
 
     @if luma($bg-white) < $lfg {
-      @return _planifolia-contrast($fg, $bg-white);
+      @return _pf-contrast($fg, $bg-white);
     } @else if luma($bg-black) > $lfg {
-      @return _planifolia-contrast($fg, $bg-black);
+      @return _pf-contrast($fg, $bg-black);
     } @else {
       @return 1;
     }
@@ -96,7 +96,7 @@ $planifolia-contrast-light-default: white !default;
 @function contrast($color1, $color2) {
   // optimize for the common case
   @if alpha($color1) + alpha($color2) == 2 {
-    @return _planifolia-contrast($color1, $color2);
+    @return _pf-contrast($color1, $color2);
   } @else {
     $c1: contrast-min($color1, $color2);
     $c2: contrast-min($color2, $color1);

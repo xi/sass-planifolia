@@ -56,13 +56,10 @@
 /// @prop {width} gutter [1rem] - Gutter width.
 /// @prop {width} gutter-fallback [2%] - Gutter width if `calc()` is
 ///   not available. Must be a percentage.
-/// @prop {string} gutter-position ['inside'] - Position of gutters.
-///   One of 'inside', 'outside'.
 $grid: (
   'columns': 12,
   'gutter': 1rem,
   'gutter-fallback': 2%,
-  'gutter-position': 'inside',
 );
 
 @function _grid-get($key, $settings: ()) {
@@ -86,47 +83,19 @@ $grid: (
 }
 
 @function _grid-width($w, $gutter, $settings) {
-  $gutter-position: _grid-get('gutter-position', $settings);
-
-  @if $gutter-position == 'inside' {
-    @return (100% + $gutter) * $w - $gutter;
-  } @else if $gutter-position == 'outside' {
-    @return (100% - $gutter) * $w - $gutter;
-  } @else {
-    @error 'invalid grid-gutter-position "#{$gutter-position}"! Choose one of "inside", "outside".';
-  }
+  @return (100% + $gutter) * $w - $gutter;
 }
 
 @function _grid-width-mixed($w, $gutter, $settings) {
-  $gutter-position: _grid-get('gutter-position', $settings);
-
-  @if $gutter-position == 'inside' {
-    @return calc((100% + #{$gutter}) * #{$w} - #{$gutter});
-  } @else if $gutter-position == 'outside' {
-    @return calc((100% - #{$gutter}) * #{$w} - #{$gutter});
-  }
+  @return calc((100% + #{$gutter}) * #{$w} - #{$gutter});
 }
 
 @function _grid-position($p, $gutter, $settings) {
-  $gutter-position: _grid-get('gutter-position', $settings);
-
-  @if $gutter-position == 'inside' {
-    @return (100% + $gutter) * $p;
-  } @else if $gutter-position == 'outside' {
-    @return (100% - $gutter) * $p + $gutter;
-  } @else {
-    @error 'invalid grid-gutter-position "#{$gutter-position}"! Choose one of "inside", "outside".'
-  }
+  @return (100% + $gutter) * $p;
 }
 
 @function _grid-position-mixed($p, $gutter, $settings) {
-  $gutter-position: _grid-get('gutter-position', $settings);
-
-  @if $gutter-position == 'inside' {
-    @return calc((100% + #{$gutter}) * #{$p});
-  } @else if $gutter-position == 'outside' {
-    @return calc((100% - #{$gutter}) * #{$p} + #{$gutter});
-  }
+  @return calc((100% + #{$gutter}) * #{$p});
 }
 
 /// Atomic width mixin.

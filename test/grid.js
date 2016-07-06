@@ -45,11 +45,6 @@ describe('grid', function() {
       shared.declares(call, 'width', 'calc((100% + 1rem) * .125 - 1rem)');
       shared.declares(call, 'width', '10.75%');
     });
-    it('uses gutter-position setting', function() {
-      var call = sassaby.includedMixin('grid-width').calledWithArgs('1', '(gutter-position: "outside")');
-      shared.declares(call, 'width', 'calc((100% - 1rem) * .08333 - 1rem)');
-      shared.declares(call, 'width', '6.16667%');
-    });
   });
 
   describe('grid-position', function() {
@@ -80,11 +75,6 @@ describe('grid', function() {
       var call = sassaby.includedMixin('grid-position').calledWithArgs('1', '(columns: 8)');
       shared.declares(call, 'margin-left', 'calc((100% + 1rem) * .125)');
       shared.declares(call, 'margin-left', '12.75%');
-    });
-    it('uses gutter-position setting', function() {
-      var call = sassaby.includedMixin('grid-position').calledWithArgs('1', '(gutter-position: "outside")');
-      shared.declares(call, 'margin-left', 'calc((100% - 1rem) * .08333+1rem)');
-      shared.declares(call, 'margin-left', '10.16667%');
     });
   });
 });

@@ -34,7 +34,7 @@ Import it in your Sass files:
     contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
 -   CIELAB/CIELUV based color functions
 -   More functionality may be added on demand.
--   Can be installed with bower. Npm (eyeglass) or rubygem support may be added
+-   Can be installed with bower or npm (eyeglass). Other options may be added
     on demand.
 
 # What is not included?

@@ -1,3 +1,13 @@
+0.3.0 (2016-07-07)
+------------------
+
+- add feature: grid
+- add feature: clearfix
+- contrast: `luma()` is deprecated. Use `pf-lightness($color, 'lab')` from the
+  color module instead.
+- contrast: `alpha-blend()` is deprecated.
+- add eyeglass support
+
 0.2.1 (2016-04-23)
 ------------------
 

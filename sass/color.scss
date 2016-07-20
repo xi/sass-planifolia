@@ -19,6 +19,17 @@ $planifolia-colorspace: 'lab' !default;
   @return if(unit($x) == '%', $x / 100%, $x);
 }
 
+@function _pf-clip-needed($rgb) {
+  @for $i from 1 through 3 {
+    @if nth($rgb, $i) < 0 {
+      @return true;
+    } @else if nth($rgb, $i) > 255 {
+      @return true;
+    }
+  }
+  @return false;
+}
+
 @function _pf-srgb-to-rgb($c) {
   $c: $c / 255;
   @if $c <= .04045 {
@@ -60,7 +71,7 @@ $planifolia-colorspace: 'lab' !default;
   $g: _pf-rgb-to-srgb($g);
   $b: _pf-rgb-to-srgb($b);
 
-  @return rgb($r, $g, $b);
+  @return ($r, $g, $b);
 }
 
 @function _pf-to-yuv($color) {
@@ -84,7 +95,7 @@ $planifolia-colorspace: 'lab' !default;
   $g: _pf-rgb-to-srgb($y + -0.21482 * $u + -0.38059 * $v);
   $b: _pf-rgb-to-srgb($y + 2.12798 * $u);
 
-  @return rgb($r, $g, $b);
+  @return ($r, $g, $b);
 }
 
 @function _pf-xyz-to-lab-f($t) {
@@ -218,10 +229,31 @@ $planifolia-colorspace: 'lab' !default;
   }
 }
 
+@function _lch-unclipped($lightness, $chroma, $hue, $colorspace) {
+  @if $colorspace == 'lab' {
+    $lab: _pf-lch-to-lab(($lightness, $chroma, $hue));
+    $xyz: _pf-lab-to-xyz($lab);
+    @return _pf-from-xyz($xyz);
+  } @else if $colorspace == 'luv' {
+    $luv: _pf-lch-to-lab(($lightness, $chroma, $hue));
+    $xyz: _pf-luv-to-xyz($luv);
+    @return _pf-from-xyz($xyz);
+  } @else if $colorspace == 'hsl' {
+    $saturation: if($lightness == 0, 0, $chroma / $lightness * 100);
+    $color: hsl($hue, $saturation * 1%, $lightness * 1%);
+    @return (red($color), green($color), blue($color));
+  } @else if $colorspace == 'yuv' {
+    $yuv: _pf-lch-to-lab(($lightness, $chroma, $hue));
+    @return _pf-from-yuv($yuv);
+  } @else {
+    @error 'unknown colorspace: #{$colorspace}';
+  }
+}
+
 /// Create a color from lightness, chroma, and hue values.
 ///
-/// Note that the result may be clipped if it lies outside of the sRGB
-/// colorspace.
+/// Note that the chroma is reduced if the result would otherwise be outside
+/// of the sRGB colorspace.
 ///
 /// @param {number} $lightness 0 .. 100
 /// @param {number} $chroma 0 .. ca. 140
@@ -233,23 +265,25 @@ $planifolia-colorspace: 'lab' !default;
 /// @require sin
 /// @require cos
 @function lch($lightness, $chroma, $hue, $colorspace: $planifolia-colorspace) {
-  @if $colorspace == 'lab' {
-    $lab: _pf-lch-to-lab(($lightness, $chroma, $hue));
-    $xyz: _pf-lab-to-xyz($lab);
-    @return _pf-from-xyz($xyz);
-  } @else if $colorspace == 'luv' {
-    $luv: _pf-lch-to-lab(($lightness, $chroma, $hue));
-    $xyz: _pf-luv-to-xyz($luv);
-    @return _pf-from-xyz($xyz);
-  } @else if $colorspace == 'hsl' {
-    $saturation: if($lightness == 0, 0, $chroma / $lightness * 100);
-    @return hsl($hue, $saturation * 1%, $lightness * 1%);
-  } @else if $colorspace == 'yuv' {
-    $yuv: _pf-lch-to-lab(($lightness, $chroma, $hue));
-    @return _pf-from-yuv($yuv);
-  } @else {
-    @error 'unknown colorspace: #{$colorspace}';
+  $rgb: _lch-unclipped($lightness, $chroma, $hue, $colorspace);
+
+  @if _pf-clip-needed($rgb) {
+    $c-min: 0;
+    $c-max: $chroma;
+    $c-tmp: ($c-min + $c-max) / 2;
+
+    @while $c-max - $c-min > 0.01 {
+      $rgb: _lch-unclipped($lightness, $c-tmp, $hue, $colorspace);
+      @if _pf-clip-needed($rgb) {
+        $c-max: $c-tmp;
+      } @else {
+        $c-min: $c-tmp;
+      }
+      $c-tmp: ($c-min + $c-max) / 2;
+    }
   }
+
+  @return rgb(nth($rgb, 1), nth($rgb, 2), nth($rgb, 3));
 }
 
 /// Create a color from lightness, chroma, hue, and alpha values.

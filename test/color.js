@@ -82,10 +82,10 @@ describe('color', function() {
         sassaby.func('pf-complement').calledWithArgs('white').equals('white');
       });
       it('red', function() {
-        sassaby.func('pf-complement').calledWithArgs('red').equals('#00a1f3');
+        sassaby.func('pf-complement').calledWithArgs('red').equals('#008ca1');
       });
       it('yellow', function() {
-        sassaby.func('pf-complement').calledWithArgs('yellow').equals('#76f4ff');
+        sassaby.func('pf-complement').calledWithArgs('yellow').equals('#f5f6ff');
       });
     });
 
@@ -130,22 +130,22 @@ describe('color', function() {
         sassaby.func('pf-mix').calledWithArgs('black', 'white', '.2').equals('#c6c6c6');
       });
       it('blue, red', function() {
-        sassaby.func('pf-mix').calledWithArgs('blue', 'red').equals('#f40093');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red').equals('#c20081');
       });
       it('blue, red, 20%', function() {
-        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '20%').equals('#ff0045');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '20%').equals('#e70051');
       });
       it('green, red', function() {
-        sassaby.func('pf-mix').calledWithArgs('green', 'red').equals('#a76900');
+        sassaby.func('pf-mix').calledWithArgs('green', 'red').equals('#9d6e00');
       });
       it('yellow, blue', function() {
-        sassaby.func('pf-mix').calledWithArgs('yellow', 'blue').equals('#ff0079');
+        sassaby.func('pf-mix').calledWithArgs('yellow', 'blue').equals('#ff6b89');
       });
       it('green, blue', function() {
-        sassaby.func('pf-mix').calledWithArgs('green', 'blue').equals('#0077fb');
+        sassaby.func('pf-mix').calledWithArgs('green', 'blue').equals('#006487');
       });
       it('white, blue', function() {
-        sassaby.func('pf-mix').calledWithArgs('white', 'blue').equals('#b38bff');
+        sassaby.func('pf-mix').calledWithArgs('white', 'blue').equals('#b38cff');
       });
     });
   });
@@ -222,10 +222,10 @@ describe('color', function() {
         sassaby.func('pf-complement').calledWithArgs('white', 'luv').equals('white');
       });
       it('red', function() {
-        sassaby.func('pf-complement').calledWithArgs('red', 'luv').equals('#00b8b8');
+        sassaby.func('pf-complement').calledWithArgs('red', 'luv').equals('#008e8e');
       });
       it('yellow', function() {
-        sassaby.func('pf-complement').calledWithArgs('yellow', 'luv').equals('#eaeaff');
+        sassaby.func('pf-complement').calledWithArgs('yellow', 'luv').equals('#f6f6ff');
       });
     });
 
@@ -249,19 +249,19 @@ describe('color', function() {
         sassaby.func('pf-mix').calledWithArgs('black', 'white', '.2', 'luv').equals('#c6c6c6');
       });
       it('blue, red', function() {
-        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '50%', 'luv').equals('#f000b6');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '50%', 'luv').equals('#bd0095');
       });
       it('blue, red, 20%', function() {
-        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '20%', 'luv').equals('#fc006e');
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '20%', 'luv').equals('#e40070');
       });
       it('green, red', function() {
-        sassaby.func('pf-mix').calledWithArgs('green', 'red', '50%', 'luv').equals('#bb6100');
+        sassaby.func('pf-mix').calledWithArgs('green', 'red', '50%', 'luv').equals('#a56a00');
       });
       it('yellow, blue', function() {
-        sassaby.func('pf-mix').calledWithArgs('yellow', 'blue', '50%', 'luv').equals('#ff53af');
+        sassaby.func('pf-mix').calledWithArgs('yellow', 'blue', '50%', 'luv').equals('#ff66ab');
       });
       it('green, blue', function() {
-        sassaby.func('pf-mix').calledWithArgs('green', 'blue', '50%', 'luv').equals('#0079a6');
+        sassaby.func('pf-mix').calledWithArgs('green', 'blue', '50%', 'luv').equals('#006678');
       });
       it('white, blue', function() {
         sassaby.func('pf-mix').calledWithArgs('white', 'blue', '50%', 'luv').equals('#9999e8');

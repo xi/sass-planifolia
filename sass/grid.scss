@@ -32,10 +32,9 @@
 /// influence the position of subsequent cells, so it is quite complex to get
 /// them right. With isolation, this is much simpler and more flexible.
 ///
-/// With this module, you can decide whether you want to have gutters on the
-/// sides. More importantly, you can use gutters of any unit (e.g. em or rem).
-/// However, you also need to define a fallback for browsers that do not provide
-/// `calc()`.
+/// With this module, you can use gutters of any unit (e.g. em or rem).
+/// However, you also need to define a fallback for browsers that do not
+/// provide `calc()`.
 ///
 /// You can use the `grid-span($width, $position)` mixin or use the atomic
 /// mixins directly. Note that you have to clear the container yourself.

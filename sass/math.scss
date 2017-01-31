@@ -29,17 +29,7 @@ $planifolia-math-steps-default: 32 !default;
 }
 
 @function _pf-angle-to-rad($x) {
-  @if unit($x) == 'deg' {
-    @return $x / 180deg * pi();
-  } @else if unit($x) == 'grad' {
-    @return $x / 200grad * pi();
-  } @else if unit($x) == 'rad' {
-    @return $x / 1rad;
-  } @else if unit($x) == 'turn' {
-    @return $x / .5turn * pi();
-  } @else {
-    @return $x;
-  }
+  @return (0rad + $x) / 1rad;
 }
 
 @function _pf-exp-taylor-0($x, $steps) {

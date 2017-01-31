@@ -1,5 +1,6 @@
 var path = require('path');
 var Sassaby = require('sassaby');
+var shared = require('./shared');
 
 describe('contrast', function() {
   var file = path.resolve(__dirname, '../sass/contrast.scss');
@@ -63,6 +64,9 @@ describe('contrast', function() {
     it('cyan', function() {
       sassaby.func('luma').calledWithArgs('cyan').equals('.7874');
     });
+    it('random', function() {
+      shared.similar(sassaby.func('luma').calledWithArgs('rgb(12, 180, 92)'), 0.3349, 0.02);
+    });
     it('white with alpha', function() {
       sassaby.func('luma').calledWithArgs('rgba(255,255,255,0.5)').equals('1');
     });
@@ -84,8 +88,8 @@ describe('contrast', function() {
     it('red-red', function() {
       sassaby.func('contrast').calledWithArgs('red', 'red').equals('1');
     });
-    it('red-red', function() {
-      sassaby.func('contrast').calledWithArgs('red', '#676eff').equals('1.00017');
+    it('red-lightblue', function() {
+      shared.similar(sassaby.func('contrast').calledWithArgs('red', '#676eff'), 1, 0.02);
     });
   });
 

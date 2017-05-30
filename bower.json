@@ -6,7 +6,7 @@
   "authors": [
     "Tobias Bengfort <tobias.bengfort@posteo.de>"
   ],
-  "license": "GPL-2.0+",
+  "license": "MIT",
   "keywords": ["sass"],
   "homepage": "https://github.com/xi/sass-planifolia",
   "moduleType": [],

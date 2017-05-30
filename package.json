@@ -31,5 +31,5 @@
     "url": "git+https://github.com/xi/sass-planifolia.git"
   },
   "author": "Tobias Bengfort <tobias.bengfort@posteo.de>",
-  "license": "GPL-2.0+"
+  "license": "MIT"
 }

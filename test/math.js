@@ -32,8 +32,11 @@ describe('math', function() {
     it('pow(64, -1/2) == .125', function() {
       sassaby.func('pow').calledWithArgs('64', '-1/2').equals('.125');
     });
-    it('pow(12, 3.4)', function() {
-      shared.similar(sassaby.func('pow').calledWithArgs('12', '3.4'), Math.pow(12, 3.4));
+    it('pow(1200, 3.4)', function() {
+      shared.similar(sassaby.func('pow').calledWithArgs('1200', '3.4'), Math.pow(1200, 3.4), 0.1);
+    });
+    it('pow(1200.3, 3.4)', function() {
+      shared.similar(sassaby.func('pow').calledWithArgs('1200.3', '3.4'), Math.pow(1200.3, 3.4), 0.1);
     });
     it('pow(3px, 2.4) throws', function() {
       assert.throws(function () {

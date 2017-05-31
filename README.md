@@ -21,6 +21,7 @@ Import it in your Sass files:
     .test {
         background: red;
         color: contrast-color(red);
+        font-size: 16px * pow(2.3, 1.5);
     }
 
 # Features

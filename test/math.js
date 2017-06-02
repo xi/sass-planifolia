@@ -43,6 +43,15 @@ describe('math', function() {
         sassaby.func('pow').calledWithArgs('3px', '2');
       });
     });
+    it('pow(3.5, 0) == 1', function() {
+      sassaby.func('pow').calledWithArgs('3.5', '0').equals('1');
+    });
+    it('pow(0, 3.5) == 0', function() {
+      sassaby.func('pow').calledWithArgs('0', '3.5').equals('0');
+    });
+    it('pow(0, 0) == 1', function() {
+      sassaby.func('pow').calledWithArgs('0', '0').equals('1');
+    });
   });
 
   describe('ln', function() {

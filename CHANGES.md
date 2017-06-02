@@ -1,3 +1,11 @@
+0.4.0 (2017-06-02)
+------------------
+
+- change license from GPL-2+ to MIT
+- color: reduce chroma to avoid clipping
+- contrast: no longer requires a `pow()` function
+- contrast: WCAG compliance levels can be used as thresholds
+
 0.3.1 (2016-07-13)
 ------------------
 

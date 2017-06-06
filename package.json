@@ -20,7 +20,7 @@
     "name": "planifolia",
     "sassDir": "sass",
     "exports": false,
-    "needs": "^0.8.0"
+    "needs": "^1.0"
   },
   "keywords": [
     "sass",

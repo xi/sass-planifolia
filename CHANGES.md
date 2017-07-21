@@ -1,3 +1,9 @@
+0.4.2 (2017-07-21)
+------------------
+
+- contrast: refine `pow()` approximation that was introduced in 0.4.0
+- contrast: add new function `contrast-stretch()`
+
 0.4.1 (2017-07-12)
 ------------------
 

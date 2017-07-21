@@ -10,6 +10,18 @@ $planifolia-contrast-dark-default: black !default;
 /// @type color
 $planifolia-contrast-light-default: white !default;
 
+@function _pf-threshold($threshold) {
+  @if ($threshold == 'AA' or $threshold == 'AAALG') {
+    @return 4.5;
+  } @elseif ($threshold == 'AALG') {
+    @return 3;
+  } @elseif ($threshold == 'AAA') {
+    @return 7;
+  } @else {
+    @return $threshold;
+  }
+}
+
 @function _pf-srgb($channel) {
   $x: $channel / 255;
   @if $x <= .03928 {
@@ -135,14 +147,7 @@ $planifolia-contrast-light-default: white !default;
 /// @param {number} $threshold [4.5]
 ///    (can also be 'AA', 'AALG', 'AAA', or 'AAALG')
 @function contrast-check($color1, $color2, $threshold: 4.5) {
-  @if ($threshold == 'AA' or $threshold == 'AAALG') {
-    $threshold: 4.5;
-  } @elseif ($threshold == 'AALG') {
-    $threshold: 3;
-  } @elseif ($threshold == 'AAA') {
-    $threshold: 7;
-  }
-
+  $threshold: _pf-threshold($threshold);
   $contrast: contrast($color1, $color2);
   @if $contrast < $threshold {
     @warn 'contrast #{$contrast} between #{$color1} and #{$color2} too low!';

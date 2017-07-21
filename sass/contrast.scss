@@ -16,8 +16,15 @@ $planifolia-contrast-light-default: white !default;
     @return $x / 12.92;
   } @else {
     $c: ($x + .055) / 1.055;
-    // approximation for pow($c, 2.4)
-    @return (133 * $c * $c * $c + 155 * $c * $c) / 288;
+    @if function-exists('pow') {
+      @return pow($c, 2.4);
+    } @else {
+      // approximation for pow($c, 2.4)
+      //
+      // NOTE that `contrast()` amplifies the errors generated here.
+      // The factors a chosen to minify that effect.
+      @return 0.56 * ($c * $c * $c) + 0.44 * ($c * $c);
+    }
   }
 }
 

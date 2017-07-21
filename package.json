@@ -5,11 +5,11 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^2.4.5",
-    "node-sass": "^3.4.2",
-    "sass-lint": "^1.5.1",
+    "mocha": "^3.4.2",
+    "node-sass": "^4.5.3",
+    "sass-lint": "^1.10.2",
     "sassaby": "^2.1.1",
-    "sassdoc": "^2.2.2"
+    "sassdoc": "^2.3.0"
   },
   "scripts": {
     "test": "mocha",

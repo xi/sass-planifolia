@@ -140,6 +140,43 @@ $planifolia-contrast-light-default: white !default;
   }
 }
 
+/// Mix color with black or white to increase contrast for a given base color.
+///
+/// @param {color} $base
+/// @param {color} $color
+/// @param {number} $contrast [4.5]
+///    (can also be 'AA', 'AALG', 'AAA', or 'AAALG')
+/// @return {color}
+@function contrast-stretch($base, $color, $contrast: 4.5) {
+  $contrast: _pf-threshold($contrast);
+  $lower: $color;
+  $upper: if(luma($base) < .18, white, black);
+
+  @if contrast($base, $lower) >= $contrast {
+    @return $lower;
+  }
+  @if contrast($base, $upper) <= $contrast {
+    @return $upper;
+  }
+
+  $result: mix($lower, $upper);
+
+  // NOTE: This is not a usual binary search. It is possible that the contrast
+  // first decreases for a while when going from $lower to $upper.  However, we
+  // checked that it starts below $contrast, so the algorithm still works.
+  @for $i from 0 to 10 {
+    @if contrast($base, $result) < $contrast {
+      $lower: $result;
+    } @else {
+      $upper: $result;
+    }
+
+    $result: mix($lower, $upper);
+  }
+
+  @return $result;
+}
+
 /// Warn if the contrast is below a threshold.
 ///
 /// @param {color} $color1 background color

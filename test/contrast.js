@@ -128,4 +128,22 @@ describe('contrast', function() {
       sassaby.func('contrast-color').calledWithArgs('white', '#eee', '#111').equals('#111');
     });
   });
+
+  describe('contrast-stretch', function() {
+    it('white-black', function() {
+      sassaby.func('contrast-stretch').calledWithArgs('white', 'black').equals('black');
+    });
+    it('white-#333', function() {
+      sassaby.func('contrast-stretch').calledWithArgs('white', '#333').equals('#333');
+    });
+    it('white-#333-21', function() {
+      sassaby.func('contrast-stretch').calledWithArgs('white', '#333', '21').equals('black');
+    });
+    it('#333-blue-7', function() {
+      sassaby.func('contrast-stretch').calledWithArgs('#333', 'blue', '7').equals('#bbf');
+    });
+    it('#333-blue-AAA', function() {
+      sassaby.func('contrast-stretch').calledWithArgs('#333', 'blue', 'AAA').equals('#bbf');
+    });
+  });
 });

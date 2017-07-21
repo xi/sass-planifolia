@@ -16,7 +16,7 @@ $planifolia-contrast-light-default: white !default;
     @return $x / 12.92;
   } @else {
     $c: ($x + .055) / 1.055;
-    // approximation for pow($x, 2.4)
+    // approximation for pow($c, 2.4)
     @return (133 * $c * $c * $c + 155 * $c * $c) / 288;
   }
 }
@@ -121,7 +121,7 @@ $planifolia-contrast-light-default: white !default;
   }
 }
 
-/// Warn if the contrast is below a threshold
+/// Warn if the contrast is below a threshold.
 ///
 /// @param {color} $color1 background color
 /// @param {color} $color2 foreground color

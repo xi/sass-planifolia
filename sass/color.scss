@@ -79,9 +79,9 @@ $planifolia-colorspace: 'lab' !default;
   $g: _pf-srgb-to-rgb(green($color));
   $b: _pf-srgb-to-rgb(blue($color));
 
-  $y: 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
-  $u: -0.09991 * $r + -0.33609 * $g + 0.436 * $b;
-  $v: 0.615 * $r + -0.55861 * $g + -0.05639 * $b;
+  $y: .2126 * $r + .7152 * $g + .0722 * $b;
+  $u: -.09991 * $r + -.33609 * $g + .436 * $b;
+  $v: .615 * $r + -.55861 * $g + -.05639 * $b;
 
   @return ($y, $v, -$u);
 }
@@ -92,7 +92,7 @@ $planifolia-colorspace: 'lab' !default;
   $u: -1 * nth($yuv, 3);
 
   $r: _pf-rgb-to-srgb($y + 1.28033 * $v);
-  $g: _pf-rgb-to-srgb($y + -0.21482 * $u + -0.38059 * $v);
+  $g: _pf-rgb-to-srgb($y + -.21482 * $u + -.38059 * $v);
   $b: _pf-rgb-to-srgb($y + 2.12798 * $u);
 
   @return ($r, $g, $b);
@@ -272,7 +272,7 @@ $planifolia-colorspace: 'lab' !default;
     $c-max: $chroma;
     $c-tmp: ($c-min + $c-max) / 2;
 
-    @while $c-max - $c-min > 0.01 {
+    @while $c-max - $c-min > .01 {
       $rgb: _lch-unclipped($lightness, $c-tmp, $hue, $colorspace);
       @if _pf-clip-needed($rgb) {
         $c-max: $c-tmp;

@@ -292,7 +292,7 @@ $planifolia-colorspace: 'lab' !default;
 /// of the sRGB colorspace.
 ///
 /// @param {number} $lightness 0 .. 100
-/// @param {number} $chroma 0 .. ca. 140
+/// @param {number} $chroma 0 .. 100 (some colorspaces may go beyond)
 /// @param {angle} $hue
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv', 'hslab', 'hsluv'
 /// @return {color}

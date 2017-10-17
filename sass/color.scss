@@ -251,7 +251,7 @@ $planifolia-colorspace: 'lab' !default;
     $max: _pf-max-chroma(nth($lch, 1), nth($lch, 3), 'luv');
     @return (nth($lch, 1), nth($lch, 2) / $max * 100, nth($lch, 3));
   } @else if $colorspace == 'hsl' {
-    @return (lightness($color) / 1%, saturation($color) / 1%, hue($color));
+    @return (lightness($color) / 1%, saturation($color) / 1%, hue($color) / 1rad * 1rad);
   } @else if $colorspace == 'yuv' {
     $yuv: _pf-to-yuv($color);
     @return _pf-lab-to-lch($yuv);
@@ -276,7 +276,7 @@ $planifolia-colorspace: 'lab' !default;
     $max: _pf-max-chroma($lightness, $hue, 'luv');
     @return _lch-unclipped($lightness, $chroma * $max / 100, $hue, 'luv');
   } @else if $colorspace == 'hsl' {
-    $color: hsl($hue, $chroma * 1%, $lightness * 1%);
+    $color: hsl($hue / 1deg * 1deg, $chroma * 1%, $lightness * 1%);
     @return (red($color), green($color), blue($color));
   } @else if $colorspace == 'yuv' {
     $yuv: _pf-lch-to-lab(($lightness, $chroma, $hue));

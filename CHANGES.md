@@ -1,3 +1,8 @@
+0.5.0 (unreleased)
+------------------
+
+- color: add support for HSLab and HSLuv color spaces
+
 0.4.2 (2017-07-21)
 ------------------
 

@@ -33,7 +33,8 @@ Import it in your Sass files:
 -   High performance math algorithms
 -   WCAG compatible [color
     contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
--   CIELAB/CIELUV based color functions
+-   CIELAB/CIELUV based color functions (with support for
+    [HSLuv](http://www.hsluv.org/))
 -   More functionality may be added on demand.
 -   Can be installed with bower or npm (eyeglass). Other options may be added
     on demand.

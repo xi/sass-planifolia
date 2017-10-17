@@ -206,6 +206,24 @@ $planifolia-colorspace: 'lab' !default;
   @return ($l, $a, $b);
 }
 
+@function _pf-max-chroma($lightness, $hue, $colorspace) {
+  $c-min: 0;
+  $c-max: 200;
+  $c-tmp: ($c-min + $c-max) / 2;
+
+  @while $c-max - $c-min > 1 {
+    $rgb: _lch-unclipped($lightness, $c-tmp, $hue, $colorspace);
+    @if _pf-clip-needed($rgb) {
+      $c-max: $c-tmp;
+    } @else {
+      $c-min: $c-tmp;
+    }
+    $c-tmp: ($c-min + $c-max) / 2;
+  }
+
+  @return $c-tmp;
+}
+
 /// @require pow
 /// @require sqrt
 /// @require atan2
@@ -214,10 +232,18 @@ $planifolia-colorspace: 'lab' !default;
     $xyz: _pf-to-xyz($color);
     $lab: _pf-xyz-to-lab($xyz);
     @return _pf-lab-to-lch($lab);
+  } @else if $colorspace == 'hslab' {
+    $lch: _pf-to-lch($color, 'lab');
+    $max: _pf-max-chroma(nth($lch, 1), nth($lch, 3), 'lab');
+    @return (nth($lch, 1), nth($lch, 2) / $max * 100, nth($lch, 3));
   } @else if $colorspace == 'luv' {
     $xyz: _pf-to-xyz($color);
     $luv: _pf-xyz-to-luv($xyz);
     @return _pf-lab-to-lch($luv);
+  } @else if $colorspace == 'hsluv' {
+    $lch: _pf-to-lch($color, 'luv');
+    $max: _pf-max-chroma(nth($lch, 1), nth($lch, 3), 'luv');
+    @return (nth($lch, 1), nth($lch, 2) / $max * 100, nth($lch, 3));
   } @else if $colorspace == 'hsl' {
     $chroma: saturation($color) * lightness($color) / 100%;
     @return (lightness($color) / 1%, $chroma / 1%, hue($color));
@@ -234,10 +260,16 @@ $planifolia-colorspace: 'lab' !default;
     $lab: _pf-lch-to-lab(($lightness, $chroma, $hue));
     $xyz: _pf-lab-to-xyz($lab);
     @return _pf-from-xyz($xyz);
+  } @else if $colorspace == 'hslab' {
+    $max: _pf-max-chroma($lightness, $hue, 'lab');
+    @return _lch-unclipped($lightness, $chroma * $max / 100, $hue, 'lab');
   } @else if $colorspace == 'luv' {
     $luv: _pf-lch-to-lab(($lightness, $chroma, $hue));
     $xyz: _pf-luv-to-xyz($luv);
     @return _pf-from-xyz($xyz);
+  } @else if $colorspace == 'hsluv' {
+    $max: _pf-max-chroma($lightness, $hue, 'luv');
+    @return _lch-unclipped($lightness, $chroma * $max / 100, $hue, 'luv');
   } @else if $colorspace == 'hsl' {
     $saturation: if($lightness == 0, 0, $chroma / $lightness * 100);
     $color: hsl($hue, $saturation * 1%, $lightness * 1%);

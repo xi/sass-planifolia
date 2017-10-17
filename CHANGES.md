@@ -2,6 +2,7 @@
 ------------------
 
 - color: add support for HSLab and HSLuv color spaces
+- color: change behavior of chroma/saturation in HSL color space
 
 0.4.2 (2017-07-21)
 ------------------

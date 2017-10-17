@@ -268,4 +268,102 @@ describe('color', function() {
       });
     });
   });
+
+  describe('hsl', function() {
+    describe('hsl', function() {
+      it('white', function() {
+        sassaby.func('lch').calledWithArgs('100', '0', '0', 'hsl').equals('white');
+      });
+      it('black', function() {
+        sassaby.func('lch').calledWithArgs('0', '0', '0', 'hsl').equals('black');
+      });
+    });
+
+    describe('pf-lightness', function() {
+      it('white', function() {
+        sassaby.func('pf-lightness').calledWithArgs('white', 'hsl').equals(100);
+      });
+      it('black', function() {
+        sassaby.func('pf-lightness').calledWithArgs('black', 'hsl').equals(0);
+      });
+      it('red', function() {
+        sassaby.func('pf-lightness').calledWithArgs('red', 'hsl').equals(50);
+      });
+      it('blue', function() {
+        sassaby.func('pf-lightness').calledWithArgs('blue', 'hsl').equals(50);
+      });
+    });
+
+    describe('pf-chroma', function() {
+      it('white', function() {
+        sassaby.func('pf-chroma').calledWithArgs('white', 'hsl').equals(0);
+      });
+      it('black', function() {
+        sassaby.func('pf-chroma').calledWithArgs('black', 'hsl').equals(0);
+      });
+      it('red', function() {
+        sassaby.func('pf-chroma').calledWithArgs('red', 'hsl').equals(100);
+      });
+      it('blue', function() {
+        sassaby.func('pf-chroma').calledWithArgs('blue', 'hsl').equals(100);
+      });
+    });
+
+    describe('pf-hue', function() {
+      it('white', function() {
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('white', 'hsl'), 0);
+      });
+      it('black', function() {
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('black', 'hsl'), 0);
+      });
+      it('red', function() {
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('red', 'hsl'), 0);
+      });
+      it('yellow', function() {
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow', 'hsl'), Math.PI / 3);
+      });
+      it('green', function() {
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('green', 'hsl'), Math.PI / 3 * 2);
+      });
+      it('blue', function() {
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue', 'hsl'), Math.PI / 3 * 4);
+      });
+    });
+
+    describe('pf-complement', function() {
+      it('white', function() {
+        sassaby.func('pf-complement').calledWithArgs('white', 'hsl').equals('white');
+      });
+      it('red', function() {
+        sassaby.func('pf-complement').calledWithArgs('red', 'hsl').equals('cyan');
+      });
+      it('yellow', function() {
+        sassaby.func('pf-complement').calledWithArgs('yellow', 'hsl').equals('blue');
+      });
+    });
+
+    describe('pf-mix', function() {
+      it('white, white', function() {
+        sassaby.func('pf-mix').calledWithArgs('white', 'white', '50%', 'hsl').equals('white');
+      });
+      it('black, white', function() {
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '50%', 'hsl').equals('gray');
+      });
+      it('black, white, 0%', function() {
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '0%', 'hsl').equals('white');
+      });
+      it('black, white, 100%', function() {
+        sassaby.func('pf-mix').calledWithArgs('black', 'white', '100%', 'hsl').equals('black');
+      });
+      it('blue, red', function() {
+        sassaby.func('pf-mix').calledWithArgs('blue', 'red', '50%', 'hsl').equals('magenta');
+      });
+      it('yellow, blue', function() {
+        sassaby.func('pf-mix').calledWithArgs('yellow', 'blue', '50%', 'hsl').equals('#00ff80');
+      });
+      it('white, blue', function() {
+        sassaby.func('pf-mix').calledWithArgs('white', 'blue', '50%', 'hsl').equals('#9f9fdf');
+      });
+    });
+  });
 });

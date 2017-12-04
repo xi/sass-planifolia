@@ -1,6 +1,7 @@
 0.5.0 (unreleased)
 ------------------
 
+- contrast: avoid cases with too little contrast in `contrast-stretch()`
 - color: add support for HSLab and HSLuv color spaces
 - color: change behavior of chroma/saturation in HSL color space
 

@@ -159,22 +159,20 @@ $planifolia-contrast-light-default: white !default;
     @return $upper;
   }
 
-  $result: mix($lower, $upper);
-
   // NOTE: This is not a usual binary search. It is possible that the contrast
   // first decreases for a while when going from $lower to $upper.  However, we
   // checked that it starts below $contrast, so the algorithm still works.
   @for $i from 0 to 10 {
-    @if contrast($base, $result) < $contrast {
-      $lower: $result;
-    } @else {
-      $upper: $result;
-    }
+    $tmp: mix($lower, $upper);
 
-    $result: mix($lower, $upper);
+    @if contrast($base, $tmp) < $contrast {
+      $lower: $tmp;
+    } @else {
+      $upper: $tmp;
+    }
   }
 
-  @return $result;
+  @return $upper;
 }
 
 /// Warn if the contrast is below a threshold.

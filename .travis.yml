@@ -10,5 +10,6 @@ cache:
     - $HOME/.nvm
 script:
   - npm test
+  - npm run lint
 notifications:
   email: false

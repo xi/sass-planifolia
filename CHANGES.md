@@ -1,4 +1,4 @@
-0.5.0 (unreleased)
+0.5.0 (2017-12-05)
 ------------------
 
 - contrast: avoid cases with too little contrast in `contrast-stretch()`

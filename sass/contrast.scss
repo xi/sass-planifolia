@@ -35,7 +35,8 @@ $planifolia-contrast-light-default: white !default;
       //
       // NOTE that `contrast()` amplifies the errors generated here.
       // The factors a chosen to minify that effect.
-      @return .56 * ($c * $c * $c) + .44 * ($c * $c);
+      $cc: $c * $c;
+      @return .4 * $cc + .8 * ($cc * $c) - .2 * ($cc * $cc);
     }
   }
 }

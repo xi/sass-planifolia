@@ -1,43 +1,48 @@
 Sass-Planifolia - Vanilla Sass helper functions
 
-[Sass](http://sass-lang.com/) is great, but some of its libraries not so much.
-[Compass](http://compass-style.org/), the most popular of them all, seems to be
-unmaintained. In addition, the rise of [libSass](http://sass-lang.com/libsass)
-means that ruby extensions are no longer a good way forward.
+[Compass](http://compass-style.org/) was great, but it has been unmaintained
+for a while now. In addition, the rise of
+[libSass](http://sass-lang.com/libsass) means that ruby extensions are no
+longer a good way forward.
 
-Planifolia is a collection of high-quality implementations of common framework
-functionality. It does not depend on a specific implementation of the Sass
-compiler.
+Planifolia is a collection of commonly used helper functions.  It does not
+depend on a specific implementation of the Sass compiler.
+
+The following modules are included:
+
+-   **math** for high performance math functions
+-   **contrast** for WCAG compatible [color
+    contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
+-   **color** for CIELAB/CIELUV based color functions (with support for
+    [HSLuv](http://www.hsluv.org/))
+-   **clearfix** for compass compatible clearfix mixins
+-   **grid** for simple grid mixins
+
+These modules can be imported individually (color depends on math though).
+Also note that these modules will only define mixins and variables. They will
+not output any CSS. This means that importing them does not add a single byte
+to your CSS.
+
+See the [full documentation](https://xi.github.io/sass-planifolia/) for more
+details.
 
 # Quick start
 
-    bower install xi/sass-planifolia
+    npm install sass-planifolia
 
 Import it in your Sass files:
 
-    @import "bower_components/sass-planifolia/sass/math";
-    @import "bower_components/sass-planifolia/sass/contrast";
+    @import "node_modules/sass-planifolia/sass/math";
+    @import "node_modules/sass-planifolia/sass/contrast";
+    @import "node_modules/sass-planifolia/sass/color";
 
     .test {
-        background: red;
+        background-color: red;
         color: contrast-color(red);
+        border-color: contrast-stretch(red, orange);
+        box-shadow: 0 0 1em pf-shade(red, 0.5, 'lab');
         font-size: 16px * pow(2.3, 1.5);
     }
-
-# Features
-
--   Does not depend on a specific Sass implementation
--   Leightweight
--   Unit tests
--   [Fully documented](https://xi.github.io/sass-planifolia/)
--   High performance math algorithms
--   WCAG compatible [color
-    contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
--   CIELAB/CIELUV based color functions (with support for
-    [HSLuv](http://www.hsluv.org/))
--   More functionality may be added on demand.
--   Can be installed with bower or npm (eyeglass). Other options may be added
-    on demand.
 
 # What is not included?
 

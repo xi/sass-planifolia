@@ -32,17 +32,19 @@ details.
 
 Import it in your Sass files:
 
-    @import "node_modules/sass-planifolia/sass/math";
-    @import "node_modules/sass-planifolia/sass/contrast";
-    @import "node_modules/sass-planifolia/sass/color";
+```sass
+@import "node_modules/sass-planifolia/sass/math";
+@import "node_modules/sass-planifolia/sass/contrast";
+@import "node_modules/sass-planifolia/sass/color";
 
-    .test {
-        background-color: red;
-        color: contrast-color(red);
-        border-color: contrast-stretch(red, orange);
-        box-shadow: 0 0 1em pf-shade(red, 0.5, 'lab');
-        font-size: 16px * pow(2.3, 1.5);
-    }
+.test {
+    background-color: red;
+    color: contrast-color(red);
+    border-color: contrast-stretch(red, orange);
+    box-shadow: 0 0 1em pf-shade(red, 0.5, 'lab');
+    font-size: 16px * pow(2.3, 1.5);
+}
+```
 
 # What is not included?
 

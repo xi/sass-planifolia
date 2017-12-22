@@ -22,8 +22,8 @@
 ///
 /// - Inline has the issue that whitespace is significant, so it violates the
 ///   separation of content and presentation.
-/// - Flexbox is not ready yet and if it was it would be expressive enough to be
-///   used without the overhead of a grid system.
+/// - CSS Grid and Flexbox are expressive enough to be used without the overhead
+///   of a grid system.
 /// - Floats were the implementation of choice for quite some time, but they are
 ///   not very robust and prone to rounding errors.
 /// - Isolation is an extension of floats that is much more robust by specifying

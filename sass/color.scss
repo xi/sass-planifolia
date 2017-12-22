@@ -1,4 +1,6 @@
 ////
+/// @group color
+///
 /// This module provides functions that can be used as drop-in replacements for
 /// some of the HSL based functions included in Sass.
 ///
@@ -14,8 +16,6 @@
 /// and `lch(70, 50, 90deg, 'lab')` have the same chroma (except when clipping
 /// is applied). With HSLab, you know that `lch(40, 50, 10deg, 'hslab')` always
 /// has half the chroma of `lch(40, 100, 10deg, 'hslab')`.
-///
-/// @group color
 ////
 
 /// @type string

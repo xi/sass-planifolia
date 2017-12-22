@@ -1,4 +1,6 @@
 ////
+/// @group grid
+///
 /// There already so many grid systems out there. So why write yet another one?
 /// Why not?
 ///
@@ -42,8 +44,6 @@
 /// More high-level functionality (e.g. responsive layouts) can easily be added
 /// on top of this. This module already contains a `grid-same-with()` mixin that
 /// covers some usecases.
-///
-/// @group grid
 ////
 
 /// Default configuration.

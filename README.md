@@ -39,10 +39,18 @@ Import it in your Sass files:
 
 .test {
     background-color: red;
+
+    // pick between two colors (default: black and white) to get good contrast
     color: contrast-color(red);
+
+    // mix orange with black or white to get good contrast to red
     border-color: contrast-stretch(red, orange);
+
+    // mix red with black in a perceptually uniform color space
     box-shadow: 0 0 1em pf-shade(red, 0.5, 'lab');
-    font-size: 16px * pow(2.3, 1.5);
+
+    // calculate modular scale dynamically
+    font-size: 16px * pow(1.5, 2);
 }
 ```
 

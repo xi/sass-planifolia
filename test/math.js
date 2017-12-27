@@ -54,18 +54,18 @@ describe('math', function() {
     });
   });
 
-  describe('ln', function() {
-    it('ln(1) == 0', function() {
-      sassaby.func('ln').calledWithArgs('1').equals('0');
+  describe('log', function() {
+    it('log(1) == 0', function() {
+      sassaby.func('log').calledWithArgs('1').equals('0');
     });
-    it('ln(0.1)', function() {
-      shared.similar(sassaby.func('ln').calledWithArgs('0.1'), Math.log(0.1));
+    it('log(0.1)', function() {
+      shared.similar(sassaby.func('log').calledWithArgs('0.1'), Math.log(0.1));
     });
-    it('ln(123456789)', function() {
-      shared.similar(sassaby.func('ln').calledWithArgs('123456789'), Math.log(123456789));
+    it('log(123456789)', function() {
+      shared.similar(sassaby.func('log').calledWithArgs('123456789'), Math.log(123456789));
     });
-    it('ln(12345678.9)', function() {
-      shared.similar(sassaby.func('ln').calledWithArgs('12345678.9'), Math.log(12345678.9));
+    it('log(12345678.9)', function() {
+      shared.similar(sassaby.func('log').calledWithArgs('12345678.9'), Math.log(12345678.9));
     });
   });
 

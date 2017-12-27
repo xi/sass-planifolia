@@ -44,7 +44,7 @@ $planifolia-math-steps-default: 32 !default;
   @return $result;
 }
 
-@function _pf-ln-taylor-1($x, $steps) {
+@function _pf-log-taylor-1($x, $steps) {
   $z: ($x - 1) / ($x + 1);
 
   $power: $z;
@@ -100,12 +100,12 @@ $planifolia-math-steps-default: 32 !default;
   }
 }
 
-@function _pf-log-approx($x) {
+@function _pf-log10-approx($x) {
   @if $x <= 0 {
     @error 'cannot calculate log of #{$x}';
   } @else if $x >= 1 {
     // choose the smaller option (-1) because it yields better
-    // results in ln().
+    // results in log().
     @return str-length(inspect(round($x))) - 1;
   } @else {
     @return -1 * str-length(inspect(round(1 / $x)));
@@ -115,20 +115,20 @@ $planifolia-math-steps-default: 32 !default;
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function ln($x, $steps: $planifolia-math-steps-default) {
-  $ln10: 2.302585092994046;
-  $approx: _pf-log-approx($x);
+@function log($x, $steps: $planifolia-math-steps-default) {
+  $log10: 2.302585092994046;
+  $approx: _pf-log10-approx($x);
   // $y is in range [1, 10]
   $y: $x / _pf-pow-int(10, $approx);
-  @return $approx * $ln10 + _pf-ln-taylor-1($y, $steps);
+  @return $approx * $log10 + _pf-log-taylor-1($y, $steps);
 }
 
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
-@function log($x, $steps: $planifolia-math-steps-default) {
-  $ln10: 2.302585092994046;
-  @return ln($x, $steps) / $ln10;
+@function log10($x, $steps: $planifolia-math-steps-default) {
+  $log10: 2.302585092994046;
+  @return log($x, $steps) / $log10;
 }
 
 /// @param {number} $x
@@ -145,7 +145,7 @@ $planifolia-math-steps-default: 32 !default;
   } @else if $x == 0 and $exponent > 0 {
     @return 0;
   } @else {
-    $y: ln($x, $steps) * $exp2;
+    $y: log($x, $steps) * $exp2;
     $pow2: _pf-exp-taylor-0($y, $steps);
     @return $pow1 * $pow2;
   }

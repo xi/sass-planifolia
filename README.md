@@ -60,3 +60,15 @@ Import it in your Sass files:
     for that.
 -   pt/px/em/rem conversion. That is (a) not possible and (b) not helpful. Each
     unit has its specific use case. Learn to use the right units directly!
+
+# Similar libraries
+
+-   [mathsass](https://github.com/terkel/mathsass) is another very good
+    pure-sass math implementation.
+-   [accoutrement-color](https://github.com/oddbird/accoutrement-color) and
+    [bourbon](https://github.com/thoughtbot/bourbon) also contain
+    WCAG-appropriate color-contrast functions, but they ignore
+    alpha-transparency.
+-   [eyeglass-math](https://github.com/sass-eyeglass/eyeglass-math) and
+    [chromatic-sass](https://github.com/bugsnag/chromatic-sass) also do
+    advanced math/color manipulation, but they can only be used with node-sass.

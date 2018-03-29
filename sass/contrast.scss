@@ -128,12 +128,20 @@ $planifolia-contrast-light-default: white !default;
 /// @param {color} $base the base color to compare to
 /// @param {color} $color1 [$planifolia-contrast-dark-default] first option
 /// @param {color} $color2 [$planifolia-contrast-light-default] second option
+/// @param {number} $contrast [21]
+///    (can also be 'AA', 'AALG', 'AAA', or 'AAALG')
 /// @return {color} either `$color1` or `$color2`
 @function contrast-color(
   $base,
   $color1: $planifolia-contrast-dark-default,
-  $color2: $planifolia-contrast-light-default
+  $color2: $planifolia-contrast-light-default,
+  $contrast: 21
 ) {
+  $contrast: _pf-threshold($contrast);
+
+  @if contrast($color1, $base) >= $contrast {
+    @return $color1;
+  }
   @if contrast($color1, $base) >= contrast($color2, $base) {
     @return $color1;
   } @else {

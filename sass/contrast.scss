@@ -182,11 +182,12 @@ $planifolia-contrast-light-default: white !default;
 /// @param {color} $color
 /// @param {number} $threshold [4.5]
 ///    (can also be 'AA', 'AALG', 'AAA', or 'AAALG')
+/// @return {color} unchanged $color
 @function contrast-check($base, $color, $threshold: 4.5) {
   $threshold: _pf-threshold($threshold);
   $contrast: contrast($base, $color);
   @if $contrast < $threshold {
     @warn 'contrast #{$contrast} between #{$base} and #{$color} too low!';
   }
-  @return null;
+  @return $color;
 }

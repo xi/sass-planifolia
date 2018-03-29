@@ -125,20 +125,37 @@ $planifolia-contrast-light-default: white !default;
 
 /// Pick the higher contrast option for a given base color.
 ///
-/// @param {color} $base the base color to compare to
-/// @param {color} $color1 [$planifolia-contrast-dark-default] first option
-/// @param {color} $color2 [$planifolia-contrast-light-default] second option
-/// @return {color} either `$color1` or `$color2`
-@function contrast-color(
-  $base,
-  $color1: $planifolia-contrast-dark-default,
-  $color2: $planifolia-contrast-light-default
-) {
-  @if contrast($color1, $base) >= contrast($color2, $base) {
-    @return $color1;
-  } @else {
-    @return $color2;
+/// @param {color} $base
+/// @param {color} $colors
+/// @return {color | null}
+@function contrast-best($base, $colors) {
+  $best-contrast: 0;
+  $best-color: null;
+  @each $color in $colors {
+    $contrast: contrast($color, $base);
+    @if $contrast > $best-contrast {
+      $best-contrast: $contrast;
+      $best-color: $color;
+    }
   }
+  @return $best-color;
+}
+
+/// Pick the first option with sufficient contrast to a given base color.
+///
+/// @param {color} $base
+/// @param {color} $colors
+/// @param {number} $threshold [4.5]
+///    (can also be 'AA', 'AALG', 'AAA', or 'AAALG')
+/// @return {color | null}
+@function contrast-first($base, $colors, $threshold: 4.5) {
+  $threshold: _pf-threshold($threshold);
+  @each $color in $colors {
+    @if contrast($color, $base) >= $threshold {
+      @return $color;
+    }
+  }
+  @return null;
 }
 
 /// Mix color with black or white to increase contrast for a given base color.
@@ -190,4 +207,18 @@ $planifolia-contrast-light-default: white !default;
     @warn 'contrast #{$contrast} between #{$base} and #{$color} too low!';
   }
   @return $color;
+}
+
+/// Select a suitable color based on contrast.
+///
+/// @param {color} $base
+/// @param {color} $color1 [$planifolia-contrast-dark-default]
+/// @param {color} $color2 [$planifolia-contrast-light-default]
+/// @return {color} either `$color1` or `$color2`
+@function contrast-color(
+  $base,
+  $color1: $planifolia-contrast-dark-default,
+  $color2: $planifolia-contrast-light-default
+) {
+  @return contrast-best($base, ($color1, $color2));
 }

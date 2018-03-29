@@ -201,7 +201,7 @@ $planifolia-colorspace: 'lab' !default;
     $h: atan2(nth($lab, 3), nth($lab, 2)) * 1rad;
   }
 
-  @return ($l, $c, $h);
+  @return ($l, $c, 0deg + $h);
 }
 
 @function _pf-lch-to-lab($lch) {
@@ -251,7 +251,7 @@ $planifolia-colorspace: 'lab' !default;
     $max: _pf-max-chroma(nth($lch, 1), nth($lch, 3), 'luv');
     @return (nth($lch, 1), nth($lch, 2) / $max * 100, nth($lch, 3));
   } @else if $colorspace == 'hsl' {
-    @return (lightness($color) / 1%, saturation($color) / 1%, hue($color) / 1rad * 1rad);
+    @return (lightness($color) / 1%, saturation($color) / 1%, hue($color));
   } @else if $colorspace == 'yuv' {
     $yuv: _pf-to-yuv($color);
     @return _pf-lab-to-lch($yuv);
@@ -301,6 +301,7 @@ $planifolia-colorspace: 'lab' !default;
 /// @require sin
 /// @require cos
 @function lch($lightness, $chroma, $hue, $colorspace: $planifolia-colorspace) {
+  $hue: 0deg + $hue;
   $rgb: _lch-unclipped($lightness, $chroma, $hue, $colorspace);
 
   @if _pf-clip-needed($rgb) {
@@ -496,8 +497,8 @@ $planifolia-colorspace: 'lab' !default;
   $h1: nth($lch1, 3);
   $h2: nth($lch2, 3);
 
-  @while abs($h2 - $h1) > pi() * 1rad {
-    $h1: $h1 + if($h1 < $h2, 2, -2) * pi() * 1rad;
+  @while abs($h2 - $h1) > 180deg {
+    $h1: $h1 + if($h1 < $h2, 360deg, -360deg);
   }
 
   $h: ($h1 * $w1 + $h2 * $w2) / ($w1 + $w2);

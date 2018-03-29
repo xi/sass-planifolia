@@ -13,16 +13,22 @@ describe('color', function() {
   describe('lab', function() {
     describe('lch', function() {
       it('white', function() {
-        sassaby.func('lch').calledWithArgs('100', '0', '0').equals('white');
+        sassaby.func('lch').calledWithArgs('100', '0', '0rad').equals('white');
       });
       it('black', function() {
-        sassaby.func('lch').calledWithArgs('0', '0', '0').equals('black');
+        sassaby.func('lch').calledWithArgs('0', '0', '0rad').equals('black');
       });
-      it('red', function() {
-        sassaby.func('lch').calledWithArgs('53.23288', '104.57421', '0.69818').equals('red');
+      it('red (rad)', function() {
+        sassaby.func('lch').calledWithArgs('53.23288', '104.57421', '0.69818rad').equals('red');
+      });
+      it('red (deg)', function() {
+        sassaby.func('lch').calledWithArgs('53.23288', '104.57421', '40deg').equals('red');
+      });
+      it('red (unitless)', function() {
+        sassaby.func('lch').calledWithArgs('53.23288', '104.57421', '40').equals('red');
       });
       it('blue', function() {
-        sassaby.func('lch').calledWithArgs('32.30259', '133.80605', '-0.93744').equals('blue');
+        sassaby.func('lch').calledWithArgs('32.30259', '133.80605', '-0.93744rad').equals('blue');
       });
     });
 
@@ -64,16 +70,16 @@ describe('color', function() {
         shared.similar(sassaby.func('pf-hue').calledWithArgs('black'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('red'), 0, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('red'), 40.0027);
       });
       it('yellow', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow'), Math.PI * 0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow'), 102.85403);
       });
       it('green', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('green'), Math.PI, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('green'), 136.0155);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue'), Math.PI * -0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue'), -53.71132);
       });
     });
 
@@ -153,16 +159,22 @@ describe('color', function() {
   describe('luv', function() {
     describe('lch', function() {
       it('white', function() {
-        sassaby.func('lch').calledWithArgs('100', '0', '0', 'luv').equals('white');
+        sassaby.func('lch').calledWithArgs('100', '0', '0rad', 'luv').equals('white');
       });
       it('black', function() {
-        sassaby.func('lch').calledWithArgs('0', '0', '0', 'luv').equals('black');
+        sassaby.func('lch').calledWithArgs('0', '0', '0rad', 'luv').equals('black');
       });
-      it('red', function() {
-        sassaby.func('lch').calledWithArgs('53.23288', '179.07872', '0.21245', 'luv').equals('red');
+      it('red (rad)', function() {
+        sassaby.func('lch').calledWithArgs('53.23288', '179.07872', '0.21245rad', 'luv').equals('red');
+      });
+      it('red (deg)', function() {
+        sassaby.func('lch').calledWithArgs('53.23288', '179.07872', '12.1725deg', 'luv').equals('red');
+      });
+      it('red (unitless)', function() {
+        sassaby.func('lch').calledWithArgs('53.23288', '179.07872', '12.1725', 'luv').equals('red');
       });
       it('blue', function() {
-        sassaby.func('lch').calledWithArgs('32.30259', '130.69138', '-1.64278', 'luv').equals('blue');
+        sassaby.func('lch').calledWithArgs('32.30259', '130.69138', '-1.64278rad', 'luv').equals('blue');
       });
     });
 
@@ -204,16 +216,16 @@ describe('color', function() {
         shared.similar(sassaby.func('pf-hue').calledWithArgs('black', 'luv'), 0);
       });
       it('red', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('red', 'luv'), 0, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('red', 'luv'), 12.17245);
       });
       it('yellow', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow', 'luv'), Math.PI * 0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow', 'luv'), 85.87536);
       });
       it('green', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('green', 'luv'), Math.PI, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('green', 'luv'), 127.71994);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue', 'luv'), Math.PI * -0.5, 1);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue', 'luv'), -94.12464);
       });
     });
 
@@ -270,12 +282,24 @@ describe('color', function() {
   });
 
   describe('hsl', function() {
-    describe('hsl', function() {
+    describe('lch', function() {
       it('white', function() {
-        sassaby.func('lch').calledWithArgs('100', '0', '0', 'hsl').equals('white');
+        sassaby.func('lch').calledWithArgs('100', '0', '0rad', 'hsl').equals('white');
       });
       it('black', function() {
-        sassaby.func('lch').calledWithArgs('0', '0', '0', 'hsl').equals('black');
+        sassaby.func('lch').calledWithArgs('0', '0', '0rad', 'hsl').equals('black');
+      });
+      it('red', function() {
+        sassaby.func('lch').calledWithArgs('50', '100', '0rad', 'hsl').equals('red');
+      });
+      it('blue (rad)', function() {
+        sassaby.func('lch').calledWithArgs('50', '100', '4.18879rad', 'hsl').equals('blue');
+      });
+      it('blue (deg)', function() {
+        sassaby.func('lch').calledWithArgs('50', '100', '240deg', 'hsl').equals('blue');
+      });
+      it('blue (unitless)', function() {
+        sassaby.func('lch').calledWithArgs('50', '100', '240', 'hsl').equals('blue');
       });
     });
 
@@ -320,13 +344,13 @@ describe('color', function() {
         shared.similar(sassaby.func('pf-hue').calledWithArgs('red', 'hsl'), 0);
       });
       it('yellow', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow', 'hsl'), Math.PI / 3);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('yellow', 'hsl'), 60);
       });
       it('green', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('green', 'hsl'), Math.PI / 3 * 2);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('green', 'hsl'), 120);
       });
       it('blue', function() {
-        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue', 'hsl'), Math.PI / 3 * 4);
+        shared.similar(sassaby.func('pf-hue').calledWithArgs('blue', 'hsl'), 240);
       });
     });
 

@@ -1,7 +1,9 @@
-0.6.0 (unreleased)
+0.6.0 (2018-04-08)
 ------------------
 
 - math: rename `ln()` to `log()` and `log()` to `log10()`
+- color: interpret unitless angles (hues) as `deg` instead of `rad`
+- contrast: `contrast-check()` return second argument instead of `null`
 
 0.5.0 (2017-12-05)
 ------------------

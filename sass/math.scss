@@ -205,7 +205,7 @@ $planifolia-math-steps-default: 32 !default;
 @function asin($x, $steps: $planifolia-math-steps-default) {
   @if $x < 0 {
     @return -1 * asin(-$x, $steps);
-  } @else if $x * $x > .5 {
+  } @else if $x * $x > 0.5 {
     @return acos(sqrt(1 - $x * $x, $steps), $steps);
   } @else {
     @return _pf-asin-taylor-0($x, $steps);

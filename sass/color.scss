@@ -38,20 +38,20 @@ $planifolia-colorspace: 'lab' !default;
 
 @function _pf-srgb-to-rgb($c) {
   $c: $c / 255;
-  @if $c <= .04045 {
+  @if $c <= 0.04045 {
     $c: $c / 12.92;
   } @else {
-    $c: pow(($c + .055) / 1.055, 2.4);
+    $c: pow(($c + 0.055) / 1.055, 2.4);
   }
   @return $c * 100;
 }
 
 @function _pf-rgb-to-srgb($c) {
   $c: $c / 100;
-  @if $c <= .0031308 {
+  @if $c <= 0.0031308 {
     $c: $c * 12.92;
   } @else {
-    $c: 1.055 * pow($c, 1 / 2.4) - .055;
+    $c: 1.055 * pow($c, 1 / 2.4) - 0.055;
   }
   @return $c * 255;
 }
@@ -61,17 +61,17 @@ $planifolia-colorspace: 'lab' !default;
   $g: _pf-srgb-to-rgb(green($color));
   $b: _pf-srgb-to-rgb(blue($color));
 
-  $x: .4124 * $r + .3576 * $g + .1805 * $b;
-  $y: .2126 * $r + .7152 * $g + .0722 * $b;
-  $z: .0193 * $r + .1192 * $g + .9505 * $b;
+  $x: 0.4124 * $r + 0.3576 * $g + 0.1805 * $b;
+  $y: 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+  $z: 0.0193 * $r + 0.1192 * $g + 0.9505 * $b;
 
   @return ($x, $y, $z);
 }
 
 @function _pf-from-xyz($xyz) {
-  $r: 3.2406 * nth($xyz, 1) - 1.5372 * nth($xyz, 2) - .4986 * nth($xyz, 3);
-  $g: -.9689 * nth($xyz, 1) + 1.8758 * nth($xyz, 2) + .0415 * nth($xyz, 3);
-  $b: .0557 * nth($xyz, 1) - .204 * nth($xyz, 2) + 1.057 * nth($xyz, 3);
+  $r: 3.2406 * nth($xyz, 1) - 1.5372 * nth($xyz, 2) - 0.4986 * nth($xyz, 3);
+  $g: -0.9689 * nth($xyz, 1) + 1.8758 * nth($xyz, 2) + 0.0415 * nth($xyz, 3);
+  $b: 0.0557 * nth($xyz, 1) - 0.204 * nth($xyz, 2) + 1.057 * nth($xyz, 3);
 
   $r: _pf-rgb-to-srgb($r);
   $g: _pf-rgb-to-srgb($g);
@@ -85,9 +85,9 @@ $planifolia-colorspace: 'lab' !default;
   $g: _pf-srgb-to-rgb(green($color));
   $b: _pf-srgb-to-rgb(blue($color));
 
-  $y: .2126 * $r + .7152 * $g + .0722 * $b;
-  $u: -.09991 * $r + -.33609 * $g + .436 * $b;
-  $v: .615 * $r + -.55861 * $g + -.05639 * $b;
+  $y: 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+  $u: -0.09991 * $r + -0.33609 * $g + 0.436 * $b;
+  $v: 0.615 * $r + -0.55861 * $g + -0.05639 * $b;
 
   @return ($y, $v, -$u);
 }
@@ -98,7 +98,7 @@ $planifolia-colorspace: 'lab' !default;
   $u: -1 * nth($yuv, 3);
 
   $r: _pf-rgb-to-srgb($y + 1.28033 * $v);
-  $g: _pf-rgb-to-srgb($y + -.21482 * $u + -.38059 * $v);
+  $g: _pf-rgb-to-srgb($y + -0.21482 * $u + -0.38059 * $v);
   $b: _pf-rgb-to-srgb($y + 2.12798 * $u);
 
   @return ($r, $g, $b);
@@ -197,7 +197,7 @@ $planifolia-colorspace: 'lab' !default;
   $l: nth($lab, 1);
   $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
   $h: 0;
-  @if abs(nth($lab, 2)) > .0001 or abs(nth($lab, 3)) > .0001 {
+  @if abs(nth($lab, 2)) > 0.0001 or abs(nth($lab, 3)) > 0.0001 {
     $h: atan2(nth($lab, 3), nth($lab, 2)) * 1rad;
   }
 
@@ -309,7 +309,7 @@ $planifolia-colorspace: 'lab' !default;
     $c-max: $chroma;
     $c-tmp: ($c-min + $c-max) / 2;
 
-    @while $c-max - $c-min > .01 {
+    @while $c-max - $c-min > 0.01 {
       $rgb: _lch-unclipped($lightness, $c-tmp, $hue, $colorspace);
       @if _pf-clip-needed($rgb) {
         $c-max: $c-tmp;
@@ -490,8 +490,8 @@ $planifolia-colorspace: 'lab' !default;
   $w2: (1 - $w) * nth($lch2, 2);
 
   @if ($w1 == 0 and $w2 == 0) {
-    $w1: .5;
-    $w2: .5;
+    $w1: 0.5;
+    $w2: 0.5;
   }
 
   $h1: nth($lch1, 3);

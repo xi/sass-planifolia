@@ -9,8 +9,7 @@
     "node-sass": "^4.8.3",
     "sass-lint": "^1.12.1",
     "sassaby": "^2.1.1",
-    "sassdoc": "^2.5.0",
-    "sassdoc-theme-default": "git+https://github.com/xi/sassdoc-theme-default.git"
+    "sassdoc": "^2.6.0"
   },
   "scripts": {
     "test": "mocha",

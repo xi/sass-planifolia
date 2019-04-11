@@ -1,149 +1,143 @@
-var path = require('path');
-var Sassaby = require('sassaby');
+var assert = require('assert');
 var shared = require('./shared');
 
 describe('contrast', function() {
-  var file = path.resolve(__dirname, '../sass/contrast.scss');
-  var sassaby = new Sassaby(file, {
-    dependencies: [
-      path.resolve(__dirname, '../sass/math.scss')
-    ]
-  });
+  var renderer = new shared.Renderer('@import "contrast";');
 
   describe('alpha-blend', function() {
     it('fully opaque', function() {
-      sassaby.func('alpha-blend').calledWithArgs('white').equals('white');
-      sassaby.func('alpha-blend').calledWithArgs('black').equals('black');
-      sassaby.func('alpha-blend').calledWithArgs('red').equals('red');
+      assert.equal(renderer.value('alpha-blend(white)'), 'white')
+      assert.equal(renderer.value('alpha-blend(black)'), 'black')
+      assert.equal(renderer.value('alpha-blend(red)'), 'red')
     });
     it('fully transparent', function() {
-      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0)', 'blue').equals('blue');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(black, 0)', 'blue').equals('blue');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(red, 0)', 'blue').equals('blue');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(blue, 0)').equals('white');
+      assert.equal(renderer.value('alpha-blend(rgba(white, 0), blue)'), 'blue')
+      assert.equal(renderer.value('alpha-blend(rgba(black, 0), blue)'), 'blue')
+      assert.equal(renderer.value('alpha-blend(rgba(red, 0), blue)'), 'blue')
+      assert.equal(renderer.value('alpha-blend(rgba(blue, 0))'), 'white')
     });
     it('50%', function() {
-      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0.5)', 'blue').equals('#8080ff');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(black, 0.5)', 'blue').equals('navy');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(red, 0.5)', 'blue').equals('purple');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(blue, 0.5)').equals('#8080ff');
+      assert.equal(renderer.value('alpha-blend(rgba(white, 0.5), blue)'), '#8080ff')
+      assert.equal(renderer.value('alpha-blend(rgba(black, 0.5), blue)'), 'navy')
+      assert.equal(renderer.value('alpha-blend(rgba(red, 0.5), blue)'), 'purple')
+      assert.equal(renderer.value('alpha-blend(rgba(blue, 0.5))'), '#8080ff')
     });
     it('13%', function() {
-      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0.13)', 'blue').equals('#2121ff');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(black, 0.13)', 'blue').equals('#0000de');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(red, 0.13)', 'blue').equals('#2100de');
-      sassaby.func('alpha-blend').calledWithArgs('rgba(blue, 0.13)').equals('#dedeff');
+      assert.equal(renderer.value('alpha-blend(rgba(white, 0.13), blue)'), '#2121ff')
+      assert.equal(renderer.value('alpha-blend(rgba(black, 0.13), blue)'), '#0000de')
+      assert.equal(renderer.value('alpha-blend(rgba(red, 0.13), blue)'), '#2100de')
+      assert.equal(renderer.value('alpha-blend(rgba(blue, 0.13))'), '#dedeff')
     });
     it('transparent background', function() {
-      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0.5)', 'rgba(blue, 0.5)').equals('rgba(170,170,255,0.75)');
+      assert.equal(renderer.value('alpha-blend(rgba(white, 0.5), rgba(blue, 0.5))'), 'rgba(170, 170, 255, 0.75)')
     });
     it('both fully transparent', function() {
-      sassaby.func('alpha-blend').calledWithArgs('rgba(white, 0)', 'rgba(black, 0)').equals('rgba(255,255,255,0)');
+      assert.equal(renderer.value('alpha-blend(rgba(white, 0), rgba(black, 0))'), 'rgba(255, 255, 255, 0)')
     });
   });
 
   describe('luma', function() {
     it('white', function() {
-      sassaby.func('luma').calledWithArgs('white').equals('1');
+      assert.equal(renderer.value('luma(white)'), '1')
     });
     it('black', function() {
-      sassaby.func('luma').calledWithArgs('black').equals('0');
+      assert.equal(renderer.value('luma(black)'), '0')
     });
     it('red', function() {
-      sassaby.func('luma').calledWithArgs('#f00').equals('.2126');
+      assert.equal(renderer.value('luma(#f00)'), '0.2126')
     });
     it('green', function() {
-      sassaby.func('luma').calledWithArgs('#0f0').equals('.7152');
+      assert.equal(renderer.value('luma(#0f0)'), '0.7152')
     });
     it('blue', function() {
-      sassaby.func('luma').calledWithArgs('#00f').equals('.0722');
+      assert.equal(renderer.value('luma(#00f)'), '0.0722')
     });
     it('yellow', function() {
-      sassaby.func('luma').calledWithArgs('yellow').equals('.9278');
+      assert.equal(renderer.value('luma(yellow)'), '0.9278')
     });
     it('cyan', function() {
-      sassaby.func('luma').calledWithArgs('cyan').equals('.7874');
+      assert.equal(renderer.value('luma(cyan)'), '0.7874')
     });
     it('random', function() {
-      shared.similar(sassaby.func('luma').calledWithArgs('rgb(12, 180, 92)'), 0.3349, 0.02);
+      shared.similar(renderer.value('luma(rgb(12, 180, 92))'), 0.3349, 0.02);
     });
     it('white with alpha', function() {
-      sassaby.func('luma').calledWithArgs('rgba(255,255,255,0.5)').equals('1');
+      assert.equal(renderer.value('luma(rgba(255,255,255,0.5))'), '1')
     });
     it('black with alpha', function() {
-      sassaby.func('luma').calledWithArgs('rgba(0,0,0,0.5)').equals('0');
+      assert.equal(renderer.value('luma(rgba(0,0,0,0.5))'), '0')
     });
   });
 
   describe('contrast', function() {
     it('white-black', function() {
-      sassaby.func('contrast').calledWithArgs('white', 'black').equals('21');
+      assert.equal(renderer.value('contrast(white, black)'), '21')
     });
     it('white-white', function() {
-      sassaby.func('contrast').calledWithArgs('white', 'white').equals('1');
+      assert.equal(renderer.value('contrast(white, white)'), '1')
     });
     it('black-black', function() {
-      sassaby.func('contrast').calledWithArgs('black', 'black').equals('1');
+      assert.equal(renderer.value('contrast(black, black)'), '1')
     });
     it('red-red', function() {
-      sassaby.func('contrast').calledWithArgs('red', 'red').equals('1');
+      assert.equal(renderer.value('contrast(red, red)'), '1')
     });
     it('red-lightblue', function() {
-      shared.similar(sassaby.func('contrast').calledWithArgs('red', '#676eff'), 1, 0.02);
+      shared.similar(renderer.value('contrast(red, #676eff)'), 1, 0.02);
     });
   });
 
   describe('contrast-color', function() {
     it('white', function() {
-      sassaby.func('contrast-color').calledWithArgs('white').equals('black');
+      assert.equal(renderer.value('contrast-color(white)'), 'black')
     });
     it('black', function() {
-      sassaby.func('contrast-color').calledWithArgs('black').equals('white');
+      assert.equal(renderer.value('contrast-color(black)'), 'white')
     });
     it('red', function() {
-      sassaby.func('contrast-color').calledWithArgs('#f00').equals('black');
+      assert.equal(renderer.value('contrast-color(#f00)'), 'black')
     });
     it('green', function() {
-      sassaby.func('contrast-color').calledWithArgs('#0f0').equals('black');
+      assert.equal(renderer.value('contrast-color(#0f0)'), 'black')
     });
     it('blue', function() {
-      sassaby.func('contrast-color').calledWithArgs('#00f').equals('white');
+      assert.equal(renderer.value('contrast-color(#00f)'), 'white')
     });
     it('yellow', function() {
-      sassaby.func('contrast-color').calledWithArgs('yellow').equals('black');
+      assert.equal(renderer.value('contrast-color(yellow)'), 'black')
     });
     it('cyan', function() {
-      sassaby.func('contrast-color').calledWithArgs('cyan').equals('black');
+      assert.equal(renderer.value('contrast-color(cyan)'), 'black')
     });
     it('light', function() {
-      sassaby.func('contrast-color').calledWithArgs('white', '#111', '#eee').equals('#111');
+      assert.equal(renderer.value('contrast-color(white, #111, #eee)'), '#111')
     });
     it('dark', function() {
-      sassaby.func('contrast-color').calledWithArgs('black', '#111', '#eee').equals('#eee');
+      assert.equal(renderer.value('contrast-color(black, #111, #eee)'), '#eee')
     });
     it('middle', function() {
-      sassaby.func('contrast-color').calledWithArgs('#555', '#111', '#eee').equals('#eee');
+      assert.equal(renderer.value('contrast-color(#555, #111, #eee)'), '#eee')
     });
     it('swapped', function() {
-      sassaby.func('contrast-color').calledWithArgs('white', '#eee', '#111').equals('#111');
+      assert.equal(renderer.value('contrast-color(white, #eee, #111)'), '#111')
     });
   });
 
   describe('contrast-stretch', function() {
     it('white-black', function() {
-      sassaby.func('contrast-stretch').calledWithArgs('white', 'black').equals('black');
+      assert.equal(renderer.value('contrast-stretch(white, black)'), 'black')
     });
     it('white-#333', function() {
-      sassaby.func('contrast-stretch').calledWithArgs('white', '#333').equals('#333');
+      assert.equal(renderer.value('contrast-stretch(white, #333)'), '#333')
     });
     it('white-#333-21', function() {
-      sassaby.func('contrast-stretch').calledWithArgs('white', '#333', '21').equals('black');
+      assert.equal(renderer.value('contrast-stretch(white, #333, 21)'), 'black')
     });
     it('#333-blue-7', function() {
-      sassaby.func('contrast-stretch').calledWithArgs('#333', 'blue', '7').equals('#bbf');
+      assert.equal(renderer.value('contrast-stretch(#333, blue, 7)'), '#bdbdff')
     });
     it('#333-blue-AAA', function() {
-      sassaby.func('contrast-stretch').calledWithArgs('#333', 'blue', 'AAA').equals('#bbf');
+      assert.equal(renderer.value('contrast-stretch(#333, blue, "AAA")'), '#bdbdff')
     });
   });
 });

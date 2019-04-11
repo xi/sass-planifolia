@@ -17,15 +17,8 @@
     "lint": "sass-lint -vq",
     "docs": "sassdoc sass"
   },
-  "eyeglass": {
-    "name": "planifolia",
-    "sassDir": "sass",
-    "exports": false,
-    "needs": "^1.0"
-  },
   "keywords": [
-    "sass",
-    "eyeglass-module"
+    "sass"
   ],
   "repository": {
     "type": "git",

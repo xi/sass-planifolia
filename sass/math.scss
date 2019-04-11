@@ -274,7 +274,7 @@ $planifolia-math-steps-default: 32 !default;
 ///   You can specify a custom interpolation function, e.g. to interpolate
 ///   between colors.
 /// @return {P} A single point.
-@function bezier($points, $t, $interpolate: _pf-interpolate) {
+@function bezier($points, $t, $interpolate: get-function(_pf-interpolate)) {
   @if length($points) > 1 {
     $tmp: ();
     @for $i from 1 to length($points) {

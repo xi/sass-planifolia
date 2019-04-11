@@ -13,9 +13,9 @@ $planifolia-contrast-light-default: white !default;
 @function _pf-threshold($threshold) {
   @if ($threshold == 'AA' or $threshold == 'AAALG') {
     @return 4.5;
-  } @elseif ($threshold == 'AALG') {
+  } @else if ($threshold == 'AALG') {
     @return 3;
-  } @elseif ($threshold == 'AAA') {
+  } @else if ($threshold == 'AAA') {
     @return 7;
   } @else {
     @return $threshold;

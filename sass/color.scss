@@ -8,7 +8,7 @@
 /// D65) and converts them to CIELAB by default, but CIELUV, HSL or YUV are
 /// also possible.
 ///
-/// CIELAB and CIELUV both try to be close to  human perception, so they may
+/// CIELAB and CIELUV both try to be close to human perception, so they may
 /// give nicer results in many cases than simple RGB/HSL.
 ///
 /// HSLab and HSLuv are variants of CIELAB and CIELUV that scale the chroma

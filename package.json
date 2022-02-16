@@ -3,11 +3,10 @@
   "version": "0.6.0",
   "description": "Vanilla Sass helper functions",
   "main": "index.js",
-  "dependencies": {},
   "devDependencies": {
-    "mocha": "^6.1.2",
-    "node-sass": "^4.8.3",
-    "sassdoc": "^2.6.0"
+    "mocha": "^9.2.0",
+    "node-sass": "^7.0.1",
+    "sassdoc": "^2.7.3"
   },
   "scripts": {
     "test": "mocha",

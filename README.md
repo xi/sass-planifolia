@@ -32,7 +32,7 @@ details.
 
 Import it in your Sass files:
 
-```sass
+```scss
 @import "node_modules/sass-planifolia/sass/math";
 @import "node_modules/sass-planifolia/sass/contrast";
 @import "node_modules/sass-planifolia/sass/color";

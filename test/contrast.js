@@ -134,10 +134,10 @@ describe('contrast', function() {
       assert.equal(renderer.value('contrast-stretch(white, #333, 21)'), 'black')
     });
     it('#333-blue-7', function() {
-      assert.equal(renderer.value('contrast-stretch(#333, blue, 7)'), '#bdbbff')
+      assert.equal(renderer.value('contrast-stretch(#333, blue, 7)'), '#bbbbff')
     });
     it('#333-blue-AAA', function() {
-      assert.equal(renderer.value('contrast-stretch(#333, blue, "AAA")'), '#bdbbff')
+      assert.equal(renderer.value('contrast-stretch(#333, blue, "AAA")'), '#bbbbff')
     });
   });
 });

@@ -5,6 +5,8 @@
 /// [WCAG21](https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio)
 ////
 
+@use "sass:math";
+
 /// @type color
 $planifolia-contrast-dark-default: black !default;
 /// @type color
@@ -23,11 +25,11 @@ $planifolia-contrast-light-default: white !default;
 }
 
 @function _pf-srgb($channel) {
-  $x: $channel / 255;
+  $x: math.div($channel, 255);
   @if $x <= 0.03928 {
-    @return $x / 12.92;
+    @return math.div($x, 12.92);
   } @else {
-    $c: ($x + 0.055) / 1.055;
+    $c: math.div($x + 0.055, 1.055);
     @if function-exists('pow') {
       @return pow($c, 2.4);
     } @else {
@@ -53,9 +55,9 @@ $planifolia-contrast-light-default: white !default;
   }
 
   $a: $a2 + (1 - $a2) * $a1;
-  $r: ($a2 * red($fg) + (1 - $a2) * $a1 * red($bg)) / $a;
-  $g: ($a2 * green($fg) + (1 - $a2) * $a1 * green($bg)) / $a;
-  $b: ($a2 * blue($fg) + (1 - $a2) * $a1 * blue($bg)) / $a;
+  $r: math.div($a2 * red($fg) + (1 - $a2) * $a1 * red($bg), $a);
+  $g: math.div($a2 * green($fg) + (1 - $a2) * $a1 * green($bg), $a);
+  $b: math.div($a2 * blue($fg) + (1 - $a2) * $a1 * blue($bg), $a);
 
   @return rgba($r, $g, $b, $a);
 }
@@ -71,7 +73,7 @@ $planifolia-contrast-light-default: white !default;
 @function _pf-contrast($fg, $bg) {
   $lbg: luma($bg);
   $lfg: luma(alpha-blend($fg, $bg));
-  @return (max($lbg, $lfg) + 0.05) / (min($lbg, $lfg) + 0.05);
+  @return math.div(max($lbg, $lfg) + 0.05, min($lbg, $lfg) + 0.05);
 }
 
 /// Calculate the minimum possible contrast between two colors.
@@ -119,7 +121,7 @@ $planifolia-contrast-light-default: white !default;
   } @else {
     $c1: contrast-min($color1, $color2);
     $c2: contrast-min($color2, $color1);
-    @return ($c1 + $c2) / 2;
+    @return ($c1 + $c2) * 0.5;
   }
 }
 

@@ -1,12 +1,12 @@
 {
   "name": "sass-planifolia",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Vanilla Sass helper functions",
   "main": "index.js",
   "devDependencies": {
-    "mocha": "^9.2.0",
-    "node-sass": "^7.0.1",
-    "sassdoc": "^2.7.3"
+    "mocha": "^10.0.0",
+    "sass": "^1.51.0",
+    "sassdoc": "^2.7.4"
   },
   "scripts": {
     "test": "mocha",

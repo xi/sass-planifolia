@@ -7,13 +7,13 @@ describe('color', function() {
   describe('lab', function() {
     describe('lch', function() {
       it('white', function() {
-        assert.equal(renderer.value('lch(100, 0, 0rad)'), 'white')
+        assert.equal(renderer.value('lch(100, 0, 0rad)'), '#fff')
       });
       it('black', function() {
-        assert.equal(renderer.value('lch(0, 0, 0rad)'), 'black')
+        assert.equal(renderer.value('lch(0, 0, 0rad)'), '#000')
       });
       it('red (rad)', function() {
-        assert.equal(renderer.value('lch(53.23288, 104.57421, 0.69818rad)'), 'red')
+        assert.equal(renderer.value('lch(53.23288, 104.57421, .69818rad)'), 'red')
       });
       it('red (deg)', function() {
         assert.equal(renderer.value('lch(53.23288, 104.57421, 40deg)'), 'red')
@@ -43,7 +43,7 @@ describe('color', function() {
 
     describe('pf-chroma', function() {
       it('white', function() {
-        shared.similar(renderer.value('pf-chroma(white)'), 0, 0.0001);
+        shared.similar(renderer.value('pf-chroma(white)'), 0, .0001);
       });
       it('black', function() {
         shared.similar(renderer.value('pf-chroma(black)'), 0);
@@ -79,7 +79,7 @@ describe('color', function() {
 
     describe('pf-complement', function() {
       it('white', function() {
-        assert.equal(renderer.value('pf-complement(white)'), 'white')
+        assert.equal(renderer.value('pf-complement(white)'), '#fff')
       });
       it('red', function() {
         assert.equal(renderer.value('pf-complement(red)'), '#008ca1')
@@ -112,22 +112,22 @@ describe('color', function() {
 
     describe('pf-mix', function() {
       it('white, white', function() {
-        assert.equal(renderer.value('pf-mix(white, white)'), 'white')
+        assert.equal(renderer.value('pf-mix(white, white)'), '#fff')
       });
       it('black, white', function() {
-        assert.equal(renderer.value('pf-mix(black, white)'), '#777777')
+        assert.equal(renderer.value('pf-mix(black, white)'), '#777')
       });
       it('black, white, 0%', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 0%)'), 'white')
+        assert.equal(renderer.value('pf-mix(black, white, 0%)'), '#fff')
       });
       it('black, white, 100%', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 100%)'), 'black')
+        assert.equal(renderer.value('pf-mix(black, white, 100%)'), '#000')
       });
       it('black, white, 20%', function() {
         assert.equal(renderer.value('pf-mix(black, white, 20%)'), '#c6c6c6')
       });
-      it('black, white, 0.2', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 0.2)'), '#c6c6c6')
+      it('black, white, .2', function() {
+        assert.equal(renderer.value('pf-mix(black, white, .2)'), '#c6c6c6')
       });
       it('blue, red', function() {
         assert.equal(renderer.value('pf-mix(blue, red)'), '#c20081')
@@ -153,13 +153,13 @@ describe('color', function() {
   describe('luv', function() {
     describe('lch', function() {
       it('white', function() {
-        assert.equal(renderer.value('lch(100, 0, 0rad, "luv")'), 'white')
+        assert.equal(renderer.value('lch(100, 0, 0rad, "luv")'), '#fff')
       });
       it('black', function() {
-        assert.equal(renderer.value('lch(0, 0, 0rad, "luv")'), 'black')
+        assert.equal(renderer.value('lch(0, 0, 0rad, "luv")'), '#000')
       });
       it('red (rad)', function() {
-        assert.equal(renderer.value('lch(53.23288, 179.07872, 0.21245rad, "luv")'), 'red')
+        assert.equal(renderer.value('lch(53.23288, 179.07872, .21245rad, "luv")'), 'red')
       });
       it('red (deg)', function() {
         assert.equal(renderer.value('lch(53.23288, 179.07872, 12.1725deg, "luv")'), 'red')
@@ -189,7 +189,7 @@ describe('color', function() {
 
     describe('pf-chroma', function() {
       it('white', function() {
-        shared.similar(renderer.value('pf-chroma(white, "luv")'), 0, 0.0001);
+        shared.similar(renderer.value('pf-chroma(white, "luv")'), 0, .0001);
       });
       it('black', function() {
         shared.similar(renderer.value('pf-chroma(black, "luv")'), 0);
@@ -225,7 +225,7 @@ describe('color', function() {
 
     describe('pf-complement', function() {
       it('white', function() {
-        assert.equal(renderer.value('pf-complement(white, "luv")'), 'white')
+        assert.equal(renderer.value('pf-complement(white, "luv")'), '#fff')
       });
       it('red', function() {
         assert.equal(renderer.value('pf-complement(red, "luv")'), '#008e8e')
@@ -237,22 +237,22 @@ describe('color', function() {
 
     describe('pf-mix', function() {
       it('white, white', function() {
-        assert.equal(renderer.value('pf-mix(white, white, 50%, "luv")'), 'white')
+        assert.equal(renderer.value('pf-mix(white, white, 50%, "luv")'), '#fff')
       });
       it('black, white', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 50%, "luv")'), '#777777')
+        assert.equal(renderer.value('pf-mix(black, white, 50%, "luv")'), '#777')
       });
       it('black, white, 0%', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 0%, "luv")'), 'white')
+        assert.equal(renderer.value('pf-mix(black, white, 0%, "luv")'), '#fff')
       });
       it('black, white, 100%', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 100%, "luv")'), 'black')
+        assert.equal(renderer.value('pf-mix(black, white, 100%, "luv")'), '#000')
       });
       it('black, white, 20%', function() {
         assert.equal(renderer.value('pf-mix(black, white, 20%, "luv")'), '#c6c6c6')
       });
-      it('black, white, 0.2', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 0.2, "luv")'), '#c6c6c6')
+      it('black, white, .2', function() {
+        assert.equal(renderer.value('pf-mix(black, white, .2, "luv")'), '#c6c6c6')
       });
       it('blue, red', function() {
         assert.equal(renderer.value('pf-mix(blue, red, 50%, "luv")'), '#bd0095')
@@ -278,10 +278,10 @@ describe('color', function() {
   describe('hsl', function() {
     describe('lch', function() {
       it('white', function() {
-        assert.equal(renderer.value('lch(100, 0, 0rad, "hsl")'), 'white')
+        assert.equal(renderer.value('lch(100, 0, 0rad, "hsl")'), '#fff')
       });
       it('black', function() {
-        assert.equal(renderer.value('lch(0, 0, 0rad, "hsl")'), 'black')
+        assert.equal(renderer.value('lch(0, 0, 0rad, "hsl")'), '#000')
       });
       it('red', function() {
         assert.equal(renderer.value('lch(50, 100, 0rad, "hsl")'), 'red')
@@ -350,10 +350,10 @@ describe('color', function() {
 
     describe('pf-complement', function() {
       it('white', function() {
-        assert.equal(renderer.value('pf-complement(white, "hsl")'), 'white')
+        assert.equal(renderer.value('pf-complement(white, "hsl")'), '#fff')
       });
       it('red', function() {
-        assert.equal(renderer.value('pf-complement(red, "hsl")'), 'cyan')
+        assert.equal(renderer.value('pf-complement(red, "hsl")'), 'aqua')
       });
       it('yellow', function() {
         assert.equal(renderer.value('pf-complement(yellow, "hsl")'), 'blue')
@@ -362,19 +362,19 @@ describe('color', function() {
 
     describe('pf-mix', function() {
       it('white, white', function() {
-        assert.equal(renderer.value('pf-mix(white, white, 50%, "hsl")'), 'white')
+        assert.equal(renderer.value('pf-mix(white, white, 50%, "hsl")'), '#fff')
       });
       it('black, white', function() {
         assert.equal(renderer.value('pf-mix(black, white, 50%, "hsl")'), 'gray')
       });
       it('black, white, 0%', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 0%, "hsl")'), 'white')
+        assert.equal(renderer.value('pf-mix(black, white, 0%, "hsl")'), '#fff')
       });
       it('black, white, 100%', function() {
-        assert.equal(renderer.value('pf-mix(black, white, 100%, "hsl")'), 'black')
+        assert.equal(renderer.value('pf-mix(black, white, 100%, "hsl")'), '#000')
       });
       it('blue, red', function() {
-        assert.equal(renderer.value('pf-mix(blue, red, 50%, "hsl")'), 'magenta')
+        assert.equal(renderer.value('pf-mix(blue, red, 50%, "hsl")'), '#f0f')
       });
       it('yellow, blue', function() {
         assert.equal(renderer.value('pf-mix(yellow, blue, 50%, "hsl")'), '#00ff80')

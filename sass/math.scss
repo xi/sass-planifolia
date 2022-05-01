@@ -21,6 +21,9 @@
 ////
 
 /// @type number
+
+@use "sass:math";
+
 $planifolia-math-steps-default: 32 !default;
 
 /// @return {number}
@@ -29,7 +32,7 @@ $planifolia-math-steps-default: 32 !default;
 }
 
 @function _pf-angle-to-rad($x) {
-  @return (0rad + $x) / 1rad;
+  @return math.div(0rad + $x, 1rad);
 }
 
 @function _pf-exp-taylor-0($x, $steps) {
@@ -37,7 +40,7 @@ $planifolia-math-steps-default: 32 !default;
   $result: 1;
 
   @for $i from 1 to $steps {
-    $item: $item * $x / $i;
+    $item: math.div($item * $x, $i);
     $result: $result + $item;
   }
 
@@ -45,14 +48,14 @@ $planifolia-math-steps-default: 32 !default;
 }
 
 @function _pf-log-taylor-1($x, $steps) {
-  $z: ($x - 1) / ($x + 1);
+  $z: math.div($x - 1, $x + 1);
 
   $power: $z;
   $result: $z;
 
   @for $i from 1 to $steps {
     $power: $power * $z * $z;
-    $result: $result + $power / (2 * $i + 1);
+    $result: $result + math.div($power, 2 * $i + 1);
   }
 
   @return 2 * $result;
@@ -63,7 +66,7 @@ $planifolia-math-steps-default: 32 !default;
   $result: $x;
 
   @for $i from 1 to $steps {
-    $item: -$item * $x * $x / (2 * $i) / (2 * $i + 1);
+    $item: math.div(math.div(-$item * $x * $x, 2 * $i), 2 * $i + 1);
     $result: $result + $item;
   }
 
@@ -75,8 +78,8 @@ $planifolia-math-steps-default: 32 !default;
   $result: $x;
 
   @for $i from 1 to $steps {
-    $item: $item * $x * $x * (2 * $i - 1) / (2 * $i);
-    $result: $result + $item / (2 * $i + 1);
+    $item: math.div($item * $x * $x * (2 * $i - 1), 2 * $i);
+    $result: $result + math.div($item, 2 * $i + 1);
   }
 
   @return $result;
@@ -84,13 +87,13 @@ $planifolia-math-steps-default: 32 !default;
 
 @function _pf-pow-int($base, $exponent) {
   @if $exponent < 0 {
-    @return 1 / _pf-pow-int($base, -$exponent);
+    @return math.div(1, _pf-pow-int($base, -$exponent));
   } @else if $exponent == 0 {
     @return 1;
   } @else if $exponent == 1 {
     @return $base;
   } @else {
-    $exp: floor($exponent / 2);
+    $exp: floor($exponent * 0.5);
     $pow: _pf-pow-int($base, $exp);
     @if $exp * 2 == $exponent {
       @return $pow * $pow;
@@ -108,7 +111,7 @@ $planifolia-math-steps-default: 32 !default;
     // results in log().
     @return str-length(inspect(round($x))) - 1;
   } @else {
-    @return -1 * str-length(inspect(round(1 / $x)));
+    @return -1 * str-length(inspect(round(math.div(1, $x))));
   }
 }
 
@@ -119,7 +122,7 @@ $planifolia-math-steps-default: 32 !default;
   $log10: 2.302585092994046;
   $approx: _pf-log10-approx($x);
   // $y is in range [1, 10]
-  $y: $x / _pf-pow-int(10, $approx);
+  $y: math.div($x, _pf-pow-int(10, $approx));
   @return $approx * $log10 + _pf-log-taylor-1($y, $steps);
 }
 
@@ -128,7 +131,7 @@ $planifolia-math-steps-default: 32 !default;
 /// @return {number}
 @function log10($x, $steps: $planifolia-math-steps-default) {
   $log10: 2.302585092994046;
-  @return log($x, $steps) / $log10;
+  @return math.div(log($x, $steps), $log10);
 }
 
 /// @param {number} $x
@@ -156,7 +159,7 @@ $planifolia-math-steps-default: 32 !default;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function nth-root($x, $exponent, $steps: $planifolia-math-steps-default) {
-  @return pow($x, 1 / $exponent, $steps);
+  @return pow($x, math.div(1, $exponent), $steps);
 }
 
 /// @param {number} $x
@@ -189,14 +192,14 @@ $planifolia-math-steps-default: 32 !default;
 /// @return {number}
 @function cos($x, $steps: $planifolia-math-steps-default) {
   $x: _pf-angle-to-rad($x);
-  @return sin($x + pi() / 2, $steps);
+  @return sin($x + pi() * 0.5, $steps);
 }
 
 /// @param {number} $x
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function tan($x, $steps: $planifolia-math-steps-default) {
-  @return sin($x, $steps) / cos($x, $steps);
+  @return math.div(sin($x, $steps), cos($x, $steps));
 }
 
 /// @param {number} $x
@@ -216,7 +219,7 @@ $planifolia-math-steps-default: 32 !default;
 /// @param {number} $steps [32] - steps of the taylor expansion
 /// @return {number}
 @function acos($x, $steps: $planifolia-math-steps-default) {
-  @return pi() / 2 - asin($x, $steps);
+  @return pi() * 0.5 - asin($x, $steps);
 }
 
 /// @param {number} $x
@@ -228,7 +231,7 @@ $planifolia-math-steps-default: 32 !default;
   } @else if $x < 0 {
     @return -1 * atan(-$x, $steps);
   } @else {
-    @return asin(1 / sqrt(1 + 1 / ($x * $x), $steps), $steps);
+    @return asin(math.div(1, sqrt(1 + math.div(1, $x * $x), $steps)), $steps);
   }
 }
 
@@ -239,18 +242,18 @@ $planifolia-math-steps-default: 32 !default;
 /// @return {number}
 @function atan2($y, $x, $steps: $planifolia-math-steps-default) {
   @if $x > 0 {
-    @return atan($y / $x, $steps);
+    @return atan(math.div($y, $x), $steps);
   } @else if $x < 0 {
     @if $y >= 0 {
-      @return atan($y / $x, $steps) + pi();
+      @return atan(math.div($y, $x), $steps) + pi();
     } @else {
-      @return atan($y / $x, $steps) - pi();
+      @return atan(math.div($y, $x), $steps) - pi();
     }
   } @else {
     @if $y > 0 {
-      @return pi() / 2;
+      @return pi() * 0.5;
     } @else if $y < 0 {
-      @return pi() / -2;
+      @return math.div(pi(), -2);
     } @else {
       @return 0;
     }

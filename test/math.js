@@ -2,20 +2,20 @@ var assert = require('assert');
 var shared = require('./shared');
 
 describe('math', function() {
-  var renderer = new shared.Renderer('@import "math";');
+  var renderer = new shared.Renderer('@use "sass:math";@import "math";');
 
   describe('pow', function() {
     it('pow(3, 2) == 9', function() {
       assert.strictEqual(renderer.value('pow(3, 2)'), '9')
     });
-    it('pow(4, 3/2) == 8', function() {
-      assert.strictEqual(renderer.value('pow(4, 3/2)'), '8')
+    it('pow(4, math.div(3, 2)) == 8', function() {
+      assert.strictEqual(renderer.value('pow(4, math.div(3, 2))'), '8')
     });
-    it('pow(144, 1/2) == 12', function() {
-      assert.strictEqual(renderer.value('pow(144, 1/2)'), '12')
+    it('pow(144, math.div(1, 2)) == 12', function() {
+      assert.strictEqual(renderer.value('pow(144, math.div(1, 2))'), '12')
     });
-    it('pow(0, 1/2) == 0', function() {
-      assert.strictEqual(renderer.value('pow(0, 1/2)'), '0')
+    it('pow(0, math.div(1, 2)) == 0', function() {
+      assert.strictEqual(renderer.value('pow(0, math.div(1, 2))'), '0')
     });
     it('pow(-3, 2) == 9', function() {
       assert.strictEqual(renderer.value('pow(-3, 2)'), '9')
@@ -26,14 +26,14 @@ describe('math', function() {
     it('pow(3, -2)', function() {
       shared.similar(renderer.value('pow(3, -2)'), Math.pow(3, -2));
     });
-    it('pow(64, -1/2) == 0.125', function() {
-      assert.strictEqual(renderer.value('pow(64, -1/2)'), '0.125')
+    it('pow(64, math.div(-1, 2)) == .125', function() {
+      assert.strictEqual(renderer.value('pow(64, math.div(-1, 2))'), '.125')
     });
     it('pow(1200, 3.4)', function() {
-      shared.similar(renderer.value('pow(1200, 3.4)'), Math.pow(1200, 3.4), 0.1);
+      shared.similar(renderer.value('pow(1200, 3.4)'), Math.pow(1200, 3.4), .1);
     });
     it('pow(1200.3, 3.4)', function() {
-      shared.similar(renderer.value('pow(1200.3, 3.4)'), Math.pow(1200.3, 3.4), 0.1);
+      shared.similar(renderer.value('pow(1200.3, 3.4)'), Math.pow(1200.3, 3.4), .1);
     });
     it('pow(3px, 2.4) throws', function() {
       assert.throws(function () {
@@ -55,8 +55,8 @@ describe('math', function() {
     it('log(1) == 0', function() {
       assert.strictEqual(renderer.value('log(1)'), '0')
     });
-    it('log(0.1)', function() {
-      shared.similar(renderer.value('log(0.1)'), Math.log(0.1));
+    it('log(.1)', function() {
+      shared.similar(renderer.value('log(.1)'), Math.log(.1));
     });
     it('log(123456789)', function() {
       shared.similar(renderer.value('log(123456789)'), Math.log(123456789));
@@ -82,11 +82,11 @@ describe('math', function() {
     it('sin(-1 * pi()) == 0', function() {
       assert.strictEqual(renderer.value('sin(-1 * pi())'), '0');
     });
-    it('sin(1/2 * pi()) == 1', function() {
-      assert.strictEqual(renderer.value('sin(1/2 * pi())'), '1');
+    it('sin(math.div(1, 2) * pi()) == 1', function() {
+      assert.strictEqual(renderer.value('sin(math.div(1, 2) * pi())'), '1');
     });
-    it('sin(3/2 * pi()) == -1', function() {
-      assert.strictEqual(renderer.value('sin(3/2 * pi())'), '-1');
+    it('sin(math.div(3, 2) * pi()) == -1', function() {
+      assert.strictEqual(renderer.value('sin(math.div(3, 2) * pi())'), '-1');
     });
     it('sin(1)', function() {
       shared.similar(renderer.value('sin(1)'), Math.sin(1));
@@ -139,20 +139,20 @@ describe('math', function() {
     it('asin(0) == 0', function() {
       assert.strictEqual(renderer.value('asin(0)'), '0')
     });
-    it('asin(0.1)', function() {
-      shared.similar(renderer.value('asin(0.1)'), Math.asin(0.1));
+    it('asin(.1)', function() {
+      shared.similar(renderer.value('asin(.1)'), Math.asin(.1));
     });
-    it('asin(0.5)', function() {
-      shared.similar(renderer.value('asin(0.5)'), Math.asin(0.5));
+    it('asin(.5)', function() {
+      shared.similar(renderer.value('asin(.5)'), Math.asin(.5));
     });
-    it('asin(0.9)', function() {
-      shared.similar(renderer.value('asin(0.9)'), Math.asin(0.9));
+    it('asin(.9)', function() {
+      shared.similar(renderer.value('asin(.9)'), Math.asin(.9));
     });
     it('asin(1)', function() {
       shared.similar(renderer.value('asin(1)'), Math.asin(1));
     });
-    it('asin(-0.5)', function() {
-      shared.similar(renderer.value('asin(-0.5)'), Math.asin(-0.5));
+    it('asin(-.5)', function() {
+      shared.similar(renderer.value('asin(-.5)'), Math.asin(-.5));
     });
     it('asin(2) throws', function() {
       assert.throws(function () {
@@ -165,11 +165,11 @@ describe('math', function() {
     it('acos(1) == 0', function() {
       assert.strictEqual(renderer.value('acos(1)'), '0')
     });
-    it('acos(0.5)', function() {
-      shared.similar(renderer.value('acos(0.5)'), Math.acos(0.5));
+    it('acos(.5)', function() {
+      shared.similar(renderer.value('acos(.5)'), Math.acos(.5));
     });
-    it('acos(-0.5)', function() {
-      shared.similar(renderer.value('acos(-0.5)'), Math.acos(-0.5));
+    it('acos(-.5)', function() {
+      shared.similar(renderer.value('acos(-.5)'), Math.acos(-.5));
     });
     it('acos(2) throws', function() {
       assert.throws(function () {
@@ -182,11 +182,11 @@ describe('math', function() {
     it('atan(0) == 0', function() {
       assert.strictEqual(renderer.value('atan(0)'), '0')
     });
-    it('atan(0.5)', function() {
-      shared.similar(renderer.value('atan(0.5)'), Math.atan(0.5));
+    it('atan(.5)', function() {
+      shared.similar(renderer.value('atan(.5)'), Math.atan(.5));
     });
-    it('atan(-0.5)', function() {
-      shared.similar(renderer.value('atan(-0.5)'), Math.atan(-0.5));
+    it('atan(-.5)', function() {
+      shared.similar(renderer.value('atan(-.5)'), Math.atan(-.5));
     });
     it('atan(12345678.9)', function() {
       shared.similar(renderer.value('atan(12345678.9)'), Math.atan(12345678.9));
@@ -215,23 +215,23 @@ describe('math', function() {
   });
 
   describe('bezier', function() {
-    it('bezier((0 0, 1 1), 0.5) == 0.5 0.5', function() {
-      assert.strictEqual(renderer.value('bezier((0 0, 1 1), 0.5)'), '0.5 0.5');
+    it('bezier((0 0, 1 1), .5) == .5 .5', function() {
+      assert.strictEqual(renderer.value('bezier((0 0, 1 1), .5)'), '.5 .5');
     });
-    it('bezier((0 0, 0.2 0.2, 1 1), 0.5) == 0.35 0.35', function() {
-      assert.strictEqual(renderer.value('bezier((0 0, 0.2 0.2, 1 1), 0.5)'), '0.35 0.35');
+    it('bezier((0 0, .2 .2, 1 1), .5) == .35 .35', function() {
+      assert.strictEqual(renderer.value('bezier((0 0, .2 .2, 1 1), .5)'), '.35 .35');
     });
-    it('bezier((0 0, 0.5 0.2, 1 1), 0.5) == 0.5 0.35', function() {
-      assert.strictEqual(renderer.value('bezier((0 0, 0.5 0.2, 1 1), 0.5)'), '0.5 0.35');
+    it('bezier((0 0, .5 .2, 1 1), .5) == .5 .35', function() {
+      assert.strictEqual(renderer.value('bezier((0 0, .5 .2, 1 1), .5)'), '.5 .35');
     });
-    it('bezier((0, 1), 0.5) == 0.5', function() {
-      assert.strictEqual(renderer.value('bezier((0, 1), 0.5)'), '0.5');
+    it('bezier((0, 1), .5) == .5', function() {
+      assert.strictEqual(renderer.value('bezier((0, 1), .5)'), '.5');
     });
-    it('bezier((0, 2), 0.5) == 1', function() {
-      assert.strictEqual(renderer.value('bezier((0, 2), 0.5)'), '1');
+    it('bezier((0, 2), .5) == 1', function() {
+      assert.strictEqual(renderer.value('bezier((0, 2), .5)'), '1');
     });
-    it('bezier((0 0 0, 1 1 1), 0.5) == 0.5 0.5 0.5', function() {
-      assert.strictEqual(renderer.value('bezier((0 0 0, 1 1 1), 0.5)'), '0.5 0.5 0.5');
+    it('bezier((0 0 0, 1 1 1), .5) == .5 .5 .5', function() {
+      assert.strictEqual(renderer.value('bezier((0 0 0, 1 1 1), .5)'), '.5 .5 .5');
     });
   });
 });

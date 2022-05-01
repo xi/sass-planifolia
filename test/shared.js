@@ -1,5 +1,5 @@
 var path = require('path');
-var sass = require('node-sass');
+var sass = require('sass');
 var assert = require('assert');
 
 var Renderer = function(head) {
@@ -7,16 +7,18 @@ var Renderer = function(head) {
 }
 
 Renderer.prototype.block = function(input) {
-  var result = sass.renderSync({
-    data: this.head + ' .test{' + input + '}',
-    outputStyle: 'compact',
-    includePaths: [path.resolve(__dirname, '../sass/')],
-  });
-  return result.css.utf8Slice().slice(8, -3);
+  var result = sass.compileString(
+    this.head + '.test{' + input + '}',
+    {
+      style: 'compressed',
+      loadPaths: [path.resolve(__dirname, '../sass/')],
+    },
+  );
+  return result.css.slice(".test".length);
 };
 
 Renderer.prototype.value = function(input) {
-  return this.block('content:' + input).slice(9, -1);
+  return this.block('content:' + input).slice("{content:".length, -("}".length));
 };
 
 var similar = function(result, actual, threshold) {

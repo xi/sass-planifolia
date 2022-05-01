@@ -6,33 +6,33 @@ describe('contrast', function() {
 
   describe('alpha-blend', function() {
     it('fully opaque', function() {
-      assert.equal(renderer.value('alpha-blend(white)'), 'white')
-      assert.equal(renderer.value('alpha-blend(black)'), 'black')
+      assert.equal(renderer.value('alpha-blend(white)'), '#fff')
+      assert.equal(renderer.value('alpha-blend(black)'), '#000')
       assert.equal(renderer.value('alpha-blend(red)'), 'red')
     });
     it('fully transparent', function() {
       assert.equal(renderer.value('alpha-blend(rgba(white, 0), blue)'), 'blue')
       assert.equal(renderer.value('alpha-blend(rgba(black, 0), blue)'), 'blue')
       assert.equal(renderer.value('alpha-blend(rgba(red, 0), blue)'), 'blue')
-      assert.equal(renderer.value('alpha-blend(rgba(blue, 0))'), 'white')
+      assert.equal(renderer.value('alpha-blend(rgba(blue, 0))'), '#fff')
     });
     it('50%', function() {
-      assert.equal(renderer.value('alpha-blend(rgba(white, 0.5), blue)'), '#8080ff')
-      assert.equal(renderer.value('alpha-blend(rgba(black, 0.5), blue)'), 'navy')
-      assert.equal(renderer.value('alpha-blend(rgba(red, 0.5), blue)'), 'purple')
-      assert.equal(renderer.value('alpha-blend(rgba(blue, 0.5))'), '#8080ff')
+      assert.equal(renderer.value('alpha-blend(rgba(white, .5), blue)'), '#8080ff')
+      assert.equal(renderer.value('alpha-blend(rgba(black, .5), blue)'), 'navy')
+      assert.equal(renderer.value('alpha-blend(rgba(red, .5), blue)'), 'purple')
+      assert.equal(renderer.value('alpha-blend(rgba(blue, .5))'), '#8080ff')
     });
     it('13%', function() {
-      assert.equal(renderer.value('alpha-blend(rgba(white, 0.13), blue)'), '#2121ff')
-      assert.equal(renderer.value('alpha-blend(rgba(black, 0.13), blue)'), '#0000de')
-      assert.equal(renderer.value('alpha-blend(rgba(red, 0.13), blue)'), '#2100de')
-      assert.equal(renderer.value('alpha-blend(rgba(blue, 0.13))'), '#dedeff')
+      assert.equal(renderer.value('alpha-blend(rgba(white, .13), blue)'), '#2121ff')
+      assert.equal(renderer.value('alpha-blend(rgba(black, .13), blue)'), '#0000de')
+      assert.equal(renderer.value('alpha-blend(rgba(red, .13), blue)'), '#2100de')
+      assert.equal(renderer.value('alpha-blend(rgba(blue, .13))'), '#dedeff')
     });
     it('transparent background', function() {
-      assert.equal(renderer.value('alpha-blend(rgba(white, 0.5), rgba(blue, 0.5))'), 'rgba(170, 170, 255, 0.75)')
+      assert.equal(renderer.value('alpha-blend(rgba(white, .5), rgba(blue, .5))'), 'rgba(170,170,255,.75)')
     });
     it('both fully transparent', function() {
-      assert.equal(renderer.value('alpha-blend(rgba(white, 0), rgba(black, 0))'), 'rgba(255, 255, 255, 0)')
+      assert.equal(renderer.value('alpha-blend(rgba(white, 0), rgba(black, 0))'), 'rgba(255,255,255,0)')
     });
   });
 
@@ -44,28 +44,28 @@ describe('contrast', function() {
       assert.equal(renderer.value('luma(black)'), '0')
     });
     it('red', function() {
-      assert.equal(renderer.value('luma(#f00)'), '0.2126')
+      assert.equal(renderer.value('luma(#f00)'), '.2126')
     });
     it('green', function() {
-      assert.equal(renderer.value('luma(#0f0)'), '0.7152')
+      assert.equal(renderer.value('luma(#0f0)'), '.7152')
     });
     it('blue', function() {
-      assert.equal(renderer.value('luma(#00f)'), '0.0722')
+      assert.equal(renderer.value('luma(#00f)'), '.0722')
     });
     it('yellow', function() {
-      assert.equal(renderer.value('luma(yellow)'), '0.9278')
+      assert.equal(renderer.value('luma(yellow)'), '.9278')
     });
     it('cyan', function() {
-      assert.equal(renderer.value('luma(cyan)'), '0.7874')
+      assert.equal(renderer.value('luma(cyan)'), '.7874')
     });
     it('random', function() {
-      shared.similar(renderer.value('luma(rgb(12, 180, 92))'), 0.3349, 0.02);
+      shared.similar(renderer.value('luma(rgb(12, 180, 92))'), .3349, .02);
     });
     it('white with alpha', function() {
-      assert.equal(renderer.value('luma(rgba(255,255,255,0.5))'), '1')
+      assert.equal(renderer.value('luma(rgba(255,255,255,.5))'), '1')
     });
     it('black with alpha', function() {
-      assert.equal(renderer.value('luma(rgba(0,0,0,0.5))'), '0')
+      assert.equal(renderer.value('luma(rgba(0,0,0,.5))'), '0')
     });
   });
 
@@ -83,31 +83,31 @@ describe('contrast', function() {
       assert.equal(renderer.value('contrast(red, red)'), '1')
     });
     it('red-lightblue', function() {
-      shared.similar(renderer.value('contrast(red, #676eff)'), 1, 0.02);
+      shared.similar(renderer.value('contrast(red, #676eff)'), 1, .02);
     });
   });
 
   describe('contrast-color', function() {
     it('white', function() {
-      assert.equal(renderer.value('contrast-color(white)'), 'black')
+      assert.equal(renderer.value('contrast-color(white)'), '#000')
     });
     it('black', function() {
-      assert.equal(renderer.value('contrast-color(black)'), 'white')
+      assert.equal(renderer.value('contrast-color(black)'), '#fff')
     });
     it('red', function() {
-      assert.equal(renderer.value('contrast-color(#f00)'), 'black')
+      assert.equal(renderer.value('contrast-color(#f00)'), '#000')
     });
     it('green', function() {
-      assert.equal(renderer.value('contrast-color(#0f0)'), 'black')
+      assert.equal(renderer.value('contrast-color(#0f0)'), '#000')
     });
     it('blue', function() {
-      assert.equal(renderer.value('contrast-color(#00f)'), 'white')
+      assert.equal(renderer.value('contrast-color(#00f)'), '#fff')
     });
     it('yellow', function() {
-      assert.equal(renderer.value('contrast-color(yellow)'), 'black')
+      assert.equal(renderer.value('contrast-color(yellow)'), '#000')
     });
     it('cyan', function() {
-      assert.equal(renderer.value('contrast-color(cyan)'), 'black')
+      assert.equal(renderer.value('contrast-color(cyan)'), '#000')
     });
     it('light', function() {
       assert.equal(renderer.value('contrast-color(white, #111, #eee)'), '#111')
@@ -125,19 +125,19 @@ describe('contrast', function() {
 
   describe('contrast-stretch', function() {
     it('white-black', function() {
-      assert.equal(renderer.value('contrast-stretch(white, black)'), 'black')
+      assert.equal(renderer.value('contrast-stretch(white, black)'), '#000')
     });
     it('white-#333', function() {
       assert.equal(renderer.value('contrast-stretch(white, #333)'), '#333')
     });
     it('white-#333-21', function() {
-      assert.equal(renderer.value('contrast-stretch(white, #333, 21)'), 'black')
+      assert.equal(renderer.value('contrast-stretch(white, #333, 21)'), '#000')
     });
     it('#333-blue-7', function() {
-      assert.equal(renderer.value('contrast-stretch(#333, blue, 7)'), '#bbbbff')
+      assert.equal(renderer.value('contrast-stretch(#333, blue, 7)'), '#bbf')
     });
     it('#333-blue-AAA', function() {
-      assert.equal(renderer.value('contrast-stretch(#333, blue, "AAA")'), '#bbbbff')
+      assert.equal(renderer.value('contrast-stretch(#333, blue, "AAA")'), '#bbf')
     });
   });
 });

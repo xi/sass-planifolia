@@ -55,6 +55,9 @@
 /// @prop {width} gutter [1rem] - Gutter width.
 /// @prop {width} gutter-fallback [2%] - Gutter width if `calc()` is
 ///   not available. Must be a percentage.
+
+@use "sass:math";
+
 $grid: (
   'columns': 12,
   'gutter': 1rem,
@@ -106,7 +109,7 @@ $grid: (
   $gutter: _grid-get('gutter', $settings);
   $gutter-fallback: _grid-get('gutter-fallback', $settings);
 
-  $w: $width / $columns;
+  $w: math.div($width, $columns);
 
   @if unit($gutter) == '%' {
     width: _grid-width($w, $gutter, $settings);
@@ -125,7 +128,7 @@ $grid: (
   $gutter: _grid-get('gutter', $settings);
   $gutter-fallback: _grid-get('gutter-fallback', $settings);
 
-  $p: $position / $columns;
+  $p: math.div($position, $columns);
 
   @if unit($gutter) == '%' {
     margin-left: _grid-position($p, $gutter, $settings);
@@ -162,7 +165,7 @@ $grid: (
 /// @param {map} $settings [()]
 @mixin grid-same-width($n, $settings: ()) {
   $columns: _grid-get('columns', $settings);
-  $width: $columns / $n;
+  $width: math.div($columns, $n);
 
   @include grid-cell($settings);
   @include grid-width($width, $settings);

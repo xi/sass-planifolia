@@ -1,4 +1,4 @@
-1.0.0 (unreleased)
+1.0.0 (2022-05-04)
 ------------------
 
 - drop support for eyeglass

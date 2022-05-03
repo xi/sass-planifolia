@@ -1,25 +1,16 @@
 Sass-Planifolia - Vanilla Sass helper functions
 
-[Compass](http://compass-style.org/) was great, but it has been unmaintained
-for a while now. In addition, the rise of
-[libSass](http://sass-lang.com/libsass) means that ruby extensions are no
-longer a good way forward.
+This is a collection of vanilla Sass helper functions, mostly centered around
+colors. It currently consists of only two modules:
 
-Planifolia is a collection of commonly used helper functions.  It does not
-depend on a specific implementation of the Sass compiler.
-
-The following modules are included:
-
--   **math** for high performance math functions
 -   **contrast** for WCAG compatible [color
     contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
--   **color** for CIELAB/CIELUV based color functions (with support for
-    [HSLuv](http://www.hsluv.org/))
+-   **color** for color functions with supper for different color spaces, e.g.
+    CIELAB, CIELUV, or [HSLuv](http://www.hsluv.org/)
 
-These modules can be imported individually (color depends on math though).
-Also note that these modules will only define mixins and variables. They will
-not output any CSS. This means that importing them does not add a single byte
-to your CSS.
+These modules can be imported individually. The only define mixins and
+variables. They will not output any CSS. This means that importing them does
+not add a single byte to your CSS.
 
 See the [full documentation](https://xi.github.io/sass-planifolia/) for more
 details.
@@ -31,24 +22,20 @@ details.
 Import it in your Sass files:
 
 ```scss
-@import "node_modules/sass-planifolia/sass/math";
-@import "node_modules/sass-planifolia/sass/contrast";
-@import "node_modules/sass-planifolia/sass/color";
+@use "node_modules/sass-planifolia/sass/contrast";
+@use "node_modules/sass-planifolia/sass/color";
 
 .test {
     background-color: red;
 
     // pick between two colors (default: black and white) to get good contrast
-    color: contrast-color(red);
+    color: contrast.color(red);
 
     // mix orange with black or white to get good contrast to red
-    border-color: contrast-stretch(red, orange);
+    border-color: contrast.stretch(red, orange);
 
     // mix red with black in a perceptually uniform color space
-    box-shadow: 0 0 1em pf-shade(red, 0.5, 'lab');
-
-    // calculate modular scale dynamically
-    font-size: 16px * pow(1.5, 2);
+    box-shadow: 0 0 1em color.shade(red, 0.5, 'lab');
 }
 ```
 
@@ -61,12 +48,11 @@ Import it in your Sass files:
 
 # Similar libraries
 
--   [mathsass](https://github.com/terkel/mathsass) is another very good
-    pure-sass math implementation.
--   [accoutrement-color](https://github.com/oddbird/accoutrement-color) and
-    [bourbon](https://github.com/thoughtbot/bourbon) also contain
-    WCAG-appropriate color-contrast functions, but they ignore
-    alpha-transparency.
--   [eyeglass-math](https://github.com/sass-eyeglass/eyeglass-math) and
-    [chromatic-sass](https://github.com/bugsnag/chromatic-sass) also do
-    advanced math/color manipulation, but they can only be used with node-sass.
+-   [CSS Color Moudle Level 4](https://www.w3.org/TR/css-color-4/) and [CSS
+    Color Module Level 5](https://www.w3.org/TR/css-color-5/) are W3C Working
+    Drafts (as of 2022-04-28) that would add similar features to CSS itself.
+-   [PostCSS](https://postcss.org/) and [Parcel](https://github.com/parcel-bundler/parcel-css) both
+    implement some of the functionality of CSS Color Module Level 4/5.
+-   [oddbird/blend](https://github.com/oddbird/blend) is yet another Sass
+    library that implements similar features. The main difference is that the
+    contrast function do not take transparency into account.

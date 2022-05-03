@@ -1,3 +1,17 @@
+1.0.0 (unreleased)
+------------------
+
+- drop support for eyeglass
+- drop support for bower
+- drop support for libsass
+- drop clearfix module because it is no longer relevant
+- drop grid module because it is no longer relevant
+- drop math module because it can be replaced by the builtin `sass:math`
+- remove prefixes from most functions because they can be replaced with
+  namespaces (`@use`)
+- fix deprecation warnings with dart sass (thanks to Jonas Hvid)
+
+
 0.6.0 (2018-04-08)
 ------------------
 

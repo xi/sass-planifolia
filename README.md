@@ -15,7 +15,6 @@ The following modules are included:
     contrast](https://www.w3.org/TR/WCAG20/#contrast-ratiodef) functions
 -   **color** for CIELAB/CIELUV based color functions (with support for
     [HSLuv](http://www.hsluv.org/))
--   **grid** for simple grid mixins
 
 These modules can be imported individually (color depends on math though).
 Also note that these modules will only define mixins and variables. They will

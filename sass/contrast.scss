@@ -12,7 +12,7 @@ $planifolia-contrast-dark-default: black !default;
 /// @type color
 $planifolia-contrast-light-default: white !default;
 
-@function _pf-threshold($threshold) {
+@function _threshold($threshold) {
   @if ($threshold == 'AA' or $threshold == 'AAALG') {
     @return 4.5;
   } @else if ($threshold == 'AALG') {
@@ -24,7 +24,7 @@ $planifolia-contrast-light-default: white !default;
   }
 }
 
-@function _pf-srgb($channel) {
+@function _srgb($channel) {
   $x: math.div($channel, 255);
   @if $x <= 0.03928 {
     @return math.div($x, 12.92);
@@ -34,7 +34,6 @@ $planifolia-contrast-light-default: white !default;
   }
 }
 
-// FIXME: namespace name
 @function alpha-blend($fg, $bg: white) {
   $a1: alpha($bg);
   $a2: alpha($fg);
@@ -53,15 +52,14 @@ $planifolia-contrast-light-default: white !default;
   @return rgba($r, $g, $b, $a);
 }
 
-// FIXME: namespace name
 @function luma($color) {
-  $r: _pf-srgb(red($color));
-  $g: _pf-srgb(green($color));
-  $b: _pf-srgb(blue($color));
+  $r: _srgb(red($color));
+  $g: _srgb(green($color));
+  $b: _srgb(blue($color));
   @return 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
 }
 
-@function _pf-contrast($fg, $bg) {
+@function _contrast($fg, $bg) {
   $lbg: luma($bg);
   $lfg: luma(alpha-blend($fg, $bg));
   @return math.div(max($lbg, $lfg) + 0.05, min($lbg, $lfg) + 0.05);
@@ -79,16 +77,16 @@ $planifolia-contrast-light-default: white !default;
 @function contrast-min($fg, $bg) {
   // optimize for the common case
   @if alpha($bg) == 1 {
-    @return _pf-contrast($fg, $bg);
+    @return _contrast($fg, $bg);
   } @else {
     $bg-black: alpha-blend($bg, black);
     $bg-white: alpha-blend($bg, white);
     $lfg: luma($fg);
 
     @if luma($bg-white) < $lfg {
-      @return _pf-contrast($fg, $bg-white);
+      @return _contrast($fg, $bg-white);
     } @else if luma($bg-black) > $lfg {
-      @return _pf-contrast($fg, $bg-black);
+      @return _contrast($fg, $bg-black);
     } @else {
       @return 1;
     }
@@ -108,7 +106,7 @@ $planifolia-contrast-light-default: white !default;
 @function contrast($color1, $color2) {
   // NOTE: optimized for the common case
   @if alpha($color1) + alpha($color2) == 2 {
-    @return _pf-contrast($color1, $color2);
+    @return _contrast($color1, $color2);
   } @else {
     $c1: contrast-min($color1, $color2);
     $c2: contrast-min($color2, $color1);
@@ -122,7 +120,7 @@ $planifolia-contrast-light-default: white !default;
 /// @param {color} $color1 [$planifolia-contrast-dark-default] first option
 /// @param {color} $color2 [$planifolia-contrast-light-default] second option
 /// @return {color} either `$color1` or `$color2`
-@function contrast-color(
+@function color(
   $base,
   $color1: $planifolia-contrast-dark-default,
   $color2: $planifolia-contrast-light-default
@@ -141,8 +139,8 @@ $planifolia-contrast-light-default: white !default;
 /// @param {number} $threshold [4.5]
 ///    (can also be 'AA', 'AALG', 'AAA', or 'AAALG')
 /// @return {color}
-@function contrast-stretch($base, $color, $threshold: 4.5) {
-  $threshold: _pf-threshold($threshold);
+@function stretch($base, $color, $threshold: 4.5) {
+  $threshold: _threshold($threshold);
   $lower: $color;
   $upper: if(luma($base) < 0.18, white, black);
 
@@ -176,8 +174,8 @@ $planifolia-contrast-light-default: white !default;
 /// @param {number} $threshold [4.5]
 ///    (can also be 'AA', 'AALG', 'AAA', or 'AAALG')
 /// @return {color} unchanged $color
-@function contrast-check($base, $color, $threshold: 4.5) {
-  $threshold: _pf-threshold($threshold);
+@function check($base, $color, $threshold: 4.5) {
+  $threshold: _threshold($threshold);
   $contrast: contrast($base, $color);
   @if $contrast < $threshold {
     @warn 'contrast #{$contrast} between #{$base} and #{$color} too low!';

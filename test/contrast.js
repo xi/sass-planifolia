@@ -87,57 +87,57 @@ describe('contrast', function() {
     });
   });
 
-  describe('contrast-color', function() {
+  describe('color', function() {
     it('white', function() {
-      assert.equal(renderer.value('contrast.contrast-color(white)'), '#000')
+      assert.equal(renderer.value('contrast.color(white)'), '#000')
     });
     it('black', function() {
-      assert.equal(renderer.value('contrast.contrast-color(black)'), '#fff')
+      assert.equal(renderer.value('contrast.color(black)'), '#fff')
     });
     it('red', function() {
-      assert.equal(renderer.value('contrast.contrast-color(#f00)'), '#000')
+      assert.equal(renderer.value('contrast.color(#f00)'), '#000')
     });
     it('green', function() {
-      assert.equal(renderer.value('contrast.contrast-color(#0f0)'), '#000')
+      assert.equal(renderer.value('contrast.color(#0f0)'), '#000')
     });
     it('blue', function() {
-      assert.equal(renderer.value('contrast.contrast-color(#00f)'), '#fff')
+      assert.equal(renderer.value('contrast.color(#00f)'), '#fff')
     });
     it('yellow', function() {
-      assert.equal(renderer.value('contrast.contrast-color(yellow)'), '#000')
+      assert.equal(renderer.value('contrast.color(yellow)'), '#000')
     });
     it('cyan', function() {
-      assert.equal(renderer.value('contrast.contrast-color(cyan)'), '#000')
+      assert.equal(renderer.value('contrast.color(cyan)'), '#000')
     });
     it('light', function() {
-      assert.equal(renderer.value('contrast.contrast-color(white, #111, #eee)'), '#111')
+      assert.equal(renderer.value('contrast.color(white, #111, #eee)'), '#111')
     });
     it('dark', function() {
-      assert.equal(renderer.value('contrast.contrast-color(black, #111, #eee)'), '#eee')
+      assert.equal(renderer.value('contrast.color(black, #111, #eee)'), '#eee')
     });
     it('middle', function() {
-      assert.equal(renderer.value('contrast.contrast-color(#555, #111, #eee)'), '#eee')
+      assert.equal(renderer.value('contrast.color(#555, #111, #eee)'), '#eee')
     });
     it('swapped', function() {
-      assert.equal(renderer.value('contrast.contrast-color(white, #eee, #111)'), '#111')
+      assert.equal(renderer.value('contrast.color(white, #eee, #111)'), '#111')
     });
   });
 
-  describe('contrast-stretch', function() {
+  describe('stretch', function() {
     it('white-black', function() {
-      assert.equal(renderer.value('contrast.contrast-stretch(white, black)'), '#000')
+      assert.equal(renderer.value('contrast.stretch(white, black)'), '#000')
     });
     it('white-#333', function() {
-      assert.equal(renderer.value('contrast.contrast-stretch(white, #333)'), '#333')
+      assert.equal(renderer.value('contrast.stretch(white, #333)'), '#333')
     });
     it('white-#333-21', function() {
-      assert.equal(renderer.value('contrast.contrast-stretch(white, #333, 21)'), '#000')
+      assert.equal(renderer.value('contrast.stretch(white, #333, 21)'), '#000')
     });
     it('#333-blue-7', function() {
-      assert.equal(renderer.value('contrast.contrast-stretch(#333, blue, 7)'), '#bbf')
+      assert.equal(renderer.value('contrast.stretch(#333, blue, 7)'), '#bbf')
     });
     it('#333-blue-AAA', function() {
-      assert.equal(renderer.value('contrast.contrast-stretch(#333, blue, "AAA")'), '#bbf')
+      assert.equal(renderer.value('contrast.stretch(#333, blue, "AAA")'), '#bbf')
     });
   });
 });

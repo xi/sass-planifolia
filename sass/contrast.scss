@@ -30,16 +30,7 @@ $planifolia-contrast-light-default: white !default;
     @return math.div($x, 12.92);
   } @else {
     $c: math.div($x + 0.055, 1.055);
-    @if function-exists('pow') {
-      @return pow($c, 2.4);
-    } @else {
-      // approximation for pow($c, 2.4)
-      //
-      // NOTE that `contrast()` amplifies the errors generated here.
-      // The factors a chosen to minify that effect.
-      $cc: $c * $c;
-      @return 0.4 * $cc + 0.8 * ($cc * $c) - 0.2 * ($cc * $cc);
-    }
+    @return math.pow($c, 2.4);
   }
 }
 

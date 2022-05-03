@@ -43,7 +43,7 @@ $planifolia-colorspace: 'lab' !default;
   @if $c <= 0.04045 {
     $c: math.div($c, 12.92);
   } @else {
-    $c: pow(math.div($c + 0.055, 1.055), 2.4);
+    $c: math.pow(math.div($c + 0.055, 1.055), 2.4);
   }
   @return $c * 100;
 }
@@ -53,7 +53,7 @@ $planifolia-colorspace: 'lab' !default;
   @if $c <= 0.0031308 {
     $c: $c * 12.92;
   } @else {
-    $c: 1.055 * pow($c, math.div(1, 2.4)) - 0.055;
+    $c: 1.055 * math.pow($c, math.div(1, 2.4)) - 0.055;
   }
   @return $c * 255;
 }
@@ -108,7 +108,7 @@ $planifolia-colorspace: 'lab' !default;
 
 @function _pf-xyz-to-lab-f($t) {
   @if $t > math.div(216, 24389) {
-    @return pow($t, math.div(1, 3));
+    @return math.pow($t, math.div(1, 3));
   } @else {
     @return math.div(841, 108) * $t + math.div(4, 29);
   }
@@ -130,7 +130,7 @@ $planifolia-colorspace: 'lab' !default;
 
 @function _pf-lab-to-xyz-f($t) {
   @if $t > math.div(6, 29) {
-    @return pow($t, 3);
+    @return math.pow($t, 3);
   } @else {
     @return math.div(108, 841) * ($t - math.div(4, 29));
   }
@@ -171,7 +171,7 @@ $planifolia-colorspace: 'lab' !default;
   $yuuvv: _pf-xyz-to-yuuvv($xyz);
 
   $y: math.div(nth($yuuvv, 1), nth($white, 1));
-  $l: if($y > math.div(216, 24389), 116 * pow($y, math.div(1, 3)) - 16, math.div(24389, 27) * $y);
+  $l: if($y > math.div(216, 24389), 116 * math.pow($y, math.div(1, 3)) - 16, math.div(24389, 27) * $y);
 
   $u: 13 * $l * (nth($yuuvv, 2) - nth($white, 2));
   $v: 13 * $l * (nth($yuuvv, 3) - nth($white, 3));
@@ -187,7 +187,7 @@ $planifolia-colorspace: 'lab' !default;
 
   $y: nth($white, 1);
   @if nth($luv, 1) > 8 {
-    $y: $y * pow(math.div(nth($luv, 1) + 16, 116), 3);
+    $y: $y * math.pow(math.div(nth($luv, 1) + 16, 116), 3);
   } @else {
     $y: math.div($y * nth($luv, 1) * 27, 24389);
   }
@@ -197,19 +197,19 @@ $planifolia-colorspace: 'lab' !default;
 
 @function _pf-lab-to-lch($lab) {
   $l: nth($lab, 1);
-  $c: sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
-  $h: 0;
+  $c: math.sqrt(nth($lab, 2) * nth($lab, 2) + nth($lab, 3) * nth($lab, 3));
+  $h: 0deg;
   @if abs(nth($lab, 2)) > 0.0001 or abs(nth($lab, 3)) > 0.0001 {
-    $h: atan2(nth($lab, 3), nth($lab, 2)) * 1rad;
+    $h: math.atan2(nth($lab, 3), nth($lab, 2));
   }
 
-  @return ($l, $c, 0deg + $h);
+  @return ($l, $c, $h);
 }
 
 @function _pf-lch-to-lab($lch) {
   $l: nth($lch, 1);
-  $a: cos(nth($lch, 3)) * nth($lch, 2);
-  $b: sin(nth($lch, 3)) * nth($lch, 2);
+  $a: math.cos(nth($lch, 3)) * nth($lch, 2);
+  $b: math.sin(nth($lch, 3)) * nth($lch, 2);
 
   @return ($l, $a, $b);
 }
@@ -232,9 +232,6 @@ $planifolia-colorspace: 'lab' !default;
   @return $c-tmp;
 }
 
-/// @require pow
-/// @require sqrt
-/// @require atan2
 @function _pf-to-lch($color, $colorspace: $planifolia-colorspace) {
   @if $colorspace == 'lab' {
     $xyz: _pf-to-xyz($color);
@@ -298,10 +295,6 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {angle} $hue
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv', 'hslab', 'hsluv'
 /// @return {color}
-///
-/// @require pow
-/// @require sin
-/// @require cos
 @function lch($lightness, $chroma, $hue, $colorspace: $planifolia-colorspace) {
   $hue: 0deg + $hue;
   $rgb: _lch-unclipped($lightness, $chroma, $hue, $colorspace);
@@ -453,15 +446,13 @@ $planifolia-colorspace: 'lab' !default;
 /// @param {color} $color
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv', 'hslab', 'hsluv'
 /// @return {color}
-/// @require pi
 @function pf-complement($color, $colorspace: $planifolia-colorspace) {
-  @return pf-adjust-hue($color, pi() * 1rad, $colorspace);
+  @return pf-adjust-hue($color, math.$pi * 1rad, $colorspace);
 }
 
 /// @param {color} $color
 /// @param {string} $colorspace ['lab'] one of 'lab', 'luv', 'hsl', 'yuv', 'hslab', 'hsluv'
 /// @return {color}
-/// @require pi
 @function pf-grayscale($color, $colorspace: $planifolia-colorspace) {
   @return pf-change-color($color, $chroma: 0, $colorspace: $colorspace);
 }
@@ -479,7 +470,7 @@ $planifolia-colorspace: 'lab' !default;
   $x2: nth($lab1, 2) - nth($lab2, 2);
   $x3: nth($lab1, 3) - nth($lab2, 3);
 
-  @return sqrt($x1 * $x1 + $x2 * $x2 + $x3 * $x3);
+  @return math.sqrt($x1 * $x1 + $x2 * $x2 + $x3 * $x3);
 }
 
 @function _pf-lch-mix($lch1, $lch2, $weight) {

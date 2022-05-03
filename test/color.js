@@ -2,7 +2,7 @@ var assert = require('assert');
 var shared = require('./shared');
 
 describe('color', function() {
-  var renderer = new shared.Renderer('@import "math"; @import "color";');
+  var renderer = new shared.Renderer('@import "color";');
 
   describe('lab', function() {
     describe('lch', function() {
